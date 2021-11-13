@@ -8,6 +8,7 @@
         <id column="email" property="email" jdbcType="VARCHAR"/>
         <id column="password" property="password" jdbcType="VARCHAR"/>
     </resultMap>
+
     <resultMap id="UserInfoMap" type="com.soa.springcloud.entities.UserInfo">
         <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
         <id column="true_name" property="true_name" jdbcType="VARCHAR"/>
