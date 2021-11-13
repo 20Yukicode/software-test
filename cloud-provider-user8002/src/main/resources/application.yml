@@ -1,0 +1,28 @@
+server:
+  port: 8002 #服务端口
+spring:
+  application:
+    name: cloud-user-service #服务名
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource  #当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动包
+    url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: 20001206
+devtools:
+  restart:
+    enabled: true #是否支持热部署
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.soa.springcloud.entities  #所有entity别名所在包
+
+eureka:
+  client:
+    #表示是否将自己注册进Eurekaserver默认为true。
+    register-with-eureka: true
+    #是否从EurekaServer抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka, http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: user8002

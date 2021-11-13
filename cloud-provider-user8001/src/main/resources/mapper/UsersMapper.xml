@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.soa.springcloud.dao.UserDao">
+    <resultMap id="UserMap" type="com.soa.springcloud.entities.User">
+        <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
+        <id column="user_name" property="user_name" jdbcType="VARCHAR"/>
+        <id column="user_type" property="user_type" jdbcType="VARCHAR"/>
+        <id column="email" property="email" jdbcType="VARCHAR"/>
+        <id column="password" property="password" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="UserInfoMap" type="com.soa.springcloud.entities.UserInfo">
+        <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
+        <id column="true_name" property="true_name" jdbcType="VARCHAR"/>
+        <id column="gender" property="gender" jdbcType="VARCHAR"/>
+        <id column="phone_num" property="phone_num" jdbcType="VARCHAR"/>
+        <id column="id_card" property="id_card" jdbcType="VARCHAR"/>
+        <id column="live_place" property="live_place" jdbcType="VARCHAR"/>
+        <id column="age" property="age" jdbcType="INTEGER"/>
+        <id column="pre_position" property="pre_position" jdbcType="VARCHAR"/>
+        <id column="picture_string" property="picture_string" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="EnterpriseInfoMap" type="com.soa.springcloud.entities.EnterpriseInfo">
+        <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
+        <id column="true_name" property="true_name" jdbcType="VARCHAR"/>
+        <id column="contact_way" property="contact_way" jdbcType="VARCHAR"/>
+        <id column="contents" property="contents" jdbcType="VARCHAR"/>
+        <id column="picture_string" property="picture_string" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="create" parameterType="user" useGeneratedKeys="false" keyProperty="id">
+        insert into user(user_name,user_type,email,password) values (#{user_name},#{user_type},#{email},#{password})
+    </insert>
+    <select id="getUserByName" parameterType="String" resultMap="UserMap">
+        select * from user where user_name = #{user_name}
+    </select>
+    <select id="getUserById" parameterType="int" resultMap="UserMap">
+        select * from user where unified_id = #{unified_id}
+    </select>
+    <select id="getUserInfo" parameterType="int"   resultMap="UserInfoMap">
+        select * from userinfo where unified_id = #{unified_id}
+    </select>
+    <select id="getEnterpriseInfo" parameterType="int"   resultMap="EnterpriseInfoMap">
+        select * from enterpriseinfo where unified_id = #{unified_id}
+    </select>
+</mapper>
