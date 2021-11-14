@@ -39,5 +39,9 @@ public class UserServiceImpl implements UserService {
     public EnterpriseInfo getEnterpriseInfo(@Param("unified_id") int unified_id){
         return userDao.getEnterpriseInfo(unified_id);
     }
+    @Override
+    public int updateInfo(UserInfo userInfo){
+        return 0;
+    }
 
 }

@@ -11,5 +11,5 @@ public interface UserService {
     UserInfo getUserInfo(@Param("unified_id") int unified_id);
     EnterpriseInfo getEnterpriseInfo(@Param("unified_id") int unified_id);
     User getUserByName(@Param("user_name") String user_name);
-
+    int updateInfo(UserInfo userInfo);
 }
