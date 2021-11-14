@@ -106,5 +106,7 @@
         <module>cloud-eureka-server7001</module>
         <module>cloud-eureka-server7002</module>
         <module>cloud-config-center-3344</module>
+        <module>cloud-provider-user8001</module>
+        <module>cloud-provider-user8002</module>
     </modules>
 </project>
