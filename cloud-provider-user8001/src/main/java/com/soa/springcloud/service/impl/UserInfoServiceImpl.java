@@ -20,6 +20,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public int create(Integer unifiedId){
         UserInfo userInfo = new UserInfo();
         userInfo.setUnifiedId(unifiedId);
+        log.info("wwwww:"+userInfo);
         return userInfoMapper.insert(userInfo);
     }
     @Override

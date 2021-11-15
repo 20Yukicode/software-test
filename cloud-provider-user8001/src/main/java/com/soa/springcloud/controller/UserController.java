@@ -1,13 +1,10 @@
 package com.soa.springcloud.controller;
 
 import com.soa.springcloud.entity.domain.User;
-import com.soa.springcloud.entity.domain.UserInfo;
-import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.service.EnterpriseInfoService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -74,7 +71,11 @@ public class UserController {
         Integer unifiedId = user.getUnifiedId();
         //创建User表时顺便创建对应的Info表
         //若为企业类型，则建立EnterpriseInfo表
-        if(user.getUserType()==0)userInfoService.create(unifiedId);
+        log.info("类型："+user.getUserType());
+        if(user.getUserType()==1){
+            log.info("向userinfo插入数据");
+            userInfoService.create(unifiedId);
+        }
         else enterpriseInfoService.create(unifiedId);
         //直接返回用户对应的id
         return unifiedId;

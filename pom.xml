@@ -20,7 +20,7 @@
         <mysql.version>8.0.18</mysql.version>
         <druid.verison>1.1.16</druid.verison>
         <mybatis.spring.boot.verison>2.2.0</mybatis.spring.boot.verison>
-        <spring.boot.version>2.5.6</spring.boot.version>
+        <spring.boot.version>2.2.0.RELEASE</spring.boot.version>
     </properties>
 
     <dependencyManagement>

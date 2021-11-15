@@ -2,7 +2,6 @@ package com.soa.springcloud.controller;
 
 import com.soa.springcloud.entity.domain.UserInfo;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
-import com.soa.springcloud.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,7 @@ public class UserInfoController {
     @Resource
     private UserInfoServiceImpl userInfoService;
 
-    @GetMapping("/user/info/{unified_id}")
+    @GetMapping("/userinfo/get/{unified_id}")
     public UserInfo getUserInfo(@PathVariable("unified_id") int unified_id) {
         UserInfo userInfo = userInfoService.getUserInfo(unified_id);
         log.info("***查询结果：" + userInfo);
@@ -25,7 +24,7 @@ public class UserInfoController {
      * @param userInfo
      * @return
      */
-    @PostMapping(value = "/user/info/update")
+    @PostMapping(value = "/userinfo/update")
     public int updateUserInfo(@RequestBody UserInfo userInfo)
     {
         return userInfoService.updateUserInfo(userInfo);
