@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soa.springcloud.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entity.domain.UserInfo">
+            <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+            <result property="idCard" column="id_card" jdbcType="VARCHAR"/>
+            <result property="prePosition" column="pre_position" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="livePlace" column="live_place" jdbcType="VARCHAR"/>
+            <result property="phoneNum" column="phone_num" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="VARCHAR"/>
+            <result property="trueName" column="true_name" jdbcType="VARCHAR"/>
+            <result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        unified_id,id_card,pre_position,
+        age,live_place,phone_num,
+        gender,true_name,picture_url
+    </sql>
+</mapper>

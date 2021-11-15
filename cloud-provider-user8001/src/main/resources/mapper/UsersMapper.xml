@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.soa.springcloud.dao.UserDao">
-    <resultMap id="UserMap" type="com.soa.springcloud.entities.User">
-        <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
-        <id column="user_name" property="user_name" jdbcType="VARCHAR"/>
-        <id column="user_type" property="user_type" jdbcType="VARCHAR"/>
-        <id column="email" property="email" jdbcType="VARCHAR"/>
-        <id column="password" property="password" jdbcType="VARCHAR"/>
+<mapper namespace="com.soa.springcloud.mapper.UserMapper">
+    <sql id="Base_Column_List">
+        unified_id,user_name,password,
+        email,user_type
+    </sql>
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entity.domain.User">
+        <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+        <id property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="userType" column="user_type" jdbcType="INTEGER"/>
     </resultMap>
-    <resultMap id="UserInfoMap" type="com.soa.springcloud.entities.UserInfo">
-        <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
-        <id column="true_name" property="true_name" jdbcType="VARCHAR"/>
+    <resultMap id="UserMap" type="com.soa.springcloud.entity.domain.User">
+        <result property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="userType" column="user_type" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="UserInfoMap" type="com.soa.springcloud.entity.domain.UserInfo">
+        <id column="unified_id" property="unifiedId" jdbcType="INTEGER"/>
+        <id column="true_name" property="trueName" jdbcType="VARCHAR"/>
         <id column="gender" property="gender" jdbcType="VARCHAR"/>
-        <id column="phone_num" property="phone_num" jdbcType="VARCHAR"/>
-        <id column="id_card" property="id_card" jdbcType="VARCHAR"/>
-        <id column="live_place" property="live_place" jdbcType="VARCHAR"/>
+        <id column="phone_num" property="phoneNum" jdbcType="VARCHAR"/>
+        <id column="id_card" property="idCard" jdbcType="VARCHAR"/>
+        <id column="live_place" property="livePlace" jdbcType="VARCHAR"/>
         <id column="age" property="age" jdbcType="INTEGER"/>
-        <id column="pre_position" property="pre_position" jdbcType="VARCHAR"/>
-        <id column="picture_string" property="picture_string" jdbcType="VARCHAR"/>
+        <id column="pre_position" property="prePosition" jdbcType="VARCHAR"/>
+        <id column="picture_url" property="pictureUrl" jdbcType="VARCHAR"/>
     </resultMap>
-    <resultMap id="EnterpriseInfoMap" type="com.soa.springcloud.entities.EnterpriseInfo">
-        <id column="unified_id" property="unified_id" jdbcType="INTEGER"/>
-        <id column="true_name" property="true_name" jdbcType="VARCHAR"/>
-        <id column="contact_way" property="contact_way" jdbcType="VARCHAR"/>
-        <id column="contents" property="contents" jdbcType="VARCHAR"/>
-        <id column="picture_string" property="picture_string" jdbcType="VARCHAR"/>
+    <resultMap id="EnterpriseInfoMap" type="com.soa.springcloud.entity.domain.EnterpriseInfo">
+        <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+        <result property="contactWay" column="contact_way" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="trueName" column="true_name" jdbcType="VARCHAR"/>
+        <result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
     </resultMap>
-    <insert id="create" parameterType="user" useGeneratedKeys="false" keyProperty="id">
+    <insert id="create" parameterType="User" useGeneratedKeys="false" keyProperty="id">
         insert into user(user_name,user_type,email,password) values (#{user_name},#{user_type},#{email},#{password})
+
     </insert>
+    <update id="updateUserInfo" parameterType="UserInfo">
+        update userinfo set
+                            true_name = #{true_name},
+                            gender = #{gender},
+                            phone_num = #{phone_num},
+                            id_card = #{id_card},
+                            live_place = #{live_place},
+                            age = #{age},
+                            pre_position = #{pre_position},
+                            picture_string = #{picture_string}
+        where unified_id = #{unified_id}
+    </update>
     <select id="getUserByName" parameterType="String" resultMap="UserMap">
         select * from user where user_name = #{user_name}
     </select>

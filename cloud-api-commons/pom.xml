@@ -38,5 +38,11 @@
             <artifactId>lombok</artifactId>
             <groupId>org.projectlombok</groupId>
         </dependency>
+        <dependency>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <groupId>com.baomidou</groupId>
+            <version>3.4.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

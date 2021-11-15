@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soa.springcloud.mapper.JobExperienceMapper">
+
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entity.domain.JobExperience">
+            <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+            <id property="numId" column="num_id" jdbcType="INTEGER"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="positionType" column="position_type" jdbcType="VARCHAR"/>
+            <result property="enterpriseName" column="enterprise_name" jdbcType="VARCHAR"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        unified_id,num_id,description,
+        position_type,enterprise_name,end_time,
+        start_time
+    </sql>
+</mapper>

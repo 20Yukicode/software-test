@@ -1,9 +1,13 @@
 package com.soa.springcloud.controller;
 
-import com.soa.springcloud.entities.User;
-import com.soa.springcloud.entities.UserInfo;
+import com.soa.springcloud.entity.domain.User;
+import com.soa.springcloud.entity.domain.UserInfo;
+import com.soa.springcloud.mapper.UserMapper;
+import com.soa.springcloud.service.EnterpriseInfoService;
+import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -25,10 +29,17 @@ public class UserController {
 
     @Resource
     private UserServiceImpl userService;
-
+    @Resource
+    private UserInfoServiceImpl userInfoService;
+    @Resource
+    private EnterpriseInfoService enterpriseInfoService;
     @Resource
     private DiscoveryClient discoveryClient;
 
+    /**
+     * 服务发现
+     * @return
+     */
     @GetMapping(value = "/user/discovery")
     public Object discovery()
     {
@@ -45,18 +56,31 @@ public class UserController {
         return this.discoveryClient;
     }
 
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
     @PostMapping(value = "/user/register")
     public int create(@RequestBody User user)
     {
         //验证用户名是否重复
-        if(userService.getUserByName(user.getUser_name())!=null){
+        if(userService.getUserByName(user.getUserName())!=null){
             return 0;
         }
         int result = userService.create(user);
-        log.info("*****插入结果：" + result);
-
-        return 1;
+        //log.info("*****id：" + user.getUnified_id());
+        //返回生成用户的unified_id
+        Integer unifiedId = user.getUnifiedId();
+        //创建User表时顺便创建对应的Info表
+        //若为企业类型，则建立EnterpriseInfo表
+        if(user.getUserType()==0)userInfoService.create(unifiedId);
+        else enterpriseInfoService.create(unifiedId);
+        //直接返回用户对应的id
+        return unifiedId;
     }
+
+
 
     @GetMapping("/user/login/{user_name}/{password}")
     public int login(@PathVariable("user_name") String user_name,@PathVariable("password") String password) {
@@ -78,10 +102,5 @@ public class UserController {
         log.info("***查询结果：" + user);
         return user;
     }
-    @GetMapping("/user/info/{unified_id}")
-    public UserInfo getUserInfo(@PathVariable("unified_id") int unified_id) {
-        UserInfo userInfo = userService.getUserInfo(unified_id);
-        log.info("***查询结果：" + userInfo);
-        return userInfo;
-    }
+
 }
