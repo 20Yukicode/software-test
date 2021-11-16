@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soa.springcloud.mapper.EduExperienceMapper">
+<mapper namespace="entity.mapper.EduExperienceMapper">
 
-    <resultMap id="BaseResultMap" type="com.soa.springcloud.entity.domain.EduExperience">
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.EduExperience">
             <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
             <id property="numId" column="num_id" jdbcType="INTEGER"/>
             <result property="major" column="major" jdbcType="VARCHAR"/>

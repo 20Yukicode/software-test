@@ -2,10 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soa.springcloud.mapper.TweetMapper">
+<mapper namespace="entity.mapper.TweetMapper">
 
-    <resultMap id="BaseResultMap" type="com.soa.springcloud.entity.domain.Tweet">
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.Tweet">
             <id property="tweetId" column="tweet_id" jdbcType="INTEGER"/>
+            <result property="commentNum" column="comment_num" jdbcType="INTEGER"/>
             <result property="contents" column="contents" jdbcType="VARCHAR"/>
             <result property="state" column="state" jdbcType="INTEGER"/>
             <result property="praiseNum" column="praise_num" jdbcType="INTEGER"/>
@@ -14,7 +15,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        tweet_id,contents,state,
-        praise_num,record_time,unified_id
+        tweet_id,comment_num,contents,
+        state,praise_num,record_time,
+        unified_id
     </sql>
 </mapper>
