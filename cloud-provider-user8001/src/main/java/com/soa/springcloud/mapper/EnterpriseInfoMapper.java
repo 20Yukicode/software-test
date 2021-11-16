@@ -1,8 +1,7 @@
 package com.soa.springcloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.soa.springcloud.entity.domain.EnterpriseInfo;
-import com.soa.springcloud.entity.domain.User;
+import com.soa.springcloud.entities.EnterpriseInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

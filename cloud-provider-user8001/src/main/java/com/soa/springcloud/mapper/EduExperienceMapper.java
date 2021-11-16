@@ -1,6 +1,5 @@
 package com.soa.springcloud.mapper;
 
-import com.soa.springcloud.entity.domain.EduExperience;
 
 /**
 * @author 86187

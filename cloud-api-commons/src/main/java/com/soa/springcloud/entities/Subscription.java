@@ -1,4 +1,4 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -9,27 +9,22 @@ import lombok.Data;
 
 /**
  * 
- * @TableName resume
+ * @TableName subscription
  */
-@TableName(value ="resume")
+@TableName(value ="subscription")
 @Data
-public class Resume implements Serializable {
+public class Subscription implements Serializable {
     /**
-     * 统一id
+     * 订阅者的统一id
      */
     @TableId
     private Integer unifiedId;
 
     /**
-     * 该用户的简历顺序id
+     * 被订阅者的统一id
      */
     @TableId
-    private Integer resumeId;
-
-    /**
-     * 文档url
-     */
-    private String documentUrl;
+    private Integer subscribeId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

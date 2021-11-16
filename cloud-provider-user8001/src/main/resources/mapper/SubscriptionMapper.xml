@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soa.springcloud.mapper.SubscriptionMapper">
+<mapper namespace="entity.mapper.SubscriptionMapper">
 
-    <resultMap id="BaseResultMap" type="com.soa.springcloud.entity.domain.Subscription">
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.Subscription">
             <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
             <id property="subscribeId" column="subscribe_id" jdbcType="INTEGER"/>
     </resultMap>

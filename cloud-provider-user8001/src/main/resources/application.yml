@@ -9,6 +9,24 @@ spring:
     url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
     password: 20001206
+  mail:
+    # 163
+    host: smtp.163.com
+    port:
+    username: soa8001@163.com
+    password: JUBWMVNHUVEYIKGT
+    protocol: smtp
+    default-encoding: UTF-8
+    from: soa8001@163.com
+    properties:
+      mail.from: soa8001@163.com
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.socketFactory.port: 465
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.fallback: false
+
 devtools:
   restart:
     enabled: true #是否支持热部署
@@ -27,3 +45,4 @@ eureka:
       defaultZone: http://eureka7001.com:7001/eureka#, http://eureka7002.com:7002/eureka
   instance:
     instance-id: user8001
+

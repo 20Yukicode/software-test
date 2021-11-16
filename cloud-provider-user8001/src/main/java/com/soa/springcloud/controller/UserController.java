@@ -1,9 +1,11 @@
 package com.soa.springcloud.controller;
 
-import com.soa.springcloud.entity.domain.User;
+import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.EnterpriseInfoService;
+import com.soa.springcloud.service.impl.MailService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -24,6 +26,8 @@ public class UserController {
     @Value("${server.port}")
     private String serverPort;//添加serverPort
 
+    @Resource
+    private MailService mailService;
     @Resource
     private UserServiceImpl userService;
     @Resource
@@ -82,6 +86,10 @@ public class UserController {
         return unifiedId;
     }
 
+    @GetMapping("/user/mail/{mail}")
+    public String getMailCaptcha(@PathVariable("mail") String mail) throws MessagingException {
+        return mailService.sendMail(mail);
+    }
 
     /**
      * 登录

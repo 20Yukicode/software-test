@@ -2,7 +2,7 @@ package com.soa.springcloud.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.soa.springcloud.entity.domain.User;
+import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.service.UserService;
 import lombok.extern.slf4j.Slf4j;

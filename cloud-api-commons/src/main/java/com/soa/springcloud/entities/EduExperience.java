@@ -1,4 +1,5 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,11 +10,11 @@ import lombok.Data;
 
 /**
  * 
- * @TableName job_experience
+ * @TableName edu_experience
  */
-@TableName(value ="job_experience")
+@TableName(value ="edu_experience")
 @Data
-public class JobExperience implements Serializable {
+public class EduExperience implements Serializable {
     /**
      * 统一id
      */
@@ -21,25 +22,25 @@ public class JobExperience implements Serializable {
     private Integer unifiedId;
 
     /**
-     * 该用户工作经历顺序id
+     * 用户教育经历顺序id
      */
     @TableId
     private Integer numId;
 
     /**
-     * 简介
+     * 专业
      */
-    private String description;
+    private String major;
 
     /**
-     * 职位类型
+     * 学位
      */
-    private String positionType;
+    private String degree;
 
     /**
-     * 公司名称
+     * 学校名
      */
-    private String enterpriseName;
+    private String collegeName;
 
     /**
      * 结束时间

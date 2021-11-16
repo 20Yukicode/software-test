@@ -1,6 +1,6 @@
 package com.soa.springcloud.mapper;
 
-import com.soa.springcloud.entity.domain.Captcha;
+
 
 /**
 * @author 86187

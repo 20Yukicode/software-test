@@ -1,6 +1,6 @@
 package com.soa.springcloud.service;
 
-import com.soa.springcloud.entity.domain.UserInfo;
+import com.soa.springcloud.entities.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserInfoService {

@@ -1,7 +1,5 @@
 package com.soa.springcloud.mapper;
 
-import com.soa.springcloud.entity.domain.Tweet;
-
 /**
 * @author 86187
 * @description 针对表【tweet】的数据库操作Mapper

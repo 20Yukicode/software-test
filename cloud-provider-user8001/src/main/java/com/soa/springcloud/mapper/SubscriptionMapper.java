@@ -1,7 +1,7 @@
 package com.soa.springcloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.soa.springcloud.entity.domain.Subscription;
+import com.soa.springcloud.entities.Subscription;
 
 /**
 * @author 86187

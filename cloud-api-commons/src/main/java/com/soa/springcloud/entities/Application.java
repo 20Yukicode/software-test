@@ -1,4 +1,5 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,27 +9,34 @@ import lombok.Data;
 
 /**
  * 
- * @TableName picture
+ * @TableName application
  */
-@TableName(value ="picture")
+@TableName(value ="application")
 @Data
-public class Picture implements Serializable {
+public class Application implements Serializable {
     /**
-     * 动态id
+     * 用户统一id
      */
     @TableId
-    private Integer tweetId;
+    private Integer userId;
 
     /**
-     * 该动态的图片顺序id
+     * 用户简历顺序编号
      */
     @TableId
-    private Integer numId;
+    private Integer resumeId;
 
     /**
-     * 图片url
+     * 企业统一id
      */
-    private String pictureUrl;
+    @TableId
+    private Integer enterpriseId;
+
+    /**
+     * 企业岗位id
+     */
+    @TableId
+    private Integer jobId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

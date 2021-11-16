@@ -1,6 +1,6 @@
 package com.soa.springcloud.mapper;
 
-import com.soa.springcloud.entity.domain.Position;
+
 
 /**
 * @author 86187

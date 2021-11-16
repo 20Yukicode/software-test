@@ -1,18 +1,19 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- * @TableName enterprise_info
+ * @TableName job_experience
  */
-@TableName(value ="enterprise_info")
+@TableName(value ="job_experience")
 @Data
-public class EnterpriseInfo implements Serializable {
+public class JobExperience implements Serializable {
     /**
      * 统一id
      */
@@ -20,9 +21,10 @@ public class EnterpriseInfo implements Serializable {
     private Integer unifiedId;
 
     /**
-     * 联系方式
+     * 用户工作经历顺序id
      */
-    private String contactWay;
+    @TableId
+    private Integer numId;
 
     /**
      * 简介
@@ -30,14 +32,24 @@ public class EnterpriseInfo implements Serializable {
     private String description;
 
     /**
-     * 真实名称
+     * 职位类型
      */
-    private String trueName;
+    private String positionType;
 
     /**
-     * 头像url
+     * 公司名称
      */
-    private String pictureUrl;
+    private String enterpriseName;
+
+    /**
+     * 结束时间
+     */
+    private Date endTime;
+
+    /**
+     * 开始时间
+     */
+    private Date startTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

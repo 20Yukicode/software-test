@@ -1,6 +1,6 @@
 package com.soa.springcloud.controller;
 
-import com.soa.springcloud.entity.domain.EnterpriseInfo;
+import com.soa.springcloud.entities.EnterpriseInfo;
 import com.soa.springcloud.service.impl.EnterpriseInfoServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

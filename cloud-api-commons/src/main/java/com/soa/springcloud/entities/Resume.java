@@ -1,34 +1,39 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- * @TableName captcha
+ * @TableName resume
  */
-@TableName(value ="captcha")
+@TableName(value ="resume")
 @Data
-public class Captcha implements Serializable {
+public class Resume implements Serializable {
     /**
-     * 电子邮箱
+     * 统一id
      */
     @TableId
-    private String email;
+    private Integer unifiedId;
 
     /**
-     * 验证码发送时间
+     * 该用户的简历顺序id
      */
-    private Date recordTime;
+    @TableId
+    private Integer resumeId;
 
     /**
-     * 验证码
+     * 简历文件名
      */
-    private String captcha;
+    private String resumeName;
+
+    /**
+     * 文档url
+     */
+    private String documentUrl;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -1,7 +1,7 @@
 package com.soa.springcloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.soa.springcloud.entity.domain.EnterpriseInfo;
+import com.soa.springcloud.entities.EnterpriseInfo;
 import com.soa.springcloud.mapper.EnterpriseInfoMapper;
 import com.soa.springcloud.service.EnterpriseInfoService;
 import lombok.extern.slf4j.Slf4j;

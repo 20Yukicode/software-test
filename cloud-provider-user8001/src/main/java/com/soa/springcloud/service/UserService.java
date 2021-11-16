@@ -1,7 +1,7 @@
 package com.soa.springcloud.service;
 
 
-import com.soa.springcloud.entity.domain.User;
+import com.soa.springcloud.entities.User;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserService {

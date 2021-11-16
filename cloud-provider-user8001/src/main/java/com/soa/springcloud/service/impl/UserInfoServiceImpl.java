@@ -1,16 +1,15 @@
 package com.soa.springcloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.soa.springcloud.entity.domain.User;
-import com.soa.springcloud.entity.domain.UserInfo;
+import com.soa.springcloud.entities.UserInfo;
 import com.soa.springcloud.mapper.UserInfoMapper;
-import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
 @Service
 @Slf4j
 public class UserInfoServiceImpl implements UserInfoService {

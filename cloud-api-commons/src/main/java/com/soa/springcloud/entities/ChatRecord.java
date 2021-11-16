@@ -1,4 +1,4 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -10,41 +10,36 @@ import lombok.Data;
 
 /**
  * 
- * @TableName tweet
+ * @TableName chat_record
  */
-@TableName(value ="tweet")
+@TableName(value ="chat_record")
 @Data
-public class Tweet implements Serializable {
+public class ChatRecord implements Serializable {
     /**
-     * 动态id(自增)
+     * 聊天顺序id（自增）
      */
     @TableId(type = IdType.AUTO)
-    private Integer tweetId;
+    private Integer chatId;
 
     /**
-     * 内容
+     * 聊天内容
      */
     private String contents;
 
     /**
-     * 动态可用状态（0可用1删除）
-     */
-    private Integer state;
-
-    /**
-     * 点赞数
-     */
-    private Integer praiseNum;
-
-    /**
-     * 动态产生时间
+     * 产生时间
      */
     private Date recordTime;
 
     /**
-     * 动态发送者统一id
+     * 接收者统一id
      */
-    private Integer unifiedId;
+    private Integer unifiedId2;
+
+    /**
+     * 发送者统一id
+     */
+    private Integer unifiedId1;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

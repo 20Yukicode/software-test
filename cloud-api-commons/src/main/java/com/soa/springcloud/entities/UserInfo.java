@@ -1,4 +1,4 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -17,7 +17,7 @@ public class UserInfo implements Serializable {
     /**
      * 统一id
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer unifiedId;
 
     /**

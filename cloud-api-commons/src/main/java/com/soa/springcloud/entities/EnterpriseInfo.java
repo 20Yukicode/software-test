@@ -1,4 +1,4 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,37 +8,36 @@ import lombok.Data;
 
 /**
  * 
- * @TableName user
+ * @TableName enterprise_info
  */
-@TableName(value ="user")
+@TableName(value ="enterprise_info")
 @Data
-public class User implements Serializable {
+public class EnterpriseInfo implements Serializable {
     /**
-     * 统一id（自增）
+     * 统一id
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Integer unifiedId;
 
     /**
-     * 用户名(唯一)
+     * 联系方式
      */
-    @TableId
-    private String userName;
+    private String contactWay;
 
     /**
-     * 密码
+     * 简介
      */
-    private String password;
+    private String description;
 
     /**
-     * 电子邮箱
+     * 真实企业名
      */
-    private String email;
+    private String trueName;
 
     /**
-     * 用户类型（企业0用户1）
+     * 头像url
      */
-    private Integer userType;
+    private String pictureUrl;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

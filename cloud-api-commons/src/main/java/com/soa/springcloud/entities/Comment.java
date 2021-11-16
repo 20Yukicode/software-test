@@ -1,42 +1,46 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- * @TableName application
+ * @TableName comment
  */
-@TableName(value ="application")
+@TableName(value ="comment")
 @Data
-public class Application implements Serializable {
+public class Comment implements Serializable {
     /**
-     * 用户统一id
+     * 动态顺序id
      */
     @TableId
-    private Integer userId;
+    private Integer tweetId;
 
     /**
-     * 用户简历顺序编号
+     * 楼层
      */
     @TableId
-    private Integer resumeId;
+    private Integer floor;
 
     /**
-     * 企业统一id
+     * 评论内容
      */
-    @TableId
-    private Integer enterpriseId;
+    private String contents;
 
     /**
-     * 企业岗位名称
+     * 产生时间
      */
-    @TableId
-    private String jobName;
+    private Date recordTime;
+
+    /**
+     * 发送者统一id
+     */
+    private Integer unifiedId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

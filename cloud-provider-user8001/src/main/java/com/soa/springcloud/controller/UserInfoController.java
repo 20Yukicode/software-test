@@ -3,7 +3,7 @@ package com.soa.springcloud.controller;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.soa.springcloud.entity.domain.UserInfo;
+import com.soa.springcloud.entities.UserInfo;
 import com.soa.springcloud.service.impl.SubscriptionServiceImpl;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import lombok.extern.slf4j.Slf4j;

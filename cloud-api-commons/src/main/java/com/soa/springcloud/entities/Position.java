@@ -1,4 +1,5 @@
-package com.soa.springcloud.entity.domain;
+package com.soa.springcloud.entities;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,16 +15,10 @@ import lombok.Data;
 @Data
 public class Position implements Serializable {
     /**
-     * 统一id
+     * 企业岗位id
      */
-    @TableId
-    private Integer unifiedId;
-
-    /**
-     * 工作名称
-     */
-    @TableId
-    private String jobName;
+    @TableId(type = IdType.AUTO)
+    private Integer jobId;
 
     /**
      * 图片url
@@ -31,7 +26,7 @@ public class Position implements Serializable {
     private String pictureUrl;
 
     /**
-     * 可用状态（0可用1删除）
+     * 可用状态（0删除1可用）
      */
     private Integer state;
 
@@ -56,7 +51,7 @@ public class Position implements Serializable {
     private String contactWay;
 
     /**
-     * 各种限制
+     * 各种岗位限制条件
      */
     private String limitation;
 
@@ -64,6 +59,16 @@ public class Position implements Serializable {
      * 职位类型(只记录leve3级，即json文件最内层职位名字)
      */
     private String positionType;
+
+    /**
+     * 工作名称
+     */
+    private String jobName;
+
+    /**
+     * 统一id
+     */
+    private Integer unifiedId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
