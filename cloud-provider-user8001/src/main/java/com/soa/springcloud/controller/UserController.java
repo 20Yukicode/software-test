@@ -70,19 +70,25 @@ public class UserController {
         //返回生成用户的unified_id
         Integer unifiedId = user.getUnifiedId();
         //创建User表时顺便创建对应的Info表
-        //若为企业类型，则建立EnterpriseInfo表
-        log.info("类型："+user.getUserType());
+        log.info("user："+user);
+        log.info("id："+user.getUnifiedId());
         if(user.getUserType()==1){
             log.info("向userinfo插入数据");
             userInfoService.create(unifiedId);
         }
+        //若为企业类型，则建立EnterpriseInfo表
         else enterpriseInfoService.create(unifiedId);
         //直接返回用户对应的id
         return unifiedId;
     }
 
 
-
+    /**
+     * 登录
+     * @param user_name
+     * @param password
+     * @return
+     */
     @GetMapping("/user/login/{user_name}/{password}")
     public int login(@PathVariable("user_name") String user_name,@PathVariable("password") String password) {
         //验证用户名是否存在

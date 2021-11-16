@@ -22,9 +22,8 @@
         <mybatis.spring.boot.verison>2.2.0</mybatis.spring.boot.verison>
         <spring.boot.version>2.2.0.RELEASE</spring.boot.version>
     </properties>
-
     <dependencyManagement>
-        <dependencies>
+    <dependencies>
             <!--spring boot 2.2.2-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -86,17 +85,28 @@
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
-            <dependency>
+           <!-- <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>3.4.2</version>
-            </dependency>
+            </dependency> -->
             <!--发送邮箱-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-mail</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-aggregation-spring-boot-starter</artifactId>
+                <!--在引用时请在maven中央仓库搜索aggregation最新版本号-->
+                <version>2.0.8</version>
+            </dependency>
+        <dependency>
+            <artifactId>fastjson</artifactId>
+            <groupId>com.alibaba</groupId>
+            <version>1.2.78</version>
+        </dependency>
         </dependencies>
     </dependencyManagement>
 

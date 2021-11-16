@@ -13,6 +13,11 @@ public class EnterpriseInfoController {
     @Resource
     private EnterpriseInfoServiceImpl enterpriseInfoService;
 
+    /**
+     * 获取企业信息
+     * @param unified_id
+     * @return
+     */
     @GetMapping("/enterpriseinfo/get/{unified_id}")
     public EnterpriseInfo getEnterpriseInfo(@PathVariable("unified_id") int unified_id) {
         EnterpriseInfo enterpriseInfo = enterpriseInfoService.getEnterpriseInfo(unified_id);
@@ -20,7 +25,7 @@ public class EnterpriseInfoController {
         return enterpriseInfo;
     }
     /**
-     * 更改用户信息
+     * 更改企业信息
      * @param enterpriseInfo
      * @return
      */

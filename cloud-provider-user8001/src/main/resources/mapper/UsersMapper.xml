@@ -12,4 +12,5 @@
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="userType" column="user_type" jdbcType="INTEGER"/>
     </resultMap>
+
 </mapper>

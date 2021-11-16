@@ -16,12 +16,14 @@ import javax.annotation.Resource;
 public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     private UserInfoMapper userInfoMapper;
+
     @Override
     public int create(Integer unifiedId){
         UserInfo userInfo = new UserInfo();
         userInfo.setUnifiedId(unifiedId);
-        log.info("wwwww:"+userInfo);
-        return userInfoMapper.insert(userInfo);
+        log.info("userinfo:"+userInfo);
+        int insert = userInfoMapper.insert(userInfo);
+        return insert;
     }
     @Override
     public UserInfo getUserInfo(@Param("unified_id") int unified_id){

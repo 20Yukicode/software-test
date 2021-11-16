@@ -1,5 +1,6 @@
 package com.soa.springcloud.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.soa.springcloud.entity.domain.Subscription;
 
 /**
@@ -8,7 +9,7 @@ import com.soa.springcloud.entity.domain.Subscription;
 * @createDate 2021-11-15 18:15:41
 * @Entity entity.domain.Subscription
 */
-public interface SubscriptionMapper {
+public interface SubscriptionMapper extends BaseMapper<Subscription> {
 
 }
 
