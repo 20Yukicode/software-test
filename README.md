@@ -111,6 +111,8 @@
 - cloud-provider-user8002（用户模块、微服务提供者）
 
 
+待完善：
 
+OpenFeign（声明式HTTP客户端，自带负载均衡）
 
-
+Hystrix（处理延迟、容错）
