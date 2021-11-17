@@ -14,12 +14,10 @@ spring:
     host: smtp.163.com
     port:
     username: soa8001@163.com
-    password: JUBWMVNHUVEYIKGT
+    password: XFWRKBKFBYPJFANX
     protocol: smtp
     default-encoding: UTF-8
-    from: soa8001@163.com
     properties:
-      mail.from: soa8001@163.com
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true

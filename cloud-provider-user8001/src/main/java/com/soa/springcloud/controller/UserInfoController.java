@@ -19,8 +19,8 @@ public class UserInfoController {
     @Resource
     private SubscriptionServiceImpl subscriptionService;
 
-    @GetMapping("/userinfo/get/{unified_id}/{subscribeId}")
-    public JSON getUserInfo(@PathVariable("unified_id") int unified_id,@PathVariable("subscribeId") int subscribeId) throws JsonProcessingException {
+    @GetMapping("/userinfo")
+    public JSON getUserInfo(@RequestParam("uid") int unified_id,@RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unified_id,subscribeId);
         if(unified_id==subscribeId)subscribed=2;
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
@@ -34,7 +34,7 @@ public class UserInfoController {
      * @param userInfo
      * @return
      */
-    @PostMapping(value = "/userinfo/update")
+    @PutMapping(value = "/userinfo")
     public int updateUserInfo(@RequestBody UserInfo userInfo)
     {
         return userInfoService.updateUserInfo(userInfo);

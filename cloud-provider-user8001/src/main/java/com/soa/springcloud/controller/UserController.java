@@ -1,5 +1,7 @@
 package com.soa.springcloud.controller;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.EnterpriseInfoService;
 import com.soa.springcloud.service.impl.MailService;
@@ -62,7 +64,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping(value = "/user/register")
+    @PostMapping(value = "/user")
     public int create(@RequestBody User user)
     {
         //验证用户名是否重复
@@ -86,8 +88,14 @@ public class UserController {
         return unifiedId;
     }
 
-    @GetMapping("/user/mail/{mail}")
-    public String getMailCaptcha(@PathVariable("mail") String mail) throws MessagingException {
+    /**
+     *
+     * @param mail
+     * @return
+     * @throws MessagingException
+     */
+    @PostMapping("/user/email")
+    public String getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
         return mailService.sendMail(mail);
     }
 
@@ -97,18 +105,28 @@ public class UserController {
      * @param password
      * @return
      */
-    @GetMapping("/user/login/{user_name}/{password}")
-    public int login(@PathVariable("user_name") String user_name,@PathVariable("password") String password) {
+    @GetMapping("/user")
+    public JSON login(@RequestParam("user_name") String user_name,@RequestParam("password") String password) {
+        JSON json = new JSONObject();
+        json.putByPath("unified_id",0);
+        json.putByPath("user_type",0);
         //验证用户名是否存在
         User user = userService.getUserByName(user_name);
         if(user==null){
-            return 0;
+            json.putByPath("unified_id",0);
+            json.putByPath("user_type",0);
+            return json;
         }
+        json.putByPath("user_type",user.getUserType());
         //验证密码是否正确
         //这里有个坑，不能用==判断相等，因为两个字符串不是来自线程池的同一位置
-        if(password.equals(user.getPassword()))return 1;
+        if(password.equals(user.getPassword())) {
+            json.putByPath("unified_id",user.getUnifiedId());
+            return json;
+        }
         //用户存在但密码错误
-        return 2;
+        json.putByPath("unified_id",2);
+        return json;
     }
 
     @GetMapping("/user/get/{unified_id}")
