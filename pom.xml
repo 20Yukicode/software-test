@@ -120,5 +120,6 @@
         <module>cloud-provider-user8002</module>
         <module>cloud-provider-tweet8003</module>
         <module>cloud-provider-recruitment8005</module>
+        <module>cloud-gateway-gateway9527</module>
     </modules>
 </project>

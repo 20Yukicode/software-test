@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.insert(user);
     }
     public String userCircuitBreaker_fallback(User user) {
-        return "what？竟然出bug了！，请稍后再试，/(ㄒoㄒ)/~~";
+        return "what？竟然出bug了！请稍后再试，/(ㄒoㄒ)/~~";
     }
     @Override
     public User getUserById(int unified_id) {
