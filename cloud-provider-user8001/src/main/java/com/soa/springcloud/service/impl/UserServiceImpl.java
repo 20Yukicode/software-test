@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService {
             @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"),// 失败率达到多少后跳闸
     })
     public int create(User user) {
-
         return userMapper.insert(user);
     }
-    public String userCircuitBreaker_fallback(User user) {
-        return "what？竟然出bug了！请稍后再试，/(ㄒoㄒ)/~~";
+    public int userCircuitBreaker_fallback(User user) {
+        log.info("what？竟然出bug了！请稍后再试，/(ㄒoㄒ)/~~");
+        return -1;
     }
     @Override
     public User getUserById(int unified_id) {

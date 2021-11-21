@@ -40,6 +40,20 @@ public class User implements Serializable {
      */
     private Integer userType;
 
+    /**
+     * 真实用户or企业姓名
+     */
+    private String trueName;
+
+    /**
+     * 头像url
+     */
+    private String pictureUrl;
+
+    /**
+     * 简短介绍
+     */
+    private String briefInfo;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

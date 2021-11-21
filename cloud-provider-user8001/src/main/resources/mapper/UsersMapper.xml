@@ -10,10 +10,13 @@
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="email" column="email" jdbcType="VARCHAR"/>
             <result property="userType" column="user_type" jdbcType="INTEGER"/>
+            <result property="trueName" column="true_name" jdbcType="VARCHAR"/>
+            <result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
+            <result property="briefInfo" column="brief_info" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         unified_id,user_name,password,
-        email,user_type
+        email,user_type,trueName,pictureUrl
     </sql>
 </mapper>

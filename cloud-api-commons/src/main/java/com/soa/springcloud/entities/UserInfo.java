@@ -50,15 +50,7 @@ public class UserInfo implements Serializable {
      */
     private String gender;
 
-    /**
-     * 真实姓名
-     */
-    private String trueName;
 
-    /**
-     * 头像url
-     */
-    private String pictureUrl;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

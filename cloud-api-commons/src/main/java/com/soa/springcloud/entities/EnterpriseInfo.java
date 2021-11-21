@@ -29,15 +29,6 @@ public class EnterpriseInfo implements Serializable {
      */
     private String description;
 
-    /**
-     * 真实企业名
-     */
-    private String trueName;
-
-    /**
-     * 头像url
-     */
-    private String pictureUrl;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

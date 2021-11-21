@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @TableName(value ="praise")
 @Data
-public class Praise implements Serializable {
+public class Like implements Serializable {
     /**
      * 给该动态点赞的用户统一id
      */

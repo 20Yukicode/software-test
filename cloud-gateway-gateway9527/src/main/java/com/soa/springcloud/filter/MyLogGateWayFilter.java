@@ -27,6 +27,7 @@ public class MyLogGateWayFilter implements GlobalFilter,Ordered
 //            exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE);
 //            return exchange.getResponse().setComplete();
 //        }
+        log.info("token:"+exchange.getRequest().getHeaders().get("token").toString());
         return chain.filter(exchange);
     }
 
