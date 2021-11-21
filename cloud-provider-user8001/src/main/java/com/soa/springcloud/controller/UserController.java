@@ -139,4 +139,10 @@ public class UserController {
         return user;
     }
 
+    @PutMapping("/user")
+    public int updateUser(@RequestBody User user) {
+        return userService.update(user);
+
+    }
+
 }

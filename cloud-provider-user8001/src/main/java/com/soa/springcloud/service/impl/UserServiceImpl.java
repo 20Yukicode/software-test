@@ -47,4 +47,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectOne(wrapper);
     }
 
+    public int update(User user){
+        return userMapper.updateById(user);
+    }
+
 }
