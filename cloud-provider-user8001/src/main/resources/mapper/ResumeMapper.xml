@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="entity.mapper.ResumeMapper">
+<mapper namespace="com.soa.springcloud.mapper.ResumeMapper">
 
     <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.Resume">
             <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>

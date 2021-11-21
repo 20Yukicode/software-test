@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="entity.mapper.ChatRecordMapper">
+<mapper namespace="com.soa.springcloud.mapper.ChatRecordMapper">
 
     <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.ChatRecord">
             <id property="chatId" column="chat_id" jdbcType="INTEGER"/>
