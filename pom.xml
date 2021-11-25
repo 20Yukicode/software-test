@@ -121,5 +121,6 @@
         <module>cloud-provider-tweet8003</module>
         <module>cloud-provider-recruitment8005</module>
         <module>cloud-gateway-gateway9527</module>
+        <module>cloud-consumer-hystrix-dashboard9001</module>
     </modules>
 </project>
