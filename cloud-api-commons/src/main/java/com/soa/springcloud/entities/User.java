@@ -51,6 +51,11 @@ public class User implements Serializable {
     private String pictureUrl;
 
     /**
+     * 订阅数
+     */
+    private Integer subscribeNum;
+
+    /**
      * 简短介绍
      */
     private String briefInfo;
