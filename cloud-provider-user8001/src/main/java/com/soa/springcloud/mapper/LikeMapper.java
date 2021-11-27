@@ -6,7 +6,7 @@ package com.soa.springcloud.mapper;
 * @createDate 2021-11-15 18:15:41
 * @Entity entity.domain.Praise
 */
-public interface PraiseMapper {
+public interface LikeMapper {
 
 }
 
