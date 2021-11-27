@@ -2,6 +2,7 @@ package com.soa.springcloud.controller;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
+import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.EnterpriseInfoService;
 import com.soa.springcloud.service.TweetHystrixService;
@@ -69,11 +70,11 @@ private TweetHystrixService tweetHystrixService;
      * @return
      */
     @PostMapping(value = "/user")
-    public int create(@RequestBody User user)
+    public CommonResult create(@RequestBody User user,HttpServletRequest request)
     {
         //验证用户名是否重复
         if(userService.getUserByName(user.getUserName())!=null){
-            return 0;
+            return new CommonResult("failure","用户名重复",0);
         }
         int result = userService.create(user);
         //log.info("*****id：" + user.getUnified_id());
@@ -89,7 +90,7 @@ private TweetHystrixService tweetHystrixService;
         //若为企业类型，则建立EnterpriseInfo表
         else enterpriseInfoService.create(unifiedId);
         //直接返回用户对应的id
-        return unifiedId;
+        return new CommonResult("success",unifiedId);
     }
 
     /**
@@ -99,8 +100,8 @@ private TweetHystrixService tweetHystrixService;
      * @throws MessagingException
      */
     @PostMapping("/user/email")
-    public String getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
-        return mailService.sendMail(mail);
+    public CommonResult getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
+        return new CommonResult("success",mailService.sendMail(mail));
     }
 
     /**
@@ -110,7 +111,7 @@ private TweetHystrixService tweetHystrixService;
      * @return
      */
     @GetMapping("/user")
-    public JSON login(@RequestParam("user_name") String user_name, @RequestParam("password") String password, HttpServletRequest request) {
+    public CommonResult login(@RequestParam("user_name") String user_name, @RequestParam("password") String password, HttpServletRequest request) {
         JSON json = new JSONObject();
         json.putByPath("unified_id",0);
         json.putByPath("user_type",0);
@@ -119,31 +120,33 @@ private TweetHystrixService tweetHystrixService;
         if(user==null){
             json.putByPath("unified_id",0);
             json.putByPath("user_type",0);
-            return json;
+            return new CommonResult("failure","用户名不存在");
         }
         json.putByPath("user_type",user.getUserType());
         //验证密码是否正确
         //这里有个坑，不能用==判断相等，因为两个字符串不是来自线程池的同一位置
         if(password.equals(user.getPassword())) {
             json.putByPath("unified_id",user.getUnifiedId());
-            return json;
+            return new CommonResult("success",json);
         }
         //用户存在但密码错误
         json.putByPath("unified_id",2);
-        return json;
+        return new CommonResult("failure","用户名不存在");
     }
 
     @GetMapping("/user/get/{unified_id}")
-    public User getUserById(@PathVariable("unified_id") int unified_id) {
+    public CommonResult getUserById(@PathVariable("unified_id") int unified_id) {
         User user = userService.getUserById(unified_id);
         log.info("***查询结果：" + user);
-        return user;
+        if(user==null)return new CommonResult("failure","用户不存在");
+        return new CommonResult("success",user);
     }
 
     @PutMapping("/user")
-    public int updateUser(@RequestBody User user) {
-        return userService.update(user);
-
+    public CommonResult updateUser(@RequestBody User user) {
+        int update = userService.update(user);
+        if(update==0)return new CommonResult("failure","更新失败");
+        return new CommonResult("success",update);
     }
 
 }
