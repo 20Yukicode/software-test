@@ -70,11 +70,11 @@ private TweetHystrixService tweetHystrixService;
      * @return
      */
     @PostMapping(value = "/user")
-    public CommonResult create(@RequestBody User user,HttpServletRequest request)
+    public CommonResult<Integer> create(@RequestBody User user,HttpServletRequest request)
     {
         //验证用户名是否重复
         if(userService.getUserByName(user.getUserName())!=null){
-            return new CommonResult("failure","用户名重复",0);
+            return CommonResult.failure("用户名重复");
         }
         int result = userService.create(user);
         //log.info("*****id：" + user.getUnified_id());
@@ -90,7 +90,7 @@ private TweetHystrixService tweetHystrixService;
         //若为企业类型，则建立EnterpriseInfo表
         else enterpriseInfoService.create(unifiedId);
         //直接返回用户对应的id
-        return new CommonResult("success",unifiedId);
+        return CommonResult.success(unifiedId);
     }
 
     /**
@@ -100,8 +100,8 @@ private TweetHystrixService tweetHystrixService;
      * @throws MessagingException
      */
     @PostMapping("/user/email")
-    public CommonResult getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
-        return new CommonResult("success",mailService.sendMail(mail));
+    public CommonResult<String> getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
+        return CommonResult.success(mailService.sendMail(mail));
     }
 
     /**
@@ -111,7 +111,7 @@ private TweetHystrixService tweetHystrixService;
      * @return
      */
     @GetMapping("/user")
-    public CommonResult login(@RequestParam("user_name") String user_name, @RequestParam("password") String password, HttpServletRequest request) {
+    public CommonResult<JSON> login(@RequestParam("user_name") String user_name, @RequestParam("password") String password, HttpServletRequest request) {
         JSON json = new JSONObject();
         json.putByPath("unified_id",0);
         json.putByPath("user_type",0);
@@ -120,33 +120,33 @@ private TweetHystrixService tweetHystrixService;
         if(user==null){
             json.putByPath("unified_id",0);
             json.putByPath("user_type",0);
-            return new CommonResult("failure","用户名不存在");
+            return CommonResult.failure("用户名不存在");
         }
         json.putByPath("user_type",user.getUserType());
         //验证密码是否正确
         //这里有个坑，不能用==判断相等，因为两个字符串不是来自线程池的同一位置
         if(password.equals(user.getPassword())) {
             json.putByPath("unified_id",user.getUnifiedId());
-            return new CommonResult("success",json);
+            return CommonResult.success(json);
         }
         //用户存在但密码错误
         json.putByPath("unified_id",2);
-        return new CommonResult("failure","用户名不存在");
+        return CommonResult.failure("密码错误");
     }
 
     @GetMapping("/user/get/{unified_id}")
-    public CommonResult getUserById(@PathVariable("unified_id") int unified_id) {
+    public CommonResult<User> getUserById(@PathVariable("unified_id") int unified_id) {
         User user = userService.getUserById(unified_id);
         log.info("***查询结果：" + user);
-        if(user==null)return new CommonResult("failure","用户不存在");
-        return new CommonResult("success",user);
+        if(user==null)return CommonResult.failure("用户不存在");
+        return CommonResult.success(user);
     }
 
     @PutMapping("/user")
-    public CommonResult updateUser(@RequestBody User user) {
+    public CommonResult<Integer> updateUser(@RequestBody User user) {
         int update = userService.update(user);
-        if(update==0)return new CommonResult("failure","更新失败");
-        return new CommonResult("success",update);
+        if(update==0)return CommonResult.failure("更新失败");
+        return CommonResult.success(update);
     }
 
 }

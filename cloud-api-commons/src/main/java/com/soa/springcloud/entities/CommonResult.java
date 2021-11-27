@@ -19,4 +19,24 @@ public class CommonResult<T> {
     public CommonResult(String code, T data){
         this(code,"",data);
     }
+
+    public static <T> CommonResult<T> success(){
+        return new CommonResult<>("success",null,null);
+    }
+    public static <T> CommonResult<T> success(T data){
+        return new CommonResult<>("success",null,data);
+    }
+    public static <T> CommonResult<T> success(String message,T data){
+        return new CommonResult<>("success",message,data);
+    }
+
+    public static <T> CommonResult<T> failure(){
+        return new CommonResult<>("failure",null,null);
+    }
+    public static <T> CommonResult<T> failure(String message){
+        return new CommonResult<>("failure",message,null);
+    }
+    public static <T> CommonResult<T> failure(String message,T data){
+        return new CommonResult<>("failure",message,data);
+    }
 }
