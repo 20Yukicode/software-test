@@ -5,12 +5,17 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
  * @TableName job_experience
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName(value ="job_experience")
 @Data
 public class JobExperience implements Serializable {
