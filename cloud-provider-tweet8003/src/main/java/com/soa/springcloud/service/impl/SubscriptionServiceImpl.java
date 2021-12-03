@@ -36,11 +36,14 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
     @Override
     public int putSubscription(Integer unifiedId,Integer subscribeId){
-        QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("unified_id",unifiedId).eq("subscribe_id",subscribeId);
+        Subscription subscription = new Subscription();
+        subscription.setSubscribeId(subscribeId);
+        subscription.setUnifiedId(unifiedId);
+        return subscriptionMapper.insert(subscription);
 
-        return subscriptionMapper.delete(queryWrapper);
     }
+
+    @Override
     public int deleteSubscription(Integer unifiedId,Integer subscribeId){
         QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unified_id",unifiedId).eq("subscribe_id",subscribeId);
@@ -48,8 +51,11 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         return subscriptionMapper.delete(queryWrapper);
     }
 
+    @Override
     public List getSubscriptionList(Integer unifiedId){
+        QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("unified_id",unifiedId);
+        return subscriptionMapper.selectList(queryWrapper);
 
-        return null;
     }
 }
