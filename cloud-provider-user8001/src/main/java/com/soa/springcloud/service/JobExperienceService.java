@@ -1,8 +1,6 @@
 package com.soa.springcloud.service;
 
 import com.soa.springcloud.entities.JobExperience;
-
-import java.util.Date;
 import java.util.List;
 
 public interface JobExperienceService {

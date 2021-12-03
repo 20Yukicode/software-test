@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class JobExperienceImpl implements JobExperienceService {
+public class JobExperienceServiceImpl implements JobExperienceService {
 
     private JobExperienceMapper jobExperienceMapper;
 
