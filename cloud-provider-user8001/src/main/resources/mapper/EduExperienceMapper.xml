@@ -19,4 +19,10 @@
         degree,college_name,end_time,
         start_time
     </sql>
+
+    <select id="maxNumberId" resultType="Integer">
+        SELECT MAX(num_id)
+        FROM edu_experience
+        WHERE unified_id=#{unifiedId};
+    </select>
 </mapper>
