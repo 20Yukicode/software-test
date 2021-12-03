@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soa.springcloud.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.User">
+            <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="userType" column="user_type" jdbcType="INTEGER"/>
+            <result property="trueName" column="true_name" jdbcType="VARCHAR"/>
+            <result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
+            <result property="briefInfo" column="brief_info" jdbcType="VARCHAR"/>
+        <result property="subscribeNum" column="subscribe_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        unified_id,user_name,password,
+        email,user_type,trueName,pictureUrl,subscribeNum
+    </sql>
+</mapper>
