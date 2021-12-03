@@ -3,6 +3,7 @@ package com.soa.springcloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.soa.springcloud.entities.JobExperience;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Repository;
 * @Entity entity.domain.JobExperience
 */
 @Repository
+@Mapper
 public interface JobExperienceMapper extends BaseMapper<JobExperience> {
-
+    public Integer maxNumberId(int unifiedId);
 }
 
 

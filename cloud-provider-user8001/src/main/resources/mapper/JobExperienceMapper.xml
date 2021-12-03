@@ -19,4 +19,10 @@
         position_type,enterprise_name,end_time,
         start_time
     </sql>
+
+    <select id="maxNumberId" resultType="Integer">
+        SELECT MAX(num_id)
+        FROM job_experience
+        WHERE unified_id=#{unifiedId};
+    </select>
 </mapper>
