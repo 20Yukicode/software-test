@@ -7,6 +7,7 @@ import com.soa.springcloud.service.JobExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,31 +19,37 @@ public class JobExperienceImpl implements JobExperienceService {
     public void setJobExperienceMapper(JobExperienceMapper jobExperienceMapper) {
         this.jobExperienceMapper = jobExperienceMapper;
     }
-    //增没写完
     @Override
-    public int postJobExperience(Integer unified_id,String stime,String etime,String name,String position,String description){
-        int max=1;
-        QueryWrapper<JobExperience> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("unified_id",unified_id);
-        List<Object> objects = jobExperienceMapper.selectObjs(queryWrapper);
-
-        return jobExperienceMapper.insert(new JobExperience());
+    public int postJobExperience(JobExperience jobExperience){
+        //调用了sql语句
+        Integer temp=jobExperienceMapper.maxNumberId(jobExperience.getUnifiedId());
+        int max=0;
+        if(temp==null)
+            max=0;
+        else
+            max=temp+1;
+        jobExperience.setNumId(max);
+        return jobExperienceMapper.insert(jobExperience);
     }
 
     @Override
-    public int deleteJobExperience(Integer unified_id, Integer num_id) {
+    public int deleteJobExperience(Integer unifiedId, Integer numId) {
         QueryWrapper<JobExperience> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("unified_id",unified_id).eq("num_id",num_id);
+        queryWrapper.eq("unified_id",unifiedId).eq("num_id",numId);
         return jobExperienceMapper.delete(queryWrapper);
     }
 
     @Override
-    public int putJobExperience(Integer unified_id, Integer num_id, String stime, String etime, String name, String position, String description) {
-        return 0;
+    public int putJobExperience(JobExperience jobExperience) {
+        QueryWrapper<JobExperience> wrapper=new QueryWrapper<>();
+        wrapper.eq("unified_id", jobExperience.getUnifiedId()).eq("num_id",jobExperience.getNumId());
+        return jobExperienceMapper.update(jobExperience,wrapper);
     }
 
     @Override
-    public int getJobExperience(Integer unified_id) {
-        return 0;
+    public List<JobExperience> getJobExperience(Integer unifiedId) {
+        QueryWrapper<JobExperience> wrapper=new QueryWrapper<>();
+        wrapper.eq("unified_id",unifiedId);
+        return jobExperienceMapper.selectList(wrapper);
     }
 }
