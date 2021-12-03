@@ -1,5 +1,9 @@
 package com.soa.springcloud.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.soa.springcloud.entities.EduExperience;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
 * @author 86187
@@ -7,8 +11,10 @@ package com.soa.springcloud.mapper;
 * @createDate 2021-11-15 18:15:41
 * @Entity entity.domain.EduExperience
 */
-public interface EduExperienceMapper {
-
+@Repository
+@Mapper
+public interface EduExperienceMapper extends BaseMapper<EduExperience> {
+    public Integer maxNumberId(int unifiedId);
 }
 
 

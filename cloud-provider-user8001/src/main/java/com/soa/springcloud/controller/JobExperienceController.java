@@ -6,10 +6,6 @@ import com.soa.springcloud.service.JobExperienceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @RestController
 @Slf4j
 public class JobExperienceController {
@@ -19,9 +15,13 @@ public class JobExperienceController {
         this.jobExperienceService = jobExperienceService;
     }
 
-
+    /**
+     * 增加工作经历
+     * @param jobExperience
+     * @return
+     */
     @PostMapping("/user/job")
-    public CommonResult postEduExperience(@RequestBody JobExperience jobExperience) {
+    public CommonResult postJobExperience(@RequestBody JobExperience jobExperience) {
         //预处理传入参数
         if(jobExperience.getUnifiedId() ==null){
             return CommonResult.failure("失败，uid空");
@@ -30,7 +30,7 @@ public class JobExperienceController {
         if(jobExperienceService.postJobExperience(jobExperience)>0) {
             return CommonResult.success("增加工作经历成功",null);
         }
-        return CommonResult.failure("插入失败");
+        return CommonResult.failure("增加失败");
     }
 
     /**
@@ -40,7 +40,7 @@ public class JobExperienceController {
      * @return
      */
     @DeleteMapping("/user/job")
-    public CommonResult deleteEduExperience(@RequestParam("uid") Integer unifiedId,
+    public CommonResult deleteJobExperience(@RequestParam("uid") Integer unifiedId,
                                             @RequestParam("sid") Integer numId) {
         if(unifiedId==null){
             return CommonResult.failure("失败，uid空");
@@ -50,16 +50,18 @@ public class JobExperienceController {
         }
 
         if(jobExperienceService.deleteJobExperience(unifiedId,numId)>0) {
-            return CommonResult.success("删除工作经历成功");
+            return CommonResult.success("删除工作经历成功",null);
         }
         return CommonResult.failure("删除失败");
     }
 
     /**
-     * 更新用户工作经历
+     * 增加工作经历
+     * @param jobExperience
+     * @return
      */
     @PutMapping("/user/job")
-    public CommonResult putEduExperience(@RequestBody JobExperience jobExperience){
+    public CommonResult putJobExperience(@RequestBody JobExperience jobExperience){
         //预处理传入参数
         if(jobExperience.getUnifiedId()==null){
             return CommonResult.failure("失败，uid空");
@@ -70,14 +72,13 @@ public class JobExperienceController {
         }
         return CommonResult.failure("更新失败");
     }
-
     /**
      * 获取某用户工作经历
      * @param unifiedId
      * @return
      */
     @GetMapping("/user/job")
-    public CommonResult getEduExperience(@RequestParam("uid") Integer unifiedId){
+    public CommonResult getJobExperience(@RequestParam("uid") Integer unifiedId){
         //预处理传入参数
         if(unifiedId==null){
             return CommonResult.failure("失败，uid空");
