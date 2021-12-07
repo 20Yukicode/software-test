@@ -39,7 +39,7 @@ public class LikeServiceImpl implements LikeService{
         return list.size();
     }
 
-
+    @Override
     public int deleteLike(Integer unifiedId,Integer tweetId){
         QueryWrapper<Like> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unified_id",unifiedId).eq("tweet_id",tweetId);
@@ -47,6 +47,7 @@ public class LikeServiceImpl implements LikeService{
         return likeMapper.delete(queryWrapper);
     }
 
+    @Override
     public int putLike(Integer unifiedId,Integer tweetId){
         Like like = new Like();
         like.setTweetId(tweetId);
