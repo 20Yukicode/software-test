@@ -15,11 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -106,37 +104,39 @@ private TweetHystrixService tweetHystrixService;
 
     /**
      * 登录
-     * @param user_name
+     * @param userName
      * @param password
      * @return
      */
     @GetMapping("/user")
-    public CommonResult<JSON> login(@RequestParam("user_name") String user_name, @RequestParam("password") String password, HttpServletRequest request) {
+    public CommonResult<JSON> login(@RequestParam("userName") String userName, @RequestParam("password") String password, HttpServletRequest request) {
         JSON json = new JSONObject();
-        json.putByPath("unified_id",0);
-        json.putByPath("user_type",0);
+        json.putByPath("unifiedId",0);
+        json.putByPath("userType",0);
         //验证用户名是否存在
-        User user = userService.getUserByName(user_name);
+        User user = userService.getUserByName(userName);
         if(user==null){
-            json.putByPath("unified_id",0);
-            json.putByPath("user_type",0);
             return CommonResult.failure("用户名不存在");
         }
-        json.putByPath("user_type",user.getUserType());
+        json.putByPath("userType",user.getUserType());
         //验证密码是否正确
         //这里有个坑，不能用==判断相等，因为两个字符串不是来自线程池的同一位置
         if(password.equals(user.getPassword())) {
-            json.putByPath("unified_id",user.getUnifiedId());
+            json.putByPath("unifiedId",user.getUnifiedId());
             return CommonResult.success(json);
         }
         //用户存在但密码错误
-        json.putByPath("unified_id",2);
         return CommonResult.failure("密码错误");
     }
 
-    @GetMapping("/user/get/{unified_id}")
-    public CommonResult<User> getUserById(@PathVariable("unified_id") int unified_id) {
-        User user = userService.getUserById(unified_id);
+    /**
+     * 根据id获取用户具体信息
+     * @param unifiedId
+     * @return
+     */
+    @GetMapping("/user/get/{unifiedId}")
+    public CommonResult<User> getUserById(@PathVariable("unifiedId") int unifiedId) {
+        User user = userService.getUserById(unifiedId);
         log.info("***查询结果：" + user);
         if(user==null)return CommonResult.failure("用户不存在");
         return CommonResult.success(user);

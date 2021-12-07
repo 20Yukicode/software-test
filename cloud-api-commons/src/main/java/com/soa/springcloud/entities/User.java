@@ -59,6 +59,10 @@ public class User implements Serializable {
      * 简短介绍
      */
     private String briefInfo;
+    /**
+     * 背景图片
+     */
+    private String background;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

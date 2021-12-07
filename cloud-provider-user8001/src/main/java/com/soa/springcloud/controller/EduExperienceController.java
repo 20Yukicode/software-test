@@ -25,7 +25,7 @@ public class EduExperienceController {
     public CommonResult postEduExperience(@RequestBody EduExperience eduExperience) {
         //预处理传入参数
         if(eduExperience.getUnifiedId() ==null){
-            return CommonResult.failure("失败，uid空");
+            return CommonResult.failure("失败，unified_id空");
         }
         //开始插入数据
         if(eduExperienceService.postEduExperience(eduExperience)>0) {
@@ -41,13 +41,13 @@ public class EduExperienceController {
      * @return
      */
     @DeleteMapping("/user/edu")
-    public CommonResult deleteEduExperience(@RequestParam("uid") Integer unifiedId,
-                                            @RequestParam("sid") Integer numId) {
+    public CommonResult deleteEduExperience(@RequestParam("unified_id") Integer unifiedId,
+                                            @RequestParam("num_id") Integer numId) {
         if(unifiedId==null){
-            return CommonResult.failure("失败，uid空");
+            return CommonResult.failure("失败，unified_id空");
         }
         else if(numId==null){
-            return CommonResult.failure("失败，sid空");
+            return CommonResult.failure("失败，num_id空");
         }
 
         if(eduExperienceService.deleteEduExperience(unifiedId,numId)>0) {
@@ -65,7 +65,7 @@ public class EduExperienceController {
     public CommonResult putEduExperience(@RequestBody EduExperience eduExperience){
         //预处理传入参数
         if(eduExperience.getUnifiedId()==null){
-            return CommonResult.failure("失败，uid空");
+            return CommonResult.failure("失败，unified_id空");
         }
         //开始更新数据
         if(eduExperienceService.putEduExperience(eduExperience)>0) {
@@ -80,10 +80,10 @@ public class EduExperienceController {
      * @return
      */
     @GetMapping("/user/edu")
-    public CommonResult getEduExperience(@RequestParam("uid") Integer unifiedId){
+    public CommonResult getEduExperience(@RequestParam("unified_id") Integer unifiedId){
         //预处理传入参数
         if(unifiedId==null){
-            return CommonResult.failure("失败，uid空");
+            return CommonResult.failure("失败，unified_id空");
         }
         //开始查询数据
         return CommonResult.success("查询教育经历成功",eduExperienceService.getEduExperience(unifiedId));
