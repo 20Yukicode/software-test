@@ -16,4 +16,11 @@
         tweet_id,floor,contents,
         record_time,unified_id
     </sql>
+
+    <select id="maxFloor" resultType="Integer">
+        SELECT MAX(floor)
+        FROM comment
+        WHERE tweet_id=#{tweetId};
+    </select>
+
 </mapper>
