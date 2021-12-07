@@ -24,7 +24,7 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/tweet/comment/{tweet_id}")
-    public CommonResult getComments(@PathVariable("tweet_id")Integer tweetId){
+    public CommonResult getComments(@PathVariable Integer tweetId){
         if(tweetId == null)
             return CommonResult.failure("错误，tweetId为空");
 
@@ -47,9 +47,9 @@ public class CommentController {
 
     }
     @DeleteMapping("/tweet/comment")
-    public CommonResult deleteComment(@RequestParam("unified_id") Integer unifiedId,
-                                      @RequestParam("tweet_id")Integer tweetId,
-                                      @RequestParam("floor") Integer floor){
+    public CommonResult deleteComment(@RequestParam Integer unifiedId,
+                                      @RequestParam Integer tweetId,
+                                      @RequestParam Integer floor){
         if(unifiedId==null)
             return CommonResult.failure("错误，unifiedId为空");
         if(tweetId == null)

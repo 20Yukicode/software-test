@@ -21,8 +21,8 @@ public class SubscriptionController {
     }
 
     @PutMapping("/user/subscription")
-    public CommonResult putSubscription(@RequestParam("unified_id") Integer unifiedId,
-                                        @RequestParam("subscribe_id") Integer subscribeId){
+    public CommonResult putSubscription(@RequestParam Integer unifiedId,
+                                        @RequestParam Integer subscribeId){
 
         if(unifiedId == null)
             return CommonResult.failure("失败，unified_id为空");
