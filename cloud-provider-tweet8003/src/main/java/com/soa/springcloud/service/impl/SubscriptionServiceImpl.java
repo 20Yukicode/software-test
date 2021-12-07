@@ -78,7 +78,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
         for(int i=0;i<userList.size();i++){
             User user = (User)userList.get(i);
-            if(getSubscription(unifiedId,user.getUnifiedId() )!=0){
+            if(getSubscription(unifiedId,user.getUnifiedId() )==0){
                 array.add(user);
             }
         }
@@ -90,7 +90,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
             Random random = new Random();
 
             while(count<5) {
-                int index = random.nextInt(jsonArray.size());
+                int index = random.nextInt(array.size());
                 if (!jsonArray.contains(array.get(index))) {
                     count++;
                     jsonArray.add(array.get(index));

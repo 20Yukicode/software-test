@@ -27,7 +27,7 @@ public class LikeController {
 
 
 
-    @PutMapping("/user/like")
+    @PutMapping("/tweet/like")
     public CommonResult putLike(@RequestParam Integer unifiedId,
                                 @RequestParam Integer tweetId){
 
@@ -45,7 +45,7 @@ public class LikeController {
 
     }
 
-    @DeleteMapping("/user/like")
+    @DeleteMapping("/tweet/like")
     public CommonResult deleteLike(@RequestParam Integer unifiedId,
                                    @RequestParam Integer tweetId){
 
@@ -62,7 +62,7 @@ public class LikeController {
 
     }
 
-    @GetMapping("/user/like")
+    @GetMapping("/tweet/like")
     public CommonResult getLike(@RequestParam Integer unifiedId,
                                 @RequestParam Integer tweetId){
 

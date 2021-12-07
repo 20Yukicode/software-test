@@ -10,7 +10,7 @@ import lombok.Data;
  * 
  * @TableName praise
  */
-@TableName(value ="praise")
+@TableName(value ="like")
 @Data
 public class Like implements Serializable {
     /**
