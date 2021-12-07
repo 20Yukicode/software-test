@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
         return -1;
     }
     @Override
-    public User getUserById(int unified_id) {
-        return userMapper.selectById(unified_id);
+    public User getUserById(int unifiedId) {
+        return userMapper.selectById(unifiedId);
     }
     @Override
-    public User getUserByName(String user_name) {
+    public User getUserByName(String userName) {
         QueryWrapper<User>wrapper=new QueryWrapper<>();
-        wrapper.eq("user_name",user_name);
+        wrapper.eq("user_name",userName);
         return userMapper.selectOne(wrapper);
     }
 

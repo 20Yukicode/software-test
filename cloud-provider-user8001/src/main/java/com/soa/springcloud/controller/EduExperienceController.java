@@ -80,7 +80,7 @@ public class EduExperienceController {
      * @return
      */
     @GetMapping("/user/edu")
-    public CommonResult getEduExperience(@RequestParam("unified_id") Integer unifiedId){
+    public CommonResult getEduExperience(@RequestParam("unifiedId") Integer unifiedId){
         //预处理传入参数
         if(unifiedId==null){
             return CommonResult.failure("失败，unified_id空");

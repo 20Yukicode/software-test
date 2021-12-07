@@ -5,6 +5,7 @@ public interface TweetService {
 
     int addLikeNum(Integer tweetId);
     int subtractLikeNum(Integer tweetId);
-
+    int deleteTweet(Integer tweetId);
+    int getSelfTweetList(Integer intervieweeId, Integer momentId);
 
 }
