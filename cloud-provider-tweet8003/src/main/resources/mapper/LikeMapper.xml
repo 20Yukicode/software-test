@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soa.springcloud.mapper.LikeMapper">
+<mapper namespace="com.soa.springcloud.mapper.LikesMapper">
 
-    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.Like">
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.Likes">
             <id property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
             <id property="tweetId" column="tweet_id" jdbcType="INTEGER"/>
     </resultMap>

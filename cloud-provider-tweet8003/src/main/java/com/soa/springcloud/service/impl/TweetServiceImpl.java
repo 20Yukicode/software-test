@@ -4,12 +4,11 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.soa.springcloud.entities.Comment;
 import com.soa.springcloud.entities.Picture;
 import com.soa.springcloud.entities.Tweet;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.*;
-import com.soa.springcloud.service.LikeService;
+import com.soa.springcloud.service.LikesService;
 import com.soa.springcloud.service.SubscriptionService;
 import com.soa.springcloud.service.TweetService;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class TweetServiceImpl implements TweetService{
     private CommentMapper commentMapper;
 
     @Resource
-    private LikeService likeService;
+    private LikesService likesService;
 
     @Resource
     private UserMapper userMapper;
@@ -37,7 +36,7 @@ public class TweetServiceImpl implements TweetService{
 
     private SubscriptionService subscriptionService;
     @Override
-    public int addLikeNum(Integer tweetId){
+    public int addLikesNum(Integer tweetId){
 
         Tweet tweet = tweetMapper.selectById(tweetId);
         QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
@@ -49,7 +48,7 @@ public class TweetServiceImpl implements TweetService{
         return tweetMapper.selectById(tweetId).getPraiseNum();
     }
     @Override
-    public int subtractLikeNum(Integer tweetId){
+    public int subtractLikesNum(Integer tweetId){
         Tweet tweet = tweetMapper.selectById(tweetId);
         QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("tweet_id",tweetId);
@@ -77,7 +76,7 @@ public class TweetServiceImpl implements TweetService{
 
         for(int i=0;i<size; i++){
             JSONObject object = JSONUtil.parseObj(tweetList.get(i));
-            object.put("like_state",likeService.getLike(visitorId,object.getInt("tweet_id")));
+            object.put("like_state", likesService.getLikes(visitorId,object.getInt("tweet_id")));
             jsonArray.add(object);
         }
         return jsonArray;
@@ -95,7 +94,7 @@ public class TweetServiceImpl implements TweetService{
             List list = tweetMapper.selectList(queryWrapper);
             for(int j=0;j<list.size();j++){
                 JSONObject tweetObject = JSONUtil.parseObj(list.get(j));
-                tweetObject.put("like_state",likeService.getLike(visitorId,object.getInt("tweet_id")));
+                tweetObject.put("like_state", likesService.getLikes(visitorId,object.getInt("tweet_id")));
                 tweetObject.put("simpleUserInfo",getSimpleUserInfo(object.getInt("unified_id")));
                 tweetArray.add(tweetObject);
             }

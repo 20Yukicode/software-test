@@ -2,21 +2,12 @@ package com.soa.springcloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Comment;
-import com.soa.springcloud.entities.Like;
-import com.soa.springcloud.entities.Subscription;
-import com.soa.springcloud.entities.Tweet;
 import com.soa.springcloud.mapper.CommentMapper;
-import com.soa.springcloud.mapper.LikeMapper;
-import com.soa.springcloud.mapper.SubscriptionMapper;
-import com.soa.springcloud.mapper.TweetMapper;
 import com.soa.springcloud.service.CommentService;
-import com.soa.springcloud.service.LikeService;
-import com.soa.springcloud.service.SubscriptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 
 @Service

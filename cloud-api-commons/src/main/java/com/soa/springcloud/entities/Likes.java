@@ -1,5 +1,4 @@
 package com.soa.springcloud.entities;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,11 +7,11 @@ import lombok.Data;
 
 /**
  * 
- * @TableName praise
+ * @TableName likes
  */
-@TableName(value ="like")
+@TableName(value ="likes")
 @Data
-public class Like implements Serializable {
+public class Likes implements Serializable {
     /**
      * 给该动态点赞的用户统一id
      */
