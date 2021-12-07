@@ -9,6 +9,7 @@
             <id property="resumeId" column="resume_id" jdbcType="INTEGER"/>
             <id property="enterpriseId" column="enterprise_id" jdbcType="INTEGER"/>
             <id property="jobId" column="job_id" jdbcType="INTEGER"/>
+            <id property="resumeName" column="resume_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

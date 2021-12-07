@@ -25,7 +25,7 @@ public class EduExperienceController {
     public CommonResult postEduExperience(@RequestBody EduExperience eduExperience) {
         //预处理传入参数
         if(eduExperience.getUnifiedId() ==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedId空");
         }
         //开始插入数据
         if(eduExperienceService.postEduExperience(eduExperience)>0) {
@@ -41,13 +41,13 @@ public class EduExperienceController {
      * @return
      */
     @DeleteMapping("/user/edu")
-    public CommonResult deleteEduExperience(@RequestParam("unified_id") Integer unifiedId,
-                                            @RequestParam("num_id") Integer numId) {
+    public CommonResult deleteEduExperience(@RequestParam("unifiedId") Integer unifiedId,
+                                            @RequestParam("numId") Integer numId) {
         if(unifiedId==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedId空");
         }
         else if(numId==null){
-            return CommonResult.failure("失败，num_id空");
+            return CommonResult.failure("失败，numId空");
         }
 
         if(eduExperienceService.deleteEduExperience(unifiedId,numId)>0) {
@@ -65,7 +65,7 @@ public class EduExperienceController {
     public CommonResult putEduExperience(@RequestBody EduExperience eduExperience){
         //预处理传入参数
         if(eduExperience.getUnifiedId()==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedId空");
         }
         //开始更新数据
         if(eduExperienceService.putEduExperience(eduExperience)>0) {
