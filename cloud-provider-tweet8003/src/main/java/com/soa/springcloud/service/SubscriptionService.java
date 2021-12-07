@@ -8,4 +8,5 @@ public interface SubscriptionService {
     int deleteSubscription(Integer unifiedId,Integer subscribeId);
     int getSubscription(Integer unifiedId,Integer subscribeId);
     List getSubscriptionList(Integer unifiedId);
+    List getRecommendList (Integer unifiedId);
 }

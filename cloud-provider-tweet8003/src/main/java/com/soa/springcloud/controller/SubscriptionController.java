@@ -77,4 +77,12 @@ public class SubscriptionController {
 
         return CommonResult.success(subscriptionList);
     }
+
+    @GetMapping("/tweet/subscriptionList/{unifiedId}")
+    public CommonResult getRecommendList(@PathVariable Integer unifiedId){
+        if(unifiedId == null)
+            return CommonResult.failure("错误，unifiedId为空");
+
+        return CommonResult.success("请求成功",subscriptionService.getRecommendList(unifiedId));
+    }
 }
