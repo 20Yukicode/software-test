@@ -21,9 +21,9 @@ public class JobExperienceServiceImpl implements JobExperienceService {
     public int postJobExperience(JobExperience jobExperience){
         //调用了sql语句
         Integer temp=jobExperienceMapper.maxNumberId(jobExperience.getUnifiedId());
-        int max=0;
+        int max;
         if(temp==null)
-            max=0;
+            max=1;
         else
             max=temp+1;
         jobExperience.setNumId(max);

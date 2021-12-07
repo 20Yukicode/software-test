@@ -30,7 +30,7 @@ public class SubscriptionController {
             return  CommonResult.failure("失败，subscribe_id为空");
 
         if(subscriptionService.putSubscription(unifiedId,subscribeId)>0)
-            return CommonResult.success("关注成功");
+            return CommonResult.success("关注成功",null);
 
         return CommonResult.failure("关注失败");
     }
@@ -61,7 +61,7 @@ public class SubscriptionController {
             return CommonResult.failure("失败，subscribeId为空");
 
         if(subscriptionService.getSubscription(unifiedId,subscribeId)>0)
-            return CommonResult.success("已关注该用户");
+            return CommonResult.success("已关注该用户",null);
 
         return CommonResult.failure("未关注该用户");
 
