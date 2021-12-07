@@ -15,11 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ServerWebExchange;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -106,17 +104,17 @@ private TweetHystrixService tweetHystrixService;
 
     /**
      * 登录
-     * @param user_name
+     * @param userName
      * @param password
      * @return
      */
     @GetMapping("/user")
-    public CommonResult<JSON> login(@RequestParam("user_name") String user_name, @RequestParam("password") String password, HttpServletRequest request) {
+    public CommonResult<JSON> login(@RequestParam("userName") String userName, @RequestParam("password") String password, HttpServletRequest request) {
         JSON json = new JSONObject();
         json.putByPath("unified_id",0);
         json.putByPath("user_type",0);
         //验证用户名是否存在
-        User user = userService.getUserByName(user_name);
+        User user = userService.getUserByName(userName);
         if(user==null){
             json.putByPath("unified_id",0);
             json.putByPath("user_type",0);
