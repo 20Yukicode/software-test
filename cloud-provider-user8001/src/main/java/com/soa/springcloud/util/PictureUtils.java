@@ -9,9 +9,13 @@ import java.io.IOException;
 @Slf4j
 public class PictureUtils {
     /**
-     * ip&开放端口号
+     * ip地址
      */
-    private static final String host = "";
+    private static final String ip = "47.102.217.130";
+    /**
+     * 开放端口号
+     */
+    private static final String host = "666";
     public static String saveUrl(MultipartFile multipartFile,String path) throws IOException {
         File file = new File(path);
         //创建文件夹
@@ -20,7 +24,7 @@ public class PictureUtils {
         String _path=path+multipartFile.getOriginalFilename();
         multipartFile.transferTo(new File(_path));
 
-        //String[] pics = path.split("pic");
-        return host+""+multipartFile.getOriginalFilename();
+        String[] pics = path.split("C:/upload/");
+        return ip+":"+host+"/"+pics[1]+multipartFile.getOriginalFilename();
     }
 }
