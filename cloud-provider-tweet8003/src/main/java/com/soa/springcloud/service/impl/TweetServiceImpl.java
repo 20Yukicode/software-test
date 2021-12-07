@@ -69,7 +69,7 @@ public class TweetServiceImpl implements TweetService{
     @Override
     public JSONArray getSelfTweetList(Integer visitorId,Integer intervieweeId, Integer momentId){
         QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("unified_id",intervieweeId).gt("moment_id",momentId);
+        queryWrapper.eq("unified_id",intervieweeId).gt("tweet_id",momentId);
         List tweetList = tweetMapper.selectList(queryWrapper);
         int size = tweetList.size();
         if(size>10) size = 9;
