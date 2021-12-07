@@ -8,6 +8,7 @@ import com.soa.springcloud.entities.UserInfo;
 import com.soa.springcloud.mapper.ApplicationMapper;
 import com.soa.springcloud.mapper.PositionMapper;
 import com.soa.springcloud.mapper.UserMapper;
+import com.soa.springcloud.mapper.UserInfoMapper;
 import com.soa.springcloud.mapper.ResumeMapper;
 import com.soa.springcloud.dto.ApplicantInfoDto;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,9 @@ public class UserRecruitmentServiceImpl{
 
     @Resource
     private ResumeMapper resumeMapper;
+
+    @Resource
+    private UserInfoMapper userInfoMapper;
 
     @Resource
     private EnterprisePositionServiceImpl enterprisePositionService;
@@ -61,6 +65,7 @@ public class UserRecruitmentServiceImpl{
         if(positions.isEmpty())return null;//是空没找到
         return positions;
     }
+
 
     //需要uerinfo的信息，可以作为跨模块调用的尝试，这里先直接写
     public List<ApplicantInfoDto> getAllApplicants(int unifiedId, int jobId) {

@@ -22,7 +22,7 @@ public class EnterprisePositionController {
     @Resource
     private UserRecruitmentServiceImpl userRecruitmentService;
 
-    @PostMapping(value = "/position/create")
+    @PutMapping(value = "/recruit/enterprise/position")
     public CommonResult create(@RequestBody Position position,
                                         HttpServletRequest request){
         if(!enterprisePositionService.isEnterprise(position.getUnifiedId()))return CommonResult.failure("用户不是企业用户",null);
@@ -33,14 +33,14 @@ public class EnterprisePositionController {
         return CommonResult.failure("插入失败",null);
     }
 
-    @PostMapping(value = "/position/delete")
+    @DeleteMapping(value = "/recruit/enterprise/position")
     public CommonResult delete(@RequestBody PositionDeleteDto dto,
                                HttpServletRequest request){
         if(enterprisePositionService.deletePosition(dto.getUnifiedId(),dto.getJobId())==1)return CommonResult.success("删除成功");
         else return CommonResult.failure("删除失败");
     }
 
-    @PutMapping(value = "/position/update")
+    @PostMapping(value = "/recruit/enterprise/position")
     public CommonResult update(@RequestBody Position position,
                                HttpServletRequest request){
         if(!enterprisePositionService.isEnterprise(position.getUnifiedId()))return CommonResult.failure("用户不是企业用户",null);
@@ -51,8 +51,8 @@ public class EnterprisePositionController {
         return CommonResult.failure("更新失败",null);
     }
 
-    @GetMapping(value = "/position/info")
-    public CommonResult delete(@RequestParam int unifiedId,
+    @GetMapping(value = "/recruit/position/specified")
+    public CommonResult getPosition(@RequestParam int unifiedId,
                                @RequestParam int jobId,
                                HttpServletRequest request){
         Position position=enterprisePositionService.getPositionInfo(unifiedId,jobId);
@@ -62,10 +62,20 @@ public class EnterprisePositionController {
         else return CommonResult.failure("获取失败",null);
     }
 
-    @GetMapping(value = "/position/all")
+    @GetMapping(value = "/recruit/position/all")
     public CommonResult getAll(@RequestParam int unifiedId,
                                HttpServletRequest request){
         List<Position> position=enterprisePositionService.getPositionsById(unifiedId);
+        if(position!=null){
+            return CommonResult.success("获取成功",position);
+        }
+        else return CommonResult.failure("获取失败",null);
+    }
+
+    @GetMapping(value = "/recruit/position/recommend")
+    public CommonResult getRecommend(@RequestParam int unifiedId,
+                                     HttpServletRequest request){
+        List<Position> position=enterprisePositionService.getRecommendedPositionsById(unifiedId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
         }

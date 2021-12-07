@@ -120,10 +120,12 @@ public class EnterprisePositionServiceImpl{
     public List<Position> getRecommendedPositionsById(int unifiedId) {
         UserInfo userInfo=userInfoMapper.selectById(unifiedId);//找到用户信息
         List<String> prePosition=Arrays.asList(userInfo.getPrePosition().split(","));
+        log.info("positions",prePosition);
         List<Position> positions=new ArrayList<>();
         prePosition.forEach(item->{
             QueryWrapper<Position> wrapper=new QueryWrapper<>();
             wrapper.eq("position_type",item);
+            wrapper.ne("state",0);//去除掉没激活的
             positions.addAll(positionMapper.selectList(wrapper));
         });
         positions.sort(Comparator.comparing(Position::getJobId));
