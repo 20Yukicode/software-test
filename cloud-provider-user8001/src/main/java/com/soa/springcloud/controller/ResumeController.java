@@ -2,7 +2,6 @@ package com.soa.springcloud.controller;
 
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.Resume;
-import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +18,13 @@ public class ResumeController {
     }
 
     @GetMapping("/user/resume")
-    public CommonResult getResume(@RequestParam("uid") Integer unified_id) {
+    public CommonResult getResume(@RequestParam("unifiedId") Integer unifiedId) {
         //预处理传入参数
-        if(unified_id ==null){
+        if(unifiedId ==null){
             return CommonResult.failure("失败，uid空");
         }
         //开始查询简历
-        List<Resume> resumes = resumeService.getResume(unified_id);
+        List<Resume> resumes = resumeService.getResume(unifiedId);
         if(resumes !=null) {
             return CommonResult.success("查询简历成功",resumes);
         }
@@ -34,7 +33,7 @@ public class ResumeController {
 
 
     @PostMapping("/user/resume")
-    public CommonResult addResume(@RequestParam("uid") Integer unified_id) {
+    public CommonResult addResume(@RequestParam("unifiedId") Integer unified_id) {
         //预处理传入参数
         if(unified_id ==null){
             return CommonResult.failure("失败，uid空");
@@ -49,7 +48,7 @@ public class ResumeController {
 
 
     @DeleteMapping("/user/resume")
-    public CommonResult deleteResume(@RequestParam("uid") Integer unified_id) {
+    public CommonResult deleteResume(@RequestParam("unifiedId") Integer unified_id) {
         //预处理传入参数
         if(unified_id ==null){
             return CommonResult.failure("失败，uid空");
