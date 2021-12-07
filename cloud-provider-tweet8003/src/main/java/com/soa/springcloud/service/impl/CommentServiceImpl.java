@@ -34,11 +34,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public int postComment(Comment comment){
-        return 0;
+        Integer maxFloor = commentMapper.maxFloor(comment.getTweetId());
+        int floor = 1;
+        if(maxFloor != null)
+            floor = maxFloor +1;
+        comment.setFloor(floor);
+
+        return commentMapper.insert(comment);
     }
 
     @Override
     public int deleteComment(Integer unifiedId,Integer tweetId,Integer floor){
-        return 0;
+
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("unified_id",unifiedId).eq("tweet_id",tweetId).eq("floor",floor);
+        return commentMapper.delete(queryWrapper);
     }
 }

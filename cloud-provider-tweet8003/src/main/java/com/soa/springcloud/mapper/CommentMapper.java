@@ -2,6 +2,7 @@ package com.soa.springcloud.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.soa.springcloud.entities.Comment;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Repository;
 * @createDate 2021-11-15 18:15:41
 * @Entity entity.domain.Comment
 */
+@Repository
+@Mapper
 public interface CommentMapper extends BaseMapper<Comment>{
-
+    Integer maxFloor(Integer tweetId);
 }
 
 
