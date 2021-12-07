@@ -2,7 +2,6 @@ package com.soa.springcloud.controller;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.soa.springcloud.entities.UserInfo;
 import com.soa.springcloud.service.impl.SubscriptionServiceImpl;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
@@ -20,13 +19,13 @@ public class UserInfoController {
     private SubscriptionServiceImpl subscriptionService;
 
     @GetMapping("/userinfo")
-    public JSON getUserInfo(@RequestParam("uid") int unified_id,@RequestParam("sid") int subscribeId) {
-        int subscribed = subscriptionService.isSubscribed(unified_id,subscribeId);
-        if(unified_id==subscribeId)subscribed=2;
+    public JSON getUserInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
+        int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
+        if(unifiedId ==subscribeId)subscribed=2;
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
         JSON json = JSONUtil.parse(userInfo);
-        json.putByPath("is_subscribed",subscribed);
-        log.info("***查询结果：" + json);
+        json.putByPath("isSubscribed",subscribed);
+        //log.info("***查询结果：" + json);
         return json;
     }
     /**

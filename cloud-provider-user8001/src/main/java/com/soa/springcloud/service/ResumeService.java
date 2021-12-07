@@ -6,5 +6,5 @@ import java.util.List;
 public interface ResumeService {
     List<Resume> getResume(Integer unifiedId);
     int addResume();
-    int deleteResume();
+    int deleteResume(Integer unifiedId,Integer resumeId);
 }

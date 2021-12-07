@@ -24,7 +24,7 @@ public class JobExperienceController {
     public CommonResult postJobExperience(@RequestBody JobExperience jobExperience) {
         //预处理传入参数
         if(jobExperience.getUnifiedId() ==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedId空");
         }
         //开始插入数据
         if(jobExperienceService.postJobExperience(jobExperience)>0) {
@@ -40,13 +40,13 @@ public class JobExperienceController {
      * @return
      */
     @DeleteMapping("/user/job")
-    public CommonResult deleteJobExperience(@RequestParam("unified_id") Integer unifiedId,
-                                            @RequestParam("num_id") Integer numId) {
+    public CommonResult deleteJobExperience(@RequestParam("unifiedId") Integer unifiedId,
+                                            @RequestParam("numId") Integer numId) {
         if(unifiedId==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedId空");
         }
         else if(numId==null){
-            return CommonResult.failure("失败，num_id空");
+            return CommonResult.failure("失败，numId空");
         }
 
         if(jobExperienceService.deleteJobExperience(unifiedId,numId)>0) {
@@ -64,7 +64,7 @@ public class JobExperienceController {
     public CommonResult putJobExperience(@RequestBody JobExperience jobExperience){
         //预处理传入参数
         if(jobExperience.getUnifiedId()==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedid空");
         }
         //开始更新数据
         if(jobExperienceService.putJobExperience(jobExperience)>0) {
@@ -78,10 +78,10 @@ public class JobExperienceController {
      * @return
      */
     @GetMapping("/user/job")
-    public CommonResult getJobExperience(@RequestParam("unified_id") Integer unifiedId){
+    public CommonResult getJobExperience(@RequestParam("unifiedId") Integer unifiedId){
         //预处理传入参数
         if(unifiedId==null){
-            return CommonResult.failure("失败，unified_id空");
+            return CommonResult.failure("失败，unifiedId空");
         }
         //开始查询数据
         return CommonResult.success("查询工作经历成功",jobExperienceService.getJobExperience(unifiedId));

@@ -68,7 +68,7 @@ private TweetHystrixService tweetHystrixService;
      * @return
      */
     @PostMapping(value = "/user")
-    public CommonResult<Integer> create(@RequestBody User user,HttpServletRequest request)
+    public CommonResult<Integer> create(@RequestBody User user)
     {
         //验证用户名是否重复
         if(userService.getUserByName(user.getUserName())!=null){
@@ -76,13 +76,13 @@ private TweetHystrixService tweetHystrixService;
         }
         int result = userService.create(user);
         //log.info("*****id：" + user.getUnified_id());
-        //返回生成用户的unified_id
+        //返回生成用户的unifiedId
         Integer unifiedId = user.getUnifiedId();
         //创建User表时顺便创建对应的Info表
-        log.info("user："+user);
-        log.info("id："+user.getUnifiedId());
+        //log.info("user："+user);
+        //log.info("id："+user.getUnifiedId());
         if(user.getUserType()==1){
-            log.info("向userinfo插入数据");
+            log.info("向userInfo插入数据");
             userInfoService.create(unifiedId);
         }
         //若为企业类型，则建立EnterpriseInfo表
@@ -109,7 +109,7 @@ private TweetHystrixService tweetHystrixService;
      * @return
      */
     @GetMapping("/user")
-    public CommonResult<JSON> login(@RequestParam("userName") String userName, @RequestParam("password") String password, HttpServletRequest request) {
+    public CommonResult<JSON> login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
         JSON json = new JSONObject();
         json.putByPath("unifiedId",0);
         json.putByPath("userType",0);
@@ -120,7 +120,6 @@ private TweetHystrixService tweetHystrixService;
         }
         json.putByPath("userType",user.getUserType());
         //验证密码是否正确
-        //这里有个坑，不能用==判断相等，因为两个字符串不是来自线程池的同一位置
         if(password.equals(user.getPassword())) {
             json.putByPath("unifiedId",user.getUnifiedId());
             return CommonResult.success(json);
@@ -137,7 +136,7 @@ private TweetHystrixService tweetHystrixService;
     @GetMapping("/user/get/{unifiedId}")
     public CommonResult<User> getUserById(@PathVariable("unifiedId") int unifiedId) {
         User user = userService.getUserById(unifiedId);
-        log.info("***查询结果：" + user);
+        //log.info("***查询结果：" + user);
         if(user==null)return CommonResult.failure("用户不存在");
         return CommonResult.success(user);
     }

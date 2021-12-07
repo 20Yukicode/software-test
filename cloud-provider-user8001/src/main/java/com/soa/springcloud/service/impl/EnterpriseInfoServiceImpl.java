@@ -22,8 +22,8 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
         return enterpriseInfoMapper.insert(enterpriseInfo);
     }
     @Override
-    public EnterpriseInfo getEnterpriseInfo(@Param("unified_id") int unified_id){
-        return enterpriseInfoMapper.selectById(unified_id);
+    public EnterpriseInfo getEnterpriseInfo(int unifiedId){
+        return enterpriseInfoMapper.selectById(unifiedId);
     }
 
     @Override
