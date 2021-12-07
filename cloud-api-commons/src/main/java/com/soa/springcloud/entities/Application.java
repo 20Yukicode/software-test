@@ -38,6 +38,11 @@ public class Application implements Serializable {
     @TableId
     private Integer jobId;
 
+    /**
+     * 简历名称
+     */
+    private String resumeName;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
