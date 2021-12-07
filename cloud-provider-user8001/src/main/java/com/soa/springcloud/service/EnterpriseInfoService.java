@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface EnterpriseInfoService {
     int create(Integer unifiedId);
-    EnterpriseInfo getEnterpriseInfo(@Param("unified_id") int unified_id);
+    EnterpriseInfo getEnterpriseInfo(int unifiedId);
     int updateEnterpriseInfo(EnterpriseInfo enterpriseInfo);
 }
