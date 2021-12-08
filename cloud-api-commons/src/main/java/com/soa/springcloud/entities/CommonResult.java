@@ -13,12 +13,6 @@ public class CommonResult<T> {
     private String message;
     private T data;
 
-    public CommonResult(String code, String message){
-        this(code,message,null);
-    }
-    public CommonResult(String code, T data){
-        this(code,"",data);
-    }
 
     public static <T> CommonResult<T> success(){
         return new CommonResult<>("success",null,null);
