@@ -61,3 +61,8 @@ ribbon:
 feign:
   hystrix:
     enabled: true
+
+#文件存储
+file:
+  localPath: "C:\\upload"
+  webPath: "http://47.102.217.130:666"

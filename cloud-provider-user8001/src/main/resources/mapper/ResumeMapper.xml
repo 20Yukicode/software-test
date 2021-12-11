@@ -15,4 +15,9 @@
         unified_id,resume_id,resume_name,
         document_url
     </sql>
+    <select id="maxResumeId" resultType="Integer">
+        SELECT MAX(resume_id)
+        FROM Resume
+        WHERE unified_id=#{unifiedId};
+    </select>
 </mapper>

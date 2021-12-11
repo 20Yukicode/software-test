@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ResumeMapper extends BaseMapper<Resume> {
-
+    public Integer maxResumeId(int unifiedId);
 }
 
 

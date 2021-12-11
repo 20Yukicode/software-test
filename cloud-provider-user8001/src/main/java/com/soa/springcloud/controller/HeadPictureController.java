@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Slf4j
-public class HeadPictureController {
+public class  HeadPictureController {
     private final HeadPictureService headPictureService;
 
     public HeadPictureController(HeadPictureService headPictureService) {
@@ -19,17 +19,17 @@ public class HeadPictureController {
     }
 
     @PostMapping("/userinfo/pic")
-    public CommonResult addHeadPicture(@RequestParam("unifiedId") Integer unified_id,
+    public CommonResult addHeadPicture(@RequestParam("unifiedId") Integer unifiedId,
                                        @RequestPart("file") MultipartFile file) {
         //预处理传入参数
-        if(unified_id ==null){
+        if(unifiedId ==null){
             return CommonResult.failure("失败，unifiedId空");
         }
         //开始添加头像
-        int i=0;
+        int i=headPictureService.addHeadPicture(unifiedId,file);
         if(i >0) {
-            return CommonResult.success("添加简历成功",null);
+            return CommonResult.success("添加头像成功",null);
         }
-        return CommonResult.failure("添加简历失败");
+        return CommonResult.failure("添加头像失败");
     }
 }

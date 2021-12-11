@@ -6,7 +6,6 @@ import com.soa.springcloud.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @RestController
@@ -34,14 +33,14 @@ public class ResumeController {
 
 
     @PostMapping("/user/resume")
-    public CommonResult addResume(@RequestParam("unifiedId") Integer unified_id,
+    public CommonResult addResume(@RequestParam("unifiedId") Integer unifiedId,
                                   @RequestPart("file")MultipartFile file) {
         //预处理传入参数
-        if(unified_id ==null){
+        if(unifiedId ==null){
             return CommonResult.failure("失败，unifiedId空");
         }
         //开始添加简历
-        int i = resumeService.addResume();
+        int i = resumeService.addResume(unifiedId,file);
         if(i >0) {
             return CommonResult.success("添加简历成功",null);
         }

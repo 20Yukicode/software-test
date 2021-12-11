@@ -1,16 +1,14 @@
 package com.soa.springcloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.soa.springcloud.entities.JobExperience;
 import com.soa.springcloud.entities.Resume;
-import com.soa.springcloud.mapper.EduExperienceMapper;
 import com.soa.springcloud.mapper.ResumeMapper;
 import com.soa.springcloud.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
@@ -18,6 +16,18 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
 
     private ResumeMapper resumeMapper;
+    private static String localPath;
+    private static String webPath;
+
+
+    @Value("${file.localPath}")
+    public void setLocalPath(String localPath) {
+        ResumeServiceImpl.localPath = localPath;
+    }
+    @Value("${file.webPath}")
+    public void setWebPath(String webPath) {
+        ResumeServiceImpl.webPath = webPath;
+    }
 
     @Autowired
     public void setEduExperienceMapper(ResumeMapper resumeMapper) {
@@ -32,9 +42,21 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public int addResume() {
+    public int addResume(Integer unifiedId,MultipartFile file) {
+        int resumeId=1;
+        int result=0;
+        Integer temp=resumeMapper.maxResumeId(unifiedId);
+        if(temp==null);
+        else resumeId=temp+1;
+        //url存入数据库
+        String url=webPath+"/resume/"+unifiedId+"/"+resumeId+"/"+file.getOriginalFilename();
+        Resume resume = new Resume(unifiedId,resumeId,file.getOriginalFilename(),url);
+        result=resumeMapper.insert(resume);
+        //存储文件
 
-        return 0;
+
+        //成功返回大于1
+        return result;
     }
 
     @Override
@@ -43,6 +65,8 @@ public class ResumeServiceImpl implements ResumeService {
         queryWrapper.eq("unified_id",unifiedId).eq("ResumeId",resumeId);
         return resumeMapper.delete(queryWrapper);
         //删除本机文件！！！！！
+
+
     }
 
 
