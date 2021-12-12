@@ -16,15 +16,16 @@ public class PictureUtils {
      * 开放端口号
      */
     private static final String host = "666";
-    public static String saveUrl(MultipartFile multipartFile,String path) throws IOException {
+    public static void saveUrl(MultipartFile multipartFile,String path) throws IOException {
         File file = new File(path);
         //创建文件夹
         file.mkdirs();
         //存储文件
-        String _path=path+multipartFile.getOriginalFilename();
+        String _path=path+"\\"+multipartFile.getOriginalFilename();
+        log.info("存储文件："+_path);
         multipartFile.transferTo(new File(_path));
 
-        String[] pics = path.split("C:/upload/");
-        return ip+":"+host+"/"+pics[1]+multipartFile.getOriginalFilename();
+        //String[] pics = path.split("C:/upload/");
+        //return ip+":"+host+"/"+pics[1]+multipartFile.getOriginalFilename();
     }
 }

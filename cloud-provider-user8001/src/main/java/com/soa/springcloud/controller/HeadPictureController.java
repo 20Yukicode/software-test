@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @Slf4j
 public class  HeadPictureController {
@@ -20,7 +22,7 @@ public class  HeadPictureController {
 
     @PostMapping("/userinfo/pic")
     public CommonResult addHeadPicture(@RequestParam("unifiedId") Integer unifiedId,
-                                       @RequestPart("file") MultipartFile file) {
+                                       @RequestPart("file") MultipartFile file) throws IOException {
         //预处理传入参数
         if(unifiedId ==null){
             return CommonResult.failure("失败，unifiedId空");

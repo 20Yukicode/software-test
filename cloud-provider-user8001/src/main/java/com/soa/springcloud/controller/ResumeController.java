@@ -6,6 +6,8 @@ import com.soa.springcloud.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,7 +36,7 @@ public class ResumeController {
 
     @PostMapping("/user/resume")
     public CommonResult addResume(@RequestParam("unifiedId") Integer unifiedId,
-                                  @RequestPart("file")MultipartFile file) {
+                                  @RequestPart("file")MultipartFile file) throws IOException {
         //预处理传入参数
         if(unifiedId ==null){
             return CommonResult.failure("失败，unifiedId空");

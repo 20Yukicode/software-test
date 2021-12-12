@@ -1,7 +1,6 @@
 package com.soa.springcloud.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,7 +16,7 @@ public class MailService {
     @Resource
     private JavaMailSender mailSender;
 
-    public String sendMail(String mail) throws MessagingException {
+    public String sendMail(String mail) {
         //生成随机激活码
         String captcha = RandomUtil.randomStringUpper(8);
         //发送邮件

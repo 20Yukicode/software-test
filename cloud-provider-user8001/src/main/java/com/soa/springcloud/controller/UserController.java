@@ -9,7 +9,6 @@ import com.soa.springcloud.service.TweetHystrixService;
 import com.soa.springcloud.service.impl.MailService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -95,10 +94,9 @@ private TweetHystrixService tweetHystrixService;
      *
      * @param mail
      * @return
-     * @throws MessagingException
      */
     @PostMapping("/user/email")
-    public CommonResult<String> getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
+    public CommonResult<String> getMailCaptcha(@RequestParam("mail") String mail) {
         return CommonResult.success(mailService.sendMail(mail));
     }
 
