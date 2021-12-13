@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -17,7 +18,7 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
-    @GetMapping("/tweet/comment/{tweet_id}")
+    @GetMapping("/tweet/comment/{tweetId}")
     public CommonResult getComments(@PathVariable Integer tweetId){
         if(tweetId == null)
             return CommonResult.failure("错误，tweetId为空");
@@ -28,12 +29,19 @@ public class CommentController {
     }
 
     @PostMapping("/tweet/comment")
-    public CommonResult postComment(@RequestBody Comment comment){
-        if(comment.getUnifiedId()==null)
+    public CommonResult postComment(@RequestParam Integer unifiedId,
+                                    @RequestParam Integer tweetId,
+                                    @RequestParam Date recordTime,
+                                    @RequestParam String contents){
+        if(unifiedId==null)
             return CommonResult.failure("错误，unifiedId为空");
-        if(comment.getTweetId() == null)
+        if(tweetId == null)
             return CommonResult.failure("错误，tweetId为空");
-
+        Comment comment = new Comment();
+        comment.setRecordTime(recordTime);
+        comment.setTweetId(tweetId);
+        comment.setUnifiedId(unifiedId);
+        comment.setContents(contents);
         if(commentService.postComment(comment)>0)
             return CommonResult.success("评论成功",null);
 

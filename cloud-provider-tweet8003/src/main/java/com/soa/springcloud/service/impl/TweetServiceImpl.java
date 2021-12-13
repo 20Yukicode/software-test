@@ -5,15 +5,21 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Picture;
+import com.soa.springcloud.entities.Subscription;
 import com.soa.springcloud.entities.Tweet;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.*;
 import com.soa.springcloud.service.LikesService;
 import com.soa.springcloud.service.SubscriptionService;
 import com.soa.springcloud.service.TweetService;
+import com.soa.springcloud.util.PictureUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,7 +40,24 @@ public class TweetServiceImpl implements TweetService{
     @Resource
     private PictureMapper pictureMapper;
 
+    @Resource
+    private SubscriptionMapper subscriptionMapper;
+
+    @Resource
     private SubscriptionService subscriptionService;
+
+    private static String localPath;
+    private static String webPath;
+
+    @Value("${file.localPath}")
+    public void setLocalPath(String localPath) {
+        TweetServiceImpl.localPath = localPath;
+    }
+    @Value("${file.webPath}")
+    public void setWebPath(String webPath) {
+        TweetServiceImpl.webPath = webPath;
+    }
+
     @Override
     public int addLikesNum(Integer tweetId){
 
@@ -85,18 +108,31 @@ public class TweetServiceImpl implements TweetService{
     @Override
     public JSONArray getTweetList(Integer visitorId, Integer momentId){
 
-        List subscriptionList = subscriptionService.getSubscriptionList(visitorId);
         JSONArray tweetArray = new JSONArray();
-        QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
-        for(int i=0;i<subscriptionList.size();i++){
-            JSONObject object = JSONUtil.parseObj(subscriptionList.get(i));
-            queryWrapper.eq("unified_id",object.getInt("subscribe_id"));
-            List list = tweetMapper.selectList(queryWrapper);
-            for(int j=0;j<list.size();j++){
-                JSONObject tweetObject = JSONUtil.parseObj(list.get(j));
-                tweetObject.put("like_state", likesService.getLikes(visitorId,object.getInt("tweet_id")));
-                tweetObject.put("simpleUserInfo",getSimpleUserInfo(object.getInt("unified_id")));
-                tweetArray.add(tweetObject);
+
+        QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("unified_id",visitorId);
+        List subscriptionList = subscriptionMapper.selectList(queryWrapper);
+
+
+//        if(subscriptionList.size()>=1)
+//            tweetArray.add(JSONUtil.parseObj(subscriptionList.get(0)));
+//        return tweetArray;
+        if(subscriptionList!=null) {
+            for (int i = 0; i < subscriptionList.size(); i++) {
+                QueryWrapper<Tweet> tweetQueryWrapper = new QueryWrapper<>();
+                JSONObject object = JSONUtil.parseObj(subscriptionList.get(i));
+                queryWrapper.eq("unified_id", object.getInt("subscribe_id"));
+                List list = tweetMapper.selectList(tweetQueryWrapper);
+                if(list !=null) {
+                    for (int j = 0; j < list.size(); j++) {
+                        JSONObject tweetObject = JSONUtil.parseObj(list.get(j));
+
+                        tweetObject.put("like_state", likesService.getLikes(visitorId, object.getInt("tweetId")));
+                        tweetObject.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
+                        tweetArray.add(tweetObject);
+                    }
+                }
             }
         }
         return tweetArray;
@@ -127,5 +163,43 @@ public class TweetServiceImpl implements TweetService{
 
     }
 
+    public int createTweet(Integer unifiedId, String content, Date recordTime, MultipartFile[] files)throws IOException{
+        Tweet tweet = new Tweet();
+        tweet.setPraiseNum(0);
+        tweet.setContents(content);
+        tweet.setCommentNum(0);
+        tweet.setState(1);
+        tweet.setUnifiedId(unifiedId);
+        tweet.setRecordTime(recordTime);
+        Integer num = tweetMapper.maxId();
+        if(num ==null)
+            num = 1;
+        else
+            num ++;
+        tweet.setTweetId(num);
+        tweetMapper.insert(tweet);
+        uploadPic(num,files);
+
+        return num;
+    }
+
+    public int uploadPic(Integer tweetId,MultipartFile[] files)throws IOException {
+        int num=0;
+        for(MultipartFile file :files) {
+            num++;
+            String url = webPath + "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
+            //开始存文件
+            //本地存储路径
+            Picture picture = new Picture();
+            picture.setPictureUrl(url);
+            picture.setTweetId(tweetId);
+            picture.setNumId(num);
+            pictureMapper.insert(picture);
+
+            String path = localPath + "\\tweetpic\\" + tweetId + "\\" +num;
+            PictureUtils.saveUrl(file, path);
+        }
+        return num;
+    }
 
 }

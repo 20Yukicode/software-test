@@ -19,4 +19,10 @@
         state,praise_num,record_time,
         unified_id
     </sql>
+
+    <select id="maxId" resultType="Integer">
+        SELECT MAX(tweet_id)
+        FROM tweet
+
+    </select>
 </mapper>

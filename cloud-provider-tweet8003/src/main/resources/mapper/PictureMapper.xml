@@ -13,4 +13,9 @@
     <sql id="Base_Column_List">
         tweet_id,num_id,picture_url
     </sql>
+    <select id="maxNum" resultType="Integer">
+        SELECT MAX(num_id)
+        FROM picture
+        WHERE tweet_id=#{tweetId};
+    </select>
 </mapper>

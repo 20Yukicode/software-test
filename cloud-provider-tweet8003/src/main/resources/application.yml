@@ -29,3 +29,6 @@ eureka:
   instance:
     instance-id: tweet8003
 
+file:
+  localPath: "C:\\upload"
+  webPath: "http://47.102.217.130:666"

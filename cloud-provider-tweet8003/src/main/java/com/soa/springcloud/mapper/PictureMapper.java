@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface PictureMapper extends BaseMapper<Picture> {
-
+    Integer maxNum(Integer tweetId);
 }
 
 
