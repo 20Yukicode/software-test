@@ -4,8 +4,10 @@ package com.soa.springcloud.controller;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.SubscriptionService;
 import com.soa.springcloud.service.TweetService;
+import com.soa.springcloud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,14 @@ import java.util.List;
 public class TweetController {
     @Resource
     private TweetService tweetService;
+
+    @Resource
+    private UserService userService;
+
+    @GetMapping("test")
+    public CommonResult<User> test(){
+        return userService.getUserById(1);
+    }
 
     @DeleteMapping("/tweet/{tweetId}")
     public CommonResult deleteTweet(@PathVariable Integer tweetId){
