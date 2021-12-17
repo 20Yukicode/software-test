@@ -8,14 +8,14 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/ww67652/springcloud-config.git #GitHub上面的git仓库名字
+          uri: git@github.com:ww67652/springcloud-config.git #GitHub上面的git仓库名字
           #uri: git@github.com:ww67652/springcloud-config.git
           ####搜索目录
           search-paths:
             - springcloud-config
-#          force-pull: true
-#          username:
-#          password:
+          force-pull: true
+          username: ww67652
+          password: 67652wuwei
       ####读取分支
       label: master
 
