@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: git@github.com:ww67652/springcloud-config.git #GitHub上面的git仓库名字
+          uri: https://github.com/ww67652/springcloud-config.git #GitHub上面的git仓库名字
           #uri: git@github.com:ww67652/springcloud-config.git
           ####搜索目录
           search-paths:
@@ -17,7 +17,7 @@ spring:
           username: ww67652
           password: 67652wuwei
       ####读取分支
-      label: master
+      label: main
 
 #服务注册到eureka地址
 eureka:
