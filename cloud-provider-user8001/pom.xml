@@ -177,7 +177,6 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-
     </dependencies>
     <build>
         <plugins>

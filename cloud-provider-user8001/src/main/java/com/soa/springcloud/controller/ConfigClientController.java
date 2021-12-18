@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ConfigClientController
 {
-    @Value("${config.info}")
-    private String configInfo;
+    @Value("${file.localPath}")
+    private String localPath;
+
+    @Value("${file.webPath}")
+    private String webPath;
 
     @GetMapping("/configInfo")
     public String getConfigInfo()
     {
-        log.info("配置："+configInfo);
-        return configInfo;
+        log.info("配置："+webPath);
+        return webPath;
     }
 }
 

@@ -8,16 +8,22 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/ww67652/springcloud-config.git #GitHub上面的git仓库名字
+          uri: https://gitee.com/ww67652/soa-config.git #GitHub上面的git仓库名字
           #uri: git@github.com:ww67652/springcloud-config.git
           ####搜索目录
           search-paths:
-            - springcloud-config
-          force-pull: true
-          username: ww67652
-          password: 67652wuwei
-      ####读取分支
-      label: main
+            - soa-config
+#          force-pull: true
+#          username: ww67652
+#          password: 67652wuwei
+#      ####读取分支
+#      label: main
+  #rabbitmq相关配置<--------------------------
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 #服务注册到eureka地址
 eureka:

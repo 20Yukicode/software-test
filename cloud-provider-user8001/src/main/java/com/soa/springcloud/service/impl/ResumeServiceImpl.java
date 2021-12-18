@@ -8,20 +8,26 @@ import com.soa.springcloud.util.PictureUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+@RefreshScope
 @Service
 @Slf4j
 public class ResumeServiceImpl implements ResumeService {
 
     private ResumeMapper resumeMapper;
+/*    private static String localPath;
+    private static String webPath;*/
+    @Value("${file.localPath}")
     private static String localPath;
-    private static String webPath;
 
+    @Value("${file.webPath}")
+    private static String webPath;
 
     @Value("${file.localPath}")
     public void setLocalPath(String localPath) {
