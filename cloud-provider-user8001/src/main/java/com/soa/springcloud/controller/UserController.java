@@ -16,7 +16,9 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -102,24 +104,30 @@ private TweetHystrixService tweetHystrixService;
 
     /**
      * 登录
-     * @param userName
-     * @param password
      * @return
      */
     @GetMapping("/user")
-    public CommonResult<JSON> login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+    public CommonResult<JSON> login(@RequestBody User user,
+                                    HttpServletResponse response) {
         JSON json = new JSONObject();
         json.putByPath("unifiedId",0);
         json.putByPath("userType",0);
         //验证用户名是否存在
-        User user = userService.getUserByName(userName);
-        if(user==null){
+        User myUser = userService.getUserByName(user.getUserName());
+        if(myUser==null){
             return CommonResult.failure("用户名不存在");
         }
-        json.putByPath("userType",user.getUserType());
+        json.putByPath("userType",myUser.getUserType());
         //验证密码是否正确
-        if(password.equals(user.getPassword())) {
-            json.putByPath("unifiedId",user.getUnifiedId());
+        if(user.getPassword().equals(myUser.getPassword())) {
+            json.putByPath("unifiedId",myUser.getUnifiedId());
+
+            //生成cookie
+            Cookie cookie = new Cookie("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE1MTI1NDQyOTksImV4cCI6MTUxMjYzMDY5OX0.eGrsrvwHm-tPsO9r_pxHIQ5i5L1kX9RX444uwnRGaIM");
+            cookie.setMaxAge(60 * 60 * 24);
+            cookie.setPath ("/");
+            response.addCookie(cookie);
+
             return CommonResult.success(json);
         }
         //用户存在但密码错误
