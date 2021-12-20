@@ -17,14 +17,13 @@ public class SearchController {
     }
 
     @GetMapping("/search/truename")
-    public CommonResult searchTrueName(@RequestParam("unifiedId") Integer unifiedId,
-                                       @RequestParam("str") String str) {
-        //预处理传入参数
+    public CommonResult searchTrueName(@RequestParam("str") String str) {
+        /*//预处理传入参数
         if(unifiedId ==null){
             return CommonResult.failure("失败，unifiedId空");
-        }
-        //开始搜索数据(!!!!!!!未实现，返回必空)
-        List<User> users = searchServiceService.searchByTrueName(unifiedId, str);
+        }*/
+        //开始搜索数据
+        List<User> users = searchServiceService.searchByTrueName(str);
         if(users !=null) {
             return CommonResult.success("搜索成功",users);
         }

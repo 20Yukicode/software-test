@@ -20,7 +20,7 @@ public class SubscriptionController {
         this.subscriptionService = subscriptionService;
     }
 
-    @PutMapping("/user/subscription")
+    @PutMapping("/tweet/subscription")
     public CommonResult putSubscription(@RequestParam Integer unifiedId,
                                         @RequestParam Integer subscribeId){
 
@@ -35,7 +35,7 @@ public class SubscriptionController {
         return CommonResult.failure("关注失败");
     }
 
-    @DeleteMapping("/user/subscription")
+    @DeleteMapping("/tweet/subscription")
     public CommonResult deleteSubscription(@RequestParam Integer unifiedId,
                                            @RequestParam Integer subscribeId){
 
@@ -51,7 +51,7 @@ public class SubscriptionController {
         return CommonResult.failure("取消关注失败");
     }
 
-    @GetMapping("/user/subscription")
+    @GetMapping("/tweet/subscription")
     public CommonResult getSubscription(@RequestParam Integer unifiedId,
                                         @RequestParam Integer subscribeId){
         if(unifiedId == null)
@@ -67,7 +67,7 @@ public class SubscriptionController {
 
     }
 
-    @GetMapping("/user/subscriptionList/{unifiedId}")
+    @GetMapping("/tweet/subscriptionList/{unifiedId}")
     public CommonResult getSubscriptionList(@PathVariable Integer unifiedId){
 
         if(unifiedId == null)

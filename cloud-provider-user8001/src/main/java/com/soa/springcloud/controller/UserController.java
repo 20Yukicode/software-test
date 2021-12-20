@@ -9,6 +9,7 @@ import com.soa.springcloud.service.TweetHystrixService;
 import com.soa.springcloud.service.impl.MailService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
+import com.soa.springcloud.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -108,7 +109,7 @@ private TweetHystrixService tweetHystrixService;
      */
     @GetMapping("/user")
     public CommonResult<JSON> login(@RequestBody User user,
-                                    HttpServletResponse response) {
+                                    HttpServletResponse response) throws Exception {
         JSON json = new JSONObject();
         json.putByPath("unifiedId",0);
         json.putByPath("userType",0);
@@ -121,13 +122,17 @@ private TweetHystrixService tweetHystrixService;
         //验证密码是否正确
         if(user.getPassword().equals(myUser.getPassword())) {
             json.putByPath("unifiedId",myUser.getUnifiedId());
-
+            Integer unifiedId = myUser.getUnifiedId();
+            //生成token
+            com.alibaba.fastjson.JSONObject subject = new com.alibaba.fastjson.JSONObject(true);
+            subject.put("unifiedId", unifiedId);
+            subject.put("userName",user.getUserName() );
+            String token = JWTUtils.createJWT("1", subject.toJSONString(), 60 * 60 * 24);//10秒过期
             //生成cookie
-            Cookie cookie = new Cookie("token","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwMCwicmlkIjowLCJpYXQiOjE1MTI1NDQyOTksImV4cCI6MTUxMjYzMDY5OX0.eGrsrvwHm-tPsO9r_pxHIQ5i5L1kX9RX444uwnRGaIM");
+            Cookie cookie = new Cookie("token",token);
             cookie.setMaxAge(60 * 60 * 24);
             cookie.setPath ("/");
             response.addCookie(cookie);
-
             return CommonResult.success(json);
         }
         //用户存在但密码错误
