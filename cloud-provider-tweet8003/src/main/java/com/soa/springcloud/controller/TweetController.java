@@ -9,10 +9,13 @@ import com.soa.springcloud.service.SubscriptionService;
 import com.soa.springcloud.service.TweetService;
 import com.soa.springcloud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.text.ParseException;
@@ -89,7 +92,7 @@ public class TweetController {
     public CommonResult createTweet(@RequestParam Integer unifiedId,
                                     @RequestParam Date recordTime,
                                     @RequestParam String content,
-                                    @RequestPart MultipartFile[] files)throws IOException {
+                                    @RequestPart(value = "file",required = false) MultipartFile[] files)throws IOException {
         if(unifiedId == null)
             return CommonResult.failure("错误，unifiedId为空");
         if(recordTime == null)
@@ -99,5 +102,10 @@ public class TweetController {
         return CommonResult.success("创建成功",tweetId);
     }
 
-
+    @InitBinder
+    protected void init(HttpServletRequest request, ServletRequestDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
 }

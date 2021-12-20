@@ -185,6 +185,7 @@ public class TweetServiceImpl implements TweetService{
 
     public int uploadPic(Integer tweetId,MultipartFile[] files)throws IOException {
         int num=0;
+        if(files==null)return num;
         for(MultipartFile file :files) {
             num++;
             String url = webPath + "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();

@@ -9,7 +9,12 @@ spring:
     url: jdbc:mysql://47.102.217.130:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
     password: Jwl12345
-
+  #文件传输大小配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2000MB  #单个文件最大大小
+      max-request-size: 6000MB #上传数据总大小
 devtools:
   restart:
     enabled: true #是否支持热部署
