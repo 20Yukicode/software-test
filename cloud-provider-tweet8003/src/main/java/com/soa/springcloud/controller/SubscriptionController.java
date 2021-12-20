@@ -31,7 +31,8 @@ public class SubscriptionController {
 
         if(subscriptionService.putSubscription(unifiedId,subscribeId)>0)
             return CommonResult.success("关注成功",null);
-
+        if(subscriptionService.putSubscription(unifiedId,subscribeId)==-1)
+            return CommonResult.success("已经关注",null);
         return CommonResult.failure("关注失败");
     }
 
