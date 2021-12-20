@@ -1,11 +1,15 @@
 package com.soa.springcloud.service.impl;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Comment;
 import com.soa.springcloud.entities.Tweet;
 import com.soa.springcloud.mapper.CommentMapper;
 import com.soa.springcloud.mapper.TweetMapper;
 import com.soa.springcloud.service.CommentService;
+import com.soa.springcloud.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +25,23 @@ public class CommentServiceImpl implements CommentService {
     @Resource
     private TweetMapper tweetMapper;
 
+    @Resource
+    private TweetService tweetService;
+
     @Override
-    public List getComments(Integer tweetId){
+    public JSONArray getComments(Integer tweetId){
+        JSONArray jsonArray = new JSONArray();
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("tweet_id",tweetId);
-        return commentMapper.selectList(queryWrapper);
+        List list =  commentMapper.selectList(queryWrapper);
+        if(list!=null){
+            for(int i=0;i<list.size();i++){
+                JSONObject object = JSONUtil.parseObj(list.get(i));
+                object.put("simpleUserInfo",tweetService.getSimpleUserInfo(object.getInt("unifiedId")));
+                jsonArray.add(object);
+            }
+        }
+        return jsonArray;
     }
 
     @Override
