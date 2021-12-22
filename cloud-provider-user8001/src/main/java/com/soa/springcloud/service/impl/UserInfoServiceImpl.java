@@ -29,9 +29,14 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoMapper.selectById(unifiedId);
     }
     @Override
-    public int updateUserInfo(UserInfo userInfo){
-        QueryWrapper<UserInfo> wrapper=new QueryWrapper<>();
-        wrapper.eq("unified_id",userInfo.getUnifiedId());
-        return userInfoMapper.update(userInfo,wrapper);
+    public int insertOrUpdateUserInfo(UserInfo userInfo){
+        if(userInfo==null)return 0;
+        Integer unifiedId = userInfo.getUnifiedId();
+        if(unifiedId==null)return 0;
+        //若不存在该用户信息，则插入
+        if(userInfoMapper.selectById(unifiedId)==null){
+            return userInfoMapper.insert(userInfo);
+        }
+        return userInfoMapper.updateById(userInfo);
     }
 }

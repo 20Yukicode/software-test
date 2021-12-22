@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Param;
 public interface EnterpriseInfoService {
     int create(Integer unifiedId);
     EnterpriseInfo getEnterpriseInfo(int unifiedId);
-    int updateEnterpriseInfo(EnterpriseInfo enterpriseInfo);
+    int insertOrUpdateEnterpriseInfo(EnterpriseInfo enterpriseInfo);
 }

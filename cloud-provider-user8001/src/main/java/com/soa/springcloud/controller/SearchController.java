@@ -16,7 +16,7 @@ public class SearchController {
         this.searchServiceService = searchServiceService;
     }
 
-    @GetMapping("/search/truename")
+    @GetMapping("/user/search")
     public CommonResult searchTrueName(@RequestParam("str") String str) {
         /*//预处理传入参数
         if(unifiedId ==null){

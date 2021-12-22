@@ -20,7 +20,7 @@ public class  HeadPictureController {
         this.headPictureService = headPictureService;
     }
 
-    @PostMapping("/userinfo/pic")
+    @PostMapping("/user/pic")
     public CommonResult addHeadPicture(@RequestParam("unifiedId") Integer unifiedId,
                                        @RequestPart("file") MultipartFile file) throws IOException {
         //预处理传入参数

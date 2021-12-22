@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Param;
 public interface UserInfoService {
     int create(Integer unifiedId);
     UserInfo getUserInfo(int unifiedId);
-    int updateUserInfo(UserInfo userInfo);
+    int insertOrUpdateUserInfo(UserInfo userInfo);
 }

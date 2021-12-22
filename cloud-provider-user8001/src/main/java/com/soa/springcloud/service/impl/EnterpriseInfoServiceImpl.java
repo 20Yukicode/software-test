@@ -27,9 +27,14 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     }
 
     @Override
-    public int updateEnterpriseInfo(EnterpriseInfo enterpriseInfo){
-        QueryWrapper<EnterpriseInfo> wrapper=new QueryWrapper<>();
-        wrapper.eq("unified_id",enterpriseInfo.getUnifiedId());
-        return enterpriseInfoMapper.update(enterpriseInfo,wrapper);
+    public int insertOrUpdateEnterpriseInfo(EnterpriseInfo enterpriseInfo){
+        if(enterpriseInfo==null)return 0;
+        Integer unifiedId = enterpriseInfo.getUnifiedId();
+        if(unifiedId==null)return 0;
+        //若不存在该用户信息，则插入
+        if(enterpriseInfoMapper.selectById(unifiedId)==null){
+            return enterpriseInfoMapper.insert(enterpriseInfo);
+        }
+        return enterpriseInfoMapper.updateById(enterpriseInfo);
     }
 }
