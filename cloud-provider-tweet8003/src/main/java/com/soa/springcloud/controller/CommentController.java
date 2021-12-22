@@ -37,7 +37,9 @@ public class CommentController {
         if(tweetId == null)
             return CommonResult.failure("错误，tweetId为空");
         Comment comment = new Comment();
-        comment.setRecordTime(new Date());
+        Date recordTime = new Date();
+        recordTime.setHours(recordTime.getHours()+8);
+        comment.setRecordTime(recordTime);
         comment.setTweetId(tweetId);
         comment.setUnifiedId(unifiedId);
         comment.setContents(contents);

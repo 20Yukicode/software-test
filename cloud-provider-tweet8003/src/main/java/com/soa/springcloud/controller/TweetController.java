@@ -95,6 +95,7 @@ public class TweetController {
         if(unifiedId == null)
             return CommonResult.failure("错误，unifiedId为空");
         Date recordTime = new Date();
+        recordTime.setHours(recordTime.getHours()+8);
         int tweetId = tweetService.createTweet(unifiedId, content, recordTime, files);
         return CommonResult.success("创建成功",tweetId);
     }
