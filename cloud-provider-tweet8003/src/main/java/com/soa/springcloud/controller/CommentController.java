@@ -31,14 +31,13 @@ public class CommentController {
     @PostMapping("/tweet/comment")
     public CommonResult postComment(@RequestParam Integer unifiedId,
                                     @RequestParam Integer tweetId,
-                                    @RequestParam Date recordTime,
                                     @RequestParam String contents){
         if(unifiedId==null)
             return CommonResult.failure("错误，unifiedId为空");
         if(tweetId == null)
             return CommonResult.failure("错误，tweetId为空");
         Comment comment = new Comment();
-        comment.setRecordTime(recordTime);
+        comment.setRecordTime(new Date());
         comment.setTweetId(tweetId);
         comment.setUnifiedId(unifiedId);
         comment.setContents(contents);

@@ -90,14 +90,11 @@ public class TweetController {
 
     @PutMapping("/tweet")
     public CommonResult createTweet(@RequestParam Integer unifiedId,
-                                    @RequestParam Date recordTime,
                                     @RequestParam String content,
                                     @RequestPart(value = "file",required = false) MultipartFile[] files)throws IOException {
         if(unifiedId == null)
             return CommonResult.failure("错误，unifiedId为空");
-        if(recordTime == null)
-            return CommonResult.failure("错误，recordTime为空");
-
+        Date recordTime = new Date();
         int tweetId = tweetService.createTweet(unifiedId, content, recordTime, files);
         return CommonResult.success("创建成功",tweetId);
     }
