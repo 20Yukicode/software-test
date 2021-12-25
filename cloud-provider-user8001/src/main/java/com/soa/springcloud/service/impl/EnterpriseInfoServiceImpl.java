@@ -22,6 +22,8 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     public int create(Integer unifiedId){
         EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
         enterpriseInfo.setUnifiedId(unifiedId);
+        enterpriseInfo.setContactWay("");
+        enterpriseInfo.setDescription("");
         return enterpriseInfoMapper.insert(enterpriseInfo);
     }
     @Override
