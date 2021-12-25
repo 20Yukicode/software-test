@@ -24,8 +24,14 @@ public class UserInfoServiceImpl implements UserInfoService {
     public int create(Integer unifiedId){
         UserInfo userInfo = new UserInfo();
         userInfo.setUnifiedId(unifiedId);
-        //log.info("userinfo:"+userInfo);
+        userInfo.setAge(0);
+        userInfo.setGender("");
+        userInfo.setIdCard("");
+        userInfo.setLivePlace("");
+        userInfo.setPhoneNum("");
+        userInfo.setPrePosition("");
         int insert = userInfoMapper.insert(userInfo);
+
         return insert;
     }
     @Override
