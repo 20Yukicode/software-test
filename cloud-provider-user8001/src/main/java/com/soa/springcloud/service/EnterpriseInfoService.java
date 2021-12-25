@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Param;
 public interface EnterpriseInfoService {
     int create(Integer unifiedId);
     EnterpriseInfo getEnterpriseInfo(int unifiedId);
-    int insertOrUpdateEnterpriseInfo(EnterpriseInfo enterpriseInfo);
+    int insertOrUpdateEnterpriseInfo(EnterpriseInfo enterpriseInfo) throws IllegalAccessException;
 }

@@ -36,9 +36,9 @@ public class User implements Serializable {
     private String email;
 
     /**
-     * 用户类型（企业0用户1）
+     * 用户类型
      */
-    private Integer userType;
+    private String userType;
 
     /**
      * 真实用户or企业姓名

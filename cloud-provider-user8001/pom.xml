@@ -167,7 +167,9 @@
             <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
         </dependency>
 
-        <!--添加消息总线RabbitMQ支持-->
+<!--
+       添加消息总线RabbitMQ支持
+-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>

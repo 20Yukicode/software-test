@@ -1,3 +1,4 @@
+/*
 
 package com.soa.springcloud.controller;
 
@@ -28,4 +29,5 @@ public class ConfigClientController
 }
 
 
+*/
 

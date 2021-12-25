@@ -15,12 +15,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName: PaymentController
@@ -69,7 +72,7 @@ private TweetHystrixService tweetHystrixService;
      * @param user
      * @return
      */
-    @PostMapping(value = "/user")
+    @PostMapping(value = "/user/register")
     public CommonResult<Integer> create(@RequestBody User user)
     {
         //验证用户名是否重复
@@ -77,13 +80,11 @@ private TweetHystrixService tweetHystrixService;
             return CommonResult.failure("用户名重复");
         }
         int result = userService.create(user);
-        //log.info("*****id：" + user.getUnified_id());
         //返回生成用户的unifiedId
         Integer unifiedId = user.getUnifiedId();
         //创建User表时顺便创建对应的Info表
-        //log.info("user："+user);
-        //log.info("id："+user.getUnifiedId());
-        if(user.getUserType()==1){
+
+        if(Objects.equals(user.getUserType(), "user")){
             log.info("向userInfo插入数据");
             userInfoService.create(unifiedId);
         }
@@ -107,7 +108,7 @@ private TweetHystrixService tweetHystrixService;
      * 登录
      * @return
      */
-    @GetMapping("/user")
+    @PostMapping("/user/login")
     public CommonResult<JSON> login(@RequestBody User user,
                                     HttpServletResponse response) throws Exception {
         JSON json = new JSONObject();
@@ -157,6 +158,21 @@ private TweetHystrixService tweetHystrixService;
         int update = userService.update(user);
         if(update==0)return CommonResult.failure("更新失败");
         return CommonResult.success(update);
+    }
+
+    @PostMapping("/user/back")
+    public CommonResult<Integer> updateUser(@RequestParam("unifiedId") Integer unifiedId,
+                                            @RequestPart("file") MultipartFile file) throws IOException {
+        //预处理传入参数
+        if(unifiedId ==null){
+            return CommonResult.failure("失败，unifiedId空");
+        }
+        //开始添加背景图片
+        int i = userService.addBack(unifiedId,file);
+        if(i >0) {
+            return CommonResult.success("添加背景图片成功",null);
+        }
+        return CommonResult.failure("添加背景图片失败");
     }
 
 }

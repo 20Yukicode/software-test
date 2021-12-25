@@ -21,13 +21,13 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
 
     private ResumeMapper resumeMapper;
-/*    private static String localPath;
-    private static String webPath;*/
-    @Value("${file.localPath}")
+    private static String localPath;
+    private static String webPath;
+/*    @Value("${file.localPath}")
     private static String localPath;
 
     @Value("${file.webPath}")
-    private static String webPath;
+    private static String webPath;*/
 
     @Value("${file.localPath}")
     public void setLocalPath(String localPath) {
@@ -77,8 +77,6 @@ public class ResumeServiceImpl implements ResumeService {
         queryWrapper.eq("unified_id",unifiedId).eq("ResumeId",resumeId);
         return resumeMapper.delete(queryWrapper);
         //删除本机文件！！！！！
-
-
     }
 
 

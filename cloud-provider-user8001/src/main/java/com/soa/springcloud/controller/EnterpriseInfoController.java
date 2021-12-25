@@ -45,9 +45,8 @@ public class EnterpriseInfoController {
      * @param
      * @return
      */
-    @PutMapping(value = "/user/enterpriseinfo")
-    public CommonResult updateEnterpriseInfo(@RequestBody JSONObject jsonObject)
-    {
+    @PostMapping(value = "/user/enterpriseinfo")
+    public CommonResult updateEnterpriseInfo(@RequestBody JSONObject jsonObject) throws IllegalAccessException {
         Integer unifiedId = jsonObject.getInteger("unifiedId");
         String briefInfo = jsonObject.getString("briefInfo");
         User user = new User();

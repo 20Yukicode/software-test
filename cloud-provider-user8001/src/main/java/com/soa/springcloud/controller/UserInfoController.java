@@ -23,6 +23,7 @@ public class UserInfoController {
     private SubscriptionServiceImpl subscriptionService;
     @Resource
     private UserServiceImpl userService;
+
     @GetMapping("/user/userinfo")
     public CommonResult<JSON> getUserInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
@@ -40,20 +41,24 @@ public class UserInfoController {
      * @return
      */
     @PostMapping(value = "/user/userinfo")
-    public CommonResult updateUserInfo(@RequestBody JSONObject jsonObject)
-    {
+    public CommonResult updateUserInfo(@RequestBody JSONObject jsonObject) throws IllegalAccessException {
         Integer unifiedId = jsonObject.getInteger("unifiedId");
         String briefInfo = jsonObject.getString("briefInfo");
         User user = new User();
-        user.setUnifiedId(unifiedId);
-        user.setBriefInfo(briefInfo);
+        if(unifiedId!=null)user.setUnifiedId(unifiedId);
+        if(briefInfo!=null)user.setBriefInfo(briefInfo);
         UserInfo userInfo = JSONObject.toJavaObject(jsonObject,UserInfo.class);
+        log.info("用户："+user);
         log.info("用户信息："+userInfo);
         //该用户不存在
         if(userService.getUserById(unifiedId)==null){
             return CommonResult.failure("用户不存在");
         }
-        int result = userService.update(user) & userInfoService.insertOrUpdateUserInfo(userInfo);
+        int userUpdate = 1;
+        if(briefInfo!=null){
+            userUpdate = userService.update(user);
+        }
+        int result =  userUpdate & userInfoService.insertOrUpdateUserInfo(userInfo);
 
         if(result>=1){
             return CommonResult.success();

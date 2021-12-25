@@ -6,7 +6,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource  #当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动包
-    url: jdbc:mysql://47.102.217.130:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    url: jdbc:mysql://175.24.202.178:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
     password: Jwl12345
 
