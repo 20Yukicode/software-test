@@ -33,7 +33,7 @@ public class EnterprisePositionServiceImpl{
     public Boolean isEnterprise(int unifiedId){
         User user=userMapper.selectById(unifiedId);//查找用户
         if(user!=null){
-            if(user.getUserType()==0)return true;
+            if(user.getUserType()=="company")return true;
             return false;
         }
         return false;
@@ -47,7 +47,7 @@ public class EnterprisePositionServiceImpl{
     public Boolean isCommonUser(int unifiedId){
         User user=userMapper.selectById(unifiedId);//查找用户
         if(user!=null){
-            if(user.getUserType()==1)return true;
+            if(user.getUserType()=="user")return true;
             return false;
         }
         return false;
