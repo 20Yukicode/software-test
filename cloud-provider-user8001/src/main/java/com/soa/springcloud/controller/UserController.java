@@ -10,6 +10,7 @@ import com.soa.springcloud.service.impl.MailService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
 import com.soa.springcloud.util.JWTUtils;
+import com.soa.springcloud.util.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -121,7 +122,7 @@ private TweetHystrixService tweetHystrixService;
         }
         json.putByPath("userType",myUser.getUserType());
         //验证密码是否正确
-        if(user.getPassword().equals(myUser.getPassword())) {
+        if(MD5Utils.MD5(user.getPassword()).equals(myUser.getPassword())) {
             json.putByPath("unifiedId",myUser.getUnifiedId());
             Integer unifiedId = myUser.getUnifiedId();
             //生成token
