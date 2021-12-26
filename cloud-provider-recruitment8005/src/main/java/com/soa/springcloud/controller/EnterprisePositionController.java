@@ -22,10 +22,10 @@ public class EnterprisePositionController {
     @Resource
     private UserRecruitmentServiceImpl userRecruitmentService;
 
-    @PutMapping(value = "/recruit/enterprise/position")
-    public CommonResult create(@RequestBody Position position,
-                                        HttpServletRequest request){
-        if(!enterprisePositionService.isEnterprise(position.getUnifiedId()))return CommonResult.failure("用户不是企业用户",null);
+    @PostMapping(value = "/recruit/enterprise/position")
+    public CommonResult create(@RequestBody Position position){
+        if(!enterprisePositionService.isEnterprise(position.getUnifiedId()))
+            return CommonResult.failure("用户不是企业用户",null);
         if(enterprisePositionService.create(position)==1){
             //创建成功
             return CommonResult.success("创建成功",position);
@@ -34,16 +34,16 @@ public class EnterprisePositionController {
     }
 
     @DeleteMapping(value = "/recruit/enterprise/position")
-    public CommonResult delete(@RequestBody PositionDeleteDto dto,
-                               HttpServletRequest request){
-        if(enterprisePositionService.deletePosition(dto.getUnifiedId(),dto.getJobId())==1)return CommonResult.success("删除成功");
+    public CommonResult delete(@RequestBody PositionDeleteDto dto){
+        if(enterprisePositionService.deletePosition(dto.getUnifiedId(),dto.getJobId())==1)
+            return CommonResult.success("删除成功");
         else return CommonResult.failure("删除失败");
     }
 
-    @PostMapping(value = "/recruit/enterprise/position")
-    public CommonResult update(@RequestBody Position position,
-                               HttpServletRequest request){
-        if(!enterprisePositionService.isEnterprise(position.getUnifiedId()))return CommonResult.failure("用户不是企业用户",null);
+    @PutMapping(value = "/recruit/enterprise/position")
+    public CommonResult update(@RequestBody Position position){
+        if(!enterprisePositionService.isEnterprise(position.getUnifiedId()))
+            return CommonResult.failure("用户不是企业用户",null);
         if(enterprisePositionService.updatePosition(position)==1){
             //更新成功
             return CommonResult.success("更新成功",position);
@@ -52,9 +52,7 @@ public class EnterprisePositionController {
     }
 
     @GetMapping(value = "/recruit/position/specified")
-    public CommonResult getPosition(@RequestParam int unifiedId,
-                               @RequestParam int jobId,
-                               HttpServletRequest request){
+    public CommonResult getPosition(@RequestParam int unifiedId, @RequestParam int jobId){
         Position position=enterprisePositionService.getPositionInfo(unifiedId,jobId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
@@ -63,8 +61,7 @@ public class EnterprisePositionController {
     }
 
     @GetMapping(value = "/recruit/position/all")
-    public CommonResult getAll(@RequestParam int unifiedId,
-                               HttpServletRequest request){
+    public CommonResult getAll(@RequestParam int unifiedId){
         List<Position> position=enterprisePositionService.getPositionsById(unifiedId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
@@ -73,13 +70,11 @@ public class EnterprisePositionController {
     }
 
     @GetMapping(value = "/recruit/position/recommend")
-    public CommonResult getRecommend(@RequestParam int unifiedId,
-                                     HttpServletRequest request){
+    public CommonResult getRecommend(@RequestParam int unifiedId){
         List<Position> position=enterprisePositionService.getRecommendedPositionsById(unifiedId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
         }
         else return CommonResult.failure("获取失败",null);
     }
-
 }

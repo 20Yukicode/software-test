@@ -18,40 +18,44 @@ import java.util.Comparator;
 import java.util.List;
 @RestController
 @Slf4j
-public class UerRecruitmentController {
+public class UserRecruitmentController {
     @Resource
     private EnterprisePositionServiceImpl enterprisePositionService;
     @Resource
     private UserRecruitmentServiceImpl userRecruitmentService;
 
     @PostMapping(value = "/recruit/application")
-    public CommonResult apply(@RequestBody Application application,
-                               HttpServletRequest request){
-        if(userRecruitmentService.sendApplication(application)==1)return CommonResult.success("发送成功",application);
-        else return CommonResult.failure("发送失败",null);
+    public CommonResult apply(@RequestBody Application application){
+        if(userRecruitmentService.sendApplication(application)==1)
+            return CommonResult.success("发送成功",application);
+        else
+            return CommonResult.failure("发送失败",null);
     }
 
     @DeleteMapping(value = "/recruit/application")
-    public CommonResult delete(@RequestBody Application application,
-                              HttpServletRequest request){
-        if(userRecruitmentService.cancelApplication(application)==1)return CommonResult.success("取消成功",application);
-        else return CommonResult.failure("取消失败",null);
+    public CommonResult delete(@RequestBody Application application){
+        if(userRecruitmentService.cancelApplication(application)==1)
+            return CommonResult.success("取消成功",application);
+        else
+            return CommonResult.failure("取消失败",null);
     }
 
     @GetMapping(value = "/recruit/application")
-    public CommonResult getAppliedPositions(@RequestParam int userId,
-                               HttpServletRequest request){
+    public CommonResult getAppliedPositions(@RequestParam int userId){
         List<Position> positions= userRecruitmentService.getAppliedPositions(userId);
-        if(positions==null)return CommonResult.failure("该用户还没有投递过岗位",null);
-        else return CommonResult.success("查找成功",positions);
+        if(positions==null)
+            return CommonResult.failure("该用户还没有投递过岗位",null);
+        else
+            return CommonResult.success("查找成功",positions);
     }
 
     @GetMapping(value = "/recruit/applicants")
     public CommonResult getAllApplicants(@RequestParam int unifiedId,
-                                         @RequestParam int jobId,
-                                         HttpServletRequest request){
+                                         @RequestParam int jobId){
         List<ApplicantInfoDto> applicants= userRecruitmentService.getAllApplicants(unifiedId,jobId);
-        if(applicants==null)return CommonResult.failure("该岗位还没有申请者",null);
-        else return CommonResult.success("查找成功",applicants);
+        if(applicants==null)
+            return CommonResult.failure("该岗位还没有申请者",null);
+        else
+            return CommonResult.success("查找成功",applicants);
     }
 }

@@ -66,7 +66,6 @@ public class UserRecruitmentServiceImpl{
         return positions;
     }
 
-
     //需要uerinfo的信息，可以作为跨模块调用的尝试，这里先直接写
     public List<ApplicantInfoDto> getAllApplicants(int unifiedId, int jobId) {
         QueryWrapper<Application> wrapper=new QueryWrapper<>();
