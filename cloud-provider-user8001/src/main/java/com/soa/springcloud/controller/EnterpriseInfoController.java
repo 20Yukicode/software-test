@@ -37,6 +37,7 @@ public class EnterpriseInfoController {
         JSON json = JSONUtil.parse(enterpriseInfo);
         json.putByPath("isSubscribed",subscribed);
         User user = userService.getUserById(subscribeId);
+        json.putByPath("trueName",user.getTrueName());
         json.putByPath("pictureUrl",user.getPictureUrl());
         json.putByPath("briefInfo",user.getBriefInfo());
         json.putByPath("email",user.getEmail());
