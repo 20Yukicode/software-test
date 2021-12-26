@@ -52,16 +52,25 @@ public class EnterpriseInfoController {
     @PostMapping(value = "/user/enterpriseinfo")
     public CommonResult updateEnterpriseInfo(@RequestBody JSONObject jsonObject) throws IllegalAccessException {
         Integer unifiedId = jsonObject.getInteger("unifiedId");
+        if(unifiedId==null){
+            return CommonResult.failure("企业用户id不能为空");
+        }
         String briefInfo = jsonObject.getString("briefInfo");
+        String trueName = jsonObject.getString("trueName");
         User user = new User();
         user.setUnifiedId(unifiedId);
         user.setBriefInfo(briefInfo);
+        user.setTrueName(trueName);
         EnterpriseInfo enterpriseInfo = JSONObject.toJavaObject(jsonObject,EnterpriseInfo.class);
         //该用户不存在
         if(userService.getUserById(unifiedId)==null){
             return CommonResult.failure("用户不存在");
         }
-        int result = userService.update(user) & enterpriseInfoService.insertOrUpdateEnterpriseInfo(enterpriseInfo);
+        int result = 1;
+        if(briefInfo!=null||trueName!=null){
+            result=userService.update(user);
+        }
+        result =  result & enterpriseInfoService.insertOrUpdateEnterpriseInfo(enterpriseInfo);
 
         if(result>=1){
             return CommonResult.success();

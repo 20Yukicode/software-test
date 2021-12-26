@@ -35,13 +35,10 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
     public int insertOrUpdateEnterpriseInfo(EnterpriseInfo enterpriseInfo) throws IllegalAccessException {
         if(enterpriseInfo==null)return 0;
         Integer unifiedId = enterpriseInfo.getUnifiedId();
-        if(unifiedId==null)return 0;
         //若不存在该用户信息，则插入
         if(enterpriseInfoMapper.selectById(unifiedId)==null){
             return enterpriseInfoMapper.insert(enterpriseInfo);
         }
-        UpdateWrapper<EnterpriseInfo> updateWrapper =new UpdateWrapper<>();
-        updateWrapper.eq("unified_id",enterpriseInfo.getUnifiedId());
         Class cls = enterpriseInfo.getClass();
         Field[] fields = cls.getDeclaredFields();
         int num = 0;
@@ -51,18 +48,10 @@ public class EnterpriseInfoServiceImpl implements EnterpriseInfoService {
                 continue;
             }
             f.setAccessible(true);
-            String name = f.getName();
-            for(int j=0;j<f.getName().length();j++){
-                if(name.charAt(j)>='A'&&name.charAt(j)>='Z'){
-                    name.replaceFirst(String.valueOf(name.charAt(j)),"_"+String.valueOf(name.charAt(j)).toLowerCase());
-                    break;
-                }
-            }
             if(f.get(enterpriseInfo)!=null)num++;
-            updateWrapper.set(f.get(enterpriseInfo)!=null,
-                    name,f.get(enterpriseInfo));
+
         }
-        if(num==0)updateWrapper.set("description","");
-        return enterpriseInfoMapper.update(enterpriseInfo,updateWrapper);
+        if(num==0)enterpriseInfo.setContactWay("");
+        return enterpriseInfoMapper.updateById(enterpriseInfo);
     }
 }
