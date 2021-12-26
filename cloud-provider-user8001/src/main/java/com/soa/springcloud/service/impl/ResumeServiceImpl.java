@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -74,10 +73,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public int deleteResume(Integer unifiedId,Integer resumeId) {
         QueryWrapper<Resume> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("unified_id",unifiedId).eq("ResumeId",resumeId);
+        queryWrapper.eq("unified_id",unifiedId).eq("resume_id",resumeId);
         return resumeMapper.delete(queryWrapper);
-        //删除本机文件！！！！！
     }
-
-
 }
