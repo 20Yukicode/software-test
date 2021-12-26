@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -72,8 +69,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
     }
 
     @Override
-    public JSONArray getRecommendList(Integer unifiedId){
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+    public List<User> getRecommendList(Integer unifiedId){
+        /*QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         List userList = userMapper.selectList(userQueryWrapper);
         List subscriptionList = getSubscriptionList(unifiedId);
 
@@ -83,7 +80,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
         for(int i=0;i<userList.size();i++){
             User user = (User)userList.get(i);
-            if(getSubscription(unifiedId,user.getUnifiedId() )==0){
+            if(getSubscription(unifiedId,user.getUnifiedId() )==0&&!unifiedId.equals(user.getUnifiedId())){
                 array.add(user);
             }
         }
@@ -102,7 +99,73 @@ public class SubscriptionServiceImpl implements SubscriptionService{
                 }
             }
             return jsonArray;
-        }
+        }*/
+        User user = userMapper.selectById(unifiedId);
+        List<User> users = userMapper.selectByMap(null);
+        users.remove(user);
+        return recommendValue(user,users);
+    }
 
+    public List<User> recommendValue(User user,List<User> users){
+        Map<User,Double> userMap = new HashMap<>();
+        List<User> result = new ArrayList<>();
+        int maxSubNum = 1;
+        for(User one : users){
+            maxSubNum = Math.max(one.getSubscribeNum(),maxSubNum);
+        }
+        for(User one : users){
+            double cos = similarScoreCos(one.getTrueName(), user.getBriefInfo());
+            double subValue = one.getSubscribeNum()/maxSubNum;
+            userMap.put(one,cos+subValue);
+        }
+        List<Map.Entry<User, Double>> list = new ArrayList<Map.Entry<User, Double>>(userMap.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<User, Double>>() {
+            public int compare(Map.Entry<User, Double> o1,
+                               Map.Entry<User, Double> o2) {
+                return (int)Math.floor(o2.getValue()-o1.getValue());
+            }
+        });
+        int count = 0;
+        for(Map.Entry<User, Double> one : list){
+            if(count>=5)break;
+            //log.info(one.getKey().getTrueName()+" 相似度："+one.getValue());
+            result.add(one.getKey());
+        }
+        return result;
+    }
+
+    public static double similarScoreCos(String text1, String text2){
+        if(text1 == null || text2 == null){
+            //只要有一个文本为null，规定相似度分值为0，表示完全不相等
+            return 0.0;
+        }else if("".equals(text1)&&"".equals(text2)) return 1.0;
+        Set<Integer> ASII=new TreeSet<>();
+        Map<Integer, Integer> text1Map=new HashMap<>();
+        Map<Integer, Integer> text2Map=new HashMap<>();
+        for(int i=0;i<text1.length();i++){
+            Integer temp1=new Integer(text1.charAt(i));
+            if(text1Map.get(temp1)==null) text1Map.put(temp1,1);
+            else text1Map.put(temp1,text1Map.get(temp1)+1);
+            ASII.add(temp1);
+        }
+        for(int j=0;j<text2.length();j++){
+            Integer temp2=new Integer(text2.charAt(j));
+            if(text2Map.get(temp2)==null) text2Map.put(temp2,1);
+            else text2Map.put(temp2,text2Map.get(temp2)+1);
+            ASII.add(temp2);
+        }
+        double xy=0.0;
+        double x=0.0;
+        double y=0.0;
+        //计算
+        for (Integer it : ASII) {
+            Integer t1=text1Map.get(it)==null?0:text1Map.get(it);
+            Integer t2=text2Map.get(it)==null?0:text2Map.get(it);
+            xy+=t1*t2;
+            x+=Math.pow(t1, 2);
+            y+=Math.pow(t2, 2);
+        }
+        if(x==0.0||y==0.0) return 0.0;
+        return xy/Math.sqrt(x*y);
     }
 }
