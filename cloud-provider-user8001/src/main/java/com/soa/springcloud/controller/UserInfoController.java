@@ -48,26 +48,22 @@ public class UserInfoController {
     @PostMapping(value = "/user/userinfo")
     public CommonResult updateUserInfo(@RequestBody JSONObject jsonObject) throws IllegalAccessException {
         Integer unifiedId = jsonObject.getInteger("unifiedId");
-        String briefInfo = jsonObject.getString("briefInfo");
-        User user = new User();
-        if(unifiedId!=null)user.setUnifiedId(unifiedId);
-        if(briefInfo!=null)user.setBriefInfo(briefInfo);
+        if(unifiedId==null)
+            return CommonResult.failure("unifiedId空");
+        User user = JSONObject.toJavaObject(jsonObject,User.class);
         UserInfo userInfo = JSONObject.toJavaObject(jsonObject,UserInfo.class);
-        log.info("用户："+user);
-        log.info("用户信息："+userInfo);
+        //log.info("用户："+user);
+        //log.info("用户信息："+userInfo);
         //该用户不存在
         if(userService.getUserById(unifiedId)==null){
             return CommonResult.failure("用户不存在");
         }
-        int userUpdate = 1;
-        if(briefInfo!=null){
-            userUpdate = userService.update(user);
-        }
+        int userUpdate = userService.update(user);
         int result =  userUpdate & userInfoService.insertOrUpdateUserInfo(userInfo);
 
         if(result>=1){
-            return CommonResult.success();
+            return CommonResult.success("更新成功");
         }
-        return CommonResult.failure();
+        return CommonResult.failure("更新失败");
     }
 }
