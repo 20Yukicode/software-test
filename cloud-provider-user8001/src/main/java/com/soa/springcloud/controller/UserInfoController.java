@@ -31,6 +31,11 @@ public class UserInfoController {
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
         JSON json = JSONUtil.parse(userInfo);
         json.putByPath("isSubscribed",subscribed);
+        User user =userService.getUserById(subscribeId);
+        json.putByPath("trueName",user.getTrueName());
+        json.putByPath("pictureUrl",user.getPictureUrl());
+        json.putByPath("briefInfo",user.getBriefInfo());
+        json.putByPath("email",user.getEmail());
         //log.info("***查询结果：" + json);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);
