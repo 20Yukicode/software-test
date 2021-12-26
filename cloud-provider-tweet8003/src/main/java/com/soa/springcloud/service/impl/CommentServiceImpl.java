@@ -10,6 +10,7 @@ import com.soa.springcloud.mapper.CommentMapper;
 import com.soa.springcloud.mapper.TweetMapper;
 import com.soa.springcloud.service.CommentService;
 import com.soa.springcloud.service.TweetService;
+import com.soa.springcloud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,9 @@ public class CommentServiceImpl implements CommentService {
     @Resource
     private TweetService tweetService;
 
+    @Resource
+    private UserService userService;
+
     @Override
     public JSONArray getComments(Integer tweetId){
         JSONArray jsonArray = new JSONArray();
@@ -37,7 +41,8 @@ public class CommentServiceImpl implements CommentService {
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 JSONObject object = JSONUtil.parseObj(list.get(i));
-                object.put("simpleUserInfo",tweetService.getSimpleUserInfo(object.getInt("unifiedId")));
+                //object.put("simpleUserInfo",tweetService.getSimpleUserInfo(object.getInt("unifiedId")));
+                object.put("simpleUserInfo",userService.getUserById(object.getInt("unifiedId")));
                 jsonArray.add(object);
             }
         }

@@ -107,13 +107,11 @@ public class TweetServiceImpl implements TweetService{
 
     @Override
     public JSONArray getTweetList(Integer visitorId, Integer momentId){
-
         JSONArray tweetArray = new JSONArray();
 
         QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unified_id",visitorId);
         List subscriptionList = subscriptionMapper.selectList(queryWrapper);
-
 
 //        if(subscriptionList.size()>=1)
 //            tweetArray.add(JSONUtil.parseObj(subscriptionList.get(0)));
@@ -136,8 +134,8 @@ public class TweetServiceImpl implements TweetService{
             }
         }
         return tweetArray;
-
     }
+
     @Override
     public JSONObject getSimpleUserInfo(Integer unifiedId){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -152,7 +150,6 @@ public class TweetServiceImpl implements TweetService{
             return object;
         }
         return null;
-
     }
 
     @Override
@@ -160,7 +157,6 @@ public class TweetServiceImpl implements TweetService{
         QueryWrapper<Picture> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("tweet_id",tweetId);
         return pictureMapper.selectList(queryWrapper);
-
     }
 
     public int createTweet(Integer unifiedId, String content, Date recordTime, MultipartFile[] files)throws IOException{
@@ -202,5 +198,4 @@ public class TweetServiceImpl implements TweetService{
         }
         return num;
     }
-
 }
