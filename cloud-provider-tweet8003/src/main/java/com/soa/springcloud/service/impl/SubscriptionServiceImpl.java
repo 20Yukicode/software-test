@@ -45,7 +45,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         Map<String,Object> map = new HashMap<>();
         map.put("unified_id",unifiedId);
         map.put("subscribe_id",subscribeId);
-        if(subscriptionMapper.selectByMap(map).size()>0)return -1;
+        if(subscriptionMapper.selectByMap(map).size()>0)
+            return -1;
         subscription.setSubscribeId(subscribeId);
         subscription.setUnifiedId(unifiedId);
         return subscriptionMapper.insert(subscription);

@@ -47,8 +47,6 @@ public class LikesServiceImpl implements LikesService {
         Likes likes = new Likes();
         likes.setTweetId(tweetId);
         likes.setUnifiedId(unifiedId);
-
-
         return likesMapper.insert(likes);
     }
 

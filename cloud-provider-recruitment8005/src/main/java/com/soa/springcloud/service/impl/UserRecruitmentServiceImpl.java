@@ -1,44 +1,31 @@
 package com.soa.springcloud.service.impl;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Position;
 import com.soa.springcloud.entities.Application;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.entities.Resume;
-import com.soa.springcloud.entities.UserInfo;
 import com.soa.springcloud.mapper.ApplicationMapper;
-import com.soa.springcloud.mapper.PositionMapper;
 import com.soa.springcloud.mapper.UserMapper;
-import com.soa.springcloud.mapper.UserInfoMapper;
 import com.soa.springcloud.mapper.ResumeMapper;
 import com.soa.springcloud.dto.ApplicantInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @Slf4j
 public class UserRecruitmentServiceImpl{
-
     @Resource
     private ApplicationMapper applicationMapper;
-
-    @Resource
-    private PositionMapper positionMapper;
-
     @Resource
     private UserMapper userMapper;
-
     @Resource
     private ResumeMapper resumeMapper;
-
-    @Resource
-    private UserInfoMapper userInfoMapper;
-
     @Resource
     private EnterprisePositionServiceImpl enterprisePositionService;
-
 
     public int sendApplication(Application application) {
         return applicationMapper.insert(application);
@@ -65,6 +52,7 @@ public class UserRecruitmentServiceImpl{
         if(positions.isEmpty())return null;//是空没找到
         return positions;
     }
+
 
     //需要uerinfo的信息，可以作为跨模块调用的尝试，这里先直接写
     public List<ApplicantInfoDto> getAllApplicants(int unifiedId, int jobId) {

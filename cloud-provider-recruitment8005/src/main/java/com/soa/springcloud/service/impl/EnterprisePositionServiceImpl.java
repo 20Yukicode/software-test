@@ -1,5 +1,6 @@
 package com.soa.springcloud.service.impl;
 import cn.hutool.log.Log;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Position;
 import com.soa.springcloud.entities.*;
@@ -20,6 +21,8 @@ import java.util.List;
 public class EnterprisePositionServiceImpl{
     @Resource
     private PositionMapper positionMapper;
+    @Resource
+    private ApplicationMapper applicationMapper;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -86,7 +89,7 @@ public class EnterprisePositionServiceImpl{
     }
 
     /**
-     * 获取岗位信息
+     * 获取该企业创建的岗位信息
      * @param unifiedId 企业id
      * @param jobId 岗位id
      * @return
@@ -99,6 +102,29 @@ public class EnterprisePositionServiceImpl{
                 return position;
             }
             else return null;
+        }
+        return null;
+    }
+
+    /**
+     * 获取指定岗位信息+用户是否申请该岗位
+     * @param jobId 岗位id
+     * @return
+     */
+    public JSONObject getSpecifiedPosition(int unifiedId, int jobId) {
+        Position position=positionMapper.selectById(jobId);
+        if(position!=null){//能找到
+            if(position.getState()==0)
+                return null;
+            else {
+                QueryWrapper<Application> wrapper=new QueryWrapper<>();
+                wrapper.eq("user_id",unifiedId);
+                wrapper.eq("job_id",jobId);
+                applicationMapper.selectList(wrapper);
+                JSONObject jsonObject = (JSONObject) JSONObject.toJSON(position);
+                jsonObject.put("ifApplied",applicationMapper.selectList(wrapper)==null?0:1);
+                return jsonObject;
+            }
         }
         return null;
     }

@@ -20,6 +20,12 @@ public class SubscriptionController {
         this.subscriptionService = subscriptionService;
     }
 
+    /**
+     * 关注
+     * @param unifiedId
+     * @param subscribeId
+     * @return
+     */
     @PutMapping("/tweet/subscription")
     public CommonResult putSubscription(@RequestParam Integer unifiedId,
                                         @RequestParam Integer subscribeId){
@@ -28,27 +34,30 @@ public class SubscriptionController {
             return CommonResult.failure("失败，unified_id为空");
         if(subscribeId == null)
             return  CommonResult.failure("失败，subscribe_id为空");
-
-        if(subscriptionService.putSubscription(unifiedId,subscribeId)>0)
+        int result =subscriptionService.putSubscription(unifiedId,subscribeId);
+        if(result>0)
             return CommonResult.success("关注成功",null);
-        if(subscriptionService.putSubscription(unifiedId,subscribeId)==-1)
+        if(result==-1)
             return CommonResult.success("已经关注",null);
         return CommonResult.failure("关注失败");
     }
 
+    /**
+     * 取关
+     * @param unifiedId
+     * @param subscribeId
+     * @return
+     */
     @DeleteMapping("/tweet/subscription")
     public CommonResult deleteSubscription(@RequestParam Integer unifiedId,
                                            @RequestParam Integer subscribeId){
 
         if(unifiedId == null)
             return CommonResult.failure("失败，unifiedId为空");
-
         if(subscribeId == null)
             return CommonResult.failure("失败，subscribeId为空");
-
         if(subscriptionService.deleteSubscription(unifiedId,subscribeId)>0)
             return CommonResult.success("取消关注成功");
-
         return CommonResult.failure("取消关注失败");
     }
 

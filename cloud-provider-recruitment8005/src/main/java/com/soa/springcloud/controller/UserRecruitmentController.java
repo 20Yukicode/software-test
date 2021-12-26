@@ -1,4 +1,5 @@
 package com.soa.springcloud.controller;
+import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.Application;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.Position;
@@ -24,6 +25,11 @@ public class UserRecruitmentController {
     @Resource
     private UserRecruitmentServiceImpl userRecruitmentService;
 
+    /**
+     * 用户申请岗位
+     * @param application
+     * @return
+     */
     @PostMapping(value = "/recruit/application")
     public CommonResult apply(@RequestBody Application application){
         if(userRecruitmentService.sendApplication(application)==1)
@@ -32,6 +38,11 @@ public class UserRecruitmentController {
             return CommonResult.failure("发送失败",null);
     }
 
+    /**
+     * 用户删除岗位申请
+     * @param application
+     * @return
+     */
     @DeleteMapping(value = "/recruit/application")
     public CommonResult delete(@RequestBody Application application){
         if(userRecruitmentService.cancelApplication(application)==1)
@@ -40,6 +51,11 @@ public class UserRecruitmentController {
             return CommonResult.failure("取消失败",null);
     }
 
+    /**
+     * 用户获取已投递的所有岗位
+     * @param userId
+     * @return
+     */
     @GetMapping(value = "/recruit/application")
     public CommonResult getAppliedPositions(@RequestParam int userId){
         List<Position> positions= userRecruitmentService.getAppliedPositions(userId);
@@ -49,13 +65,47 @@ public class UserRecruitmentController {
             return CommonResult.success("查找成功",positions);
     }
 
-    @GetMapping(value = "/recruit/applicants")
-    public CommonResult getAllApplicants(@RequestParam int unifiedId,
-                                         @RequestParam int jobId){
-        List<ApplicantInfoDto> applicants= userRecruitmentService.getAllApplicants(unifiedId,jobId);
-        if(applicants==null)
-            return CommonResult.failure("该岗位还没有申请者",null);
-        else
-            return CommonResult.success("查找成功",applicants);
+    /**
+     * 用户查看特定岗位信息
+     * @param unifiedId
+     * @param jobId
+     * @return
+     */
+    @GetMapping(value = "/recruit/position/specified")
+    public CommonResult getPosition(@RequestParam int unifiedId, @RequestParam int jobId){
+        JSONObject jsonObject =enterprisePositionService.getSpecifiedPosition(unifiedId,jobId);
+        if(jsonObject!=null){
+            return CommonResult.success("获取成功",jsonObject);
+        }
+        else return CommonResult.failure("获取失败",null);
     }
+
+    /**
+     * 用户获取企业所有岗位信息
+     * @param unifiedId
+     * @return
+     */
+    @GetMapping(value = "/recruit/position/all")
+    public CommonResult getAll(@RequestParam int unifiedId){
+        List<Position> position=enterprisePositionService.getPositionsById(unifiedId);
+        if(position!=null){
+            return CommonResult.success("获取成功",position);
+        }
+        else return CommonResult.failure("获取失败",null);
+    }
+
+    /**
+     * 用户查看推荐岗位
+     * @param unifiedId
+     * @return
+     */
+    @GetMapping(value = "/recruit/position/recommend")
+    public CommonResult getRecommend(@RequestParam int unifiedId){
+        List<Position> position=enterprisePositionService.getRecommendedPositionsById(unifiedId);
+        if(position!=null){
+            return CommonResult.success("获取成功",position);
+        }
+        else return CommonResult.failure("获取失败",null);
+    }
+
 }

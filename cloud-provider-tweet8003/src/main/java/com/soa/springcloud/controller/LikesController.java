@@ -19,9 +19,12 @@ public class LikesController {
     @Resource
     private  TweetService tweetService;
 
-
-
-
+    /**
+     * 点赞
+     * @param unifiedId
+     * @param tweetId
+     * @return
+     */
     @PutMapping("/tweet/likes")
     public CommonResult putLikes(@RequestParam Integer unifiedId,
                                 @RequestParam Integer tweetId){
@@ -30,16 +33,19 @@ public class LikesController {
             return CommonResult.failure("点赞错误，缺少unifiedId");
         if(tweetId == null)
             return CommonResult.failure("点赞错误，缺少tweetId");
-
-
         if(likesService.putLikes(unifiedId,tweetId)>0){
-
             return CommonResult.success("点赞成功",tweetService.addLikesNum(tweetId));
         }
         return CommonResult.failure("点赞失败，未找到对应动态");
 
     }
 
+    /**
+     * 取赞
+     * @param unifiedId
+     * @param tweetId
+     * @return
+     */
     @DeleteMapping("/tweet/likes")
     public CommonResult deleteLikes(@RequestParam Integer unifiedId,
                                    @RequestParam Integer tweetId){
@@ -57,6 +63,12 @@ public class LikesController {
 
     }
 
+    /**
+     * 获取动态点赞数
+     * @param unifiedId
+     * @param tweetId
+     * @return
+     */
     @GetMapping("/tweet/likes")
     public CommonResult getLikes(@RequestParam Integer unifiedId,
                                 @RequestParam Integer tweetId){
