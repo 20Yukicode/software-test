@@ -37,3 +37,10 @@ eureka:
 file:
   localPath: "C:\\upload"
   webPath: "http://47.102.217.130:666"
+
+#设置feign客户端超时时间(OpenFeign默认支持ribbon)(单位：毫秒)
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
+  ReadTimeout: 5000
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  ConnectTimeout: 5000
