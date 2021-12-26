@@ -35,8 +35,10 @@ public class SubscriptionController {
         if(subscribeId == null)
             return  CommonResult.failure("失败，subscribe_id为空");
         int result =subscriptionService.putSubscription(unifiedId,subscribeId);
-        if(result>0)
-            return CommonResult.success("关注成功",null);
+        if(result>0) {
+            subscriptionService.addSubscriptionNum(subscribeId);
+            return CommonResult.success("关注成功", null);
+        }
         if(result==-1)
             return CommonResult.success("已经关注",null);
         return CommonResult.failure("关注失败");
@@ -56,8 +58,10 @@ public class SubscriptionController {
             return CommonResult.failure("失败，unifiedId为空");
         if(subscribeId == null)
             return CommonResult.failure("失败，subscribeId为空");
-        if(subscriptionService.deleteSubscription(unifiedId,subscribeId)>0)
+        if(subscriptionService.deleteSubscription(unifiedId,subscribeId)>0) {
+            subscriptionService.subtractSubscriptionNum(subscribeId);
             return CommonResult.success("取消关注成功");
+        }
         return CommonResult.failure("取消关注失败");
     }
 

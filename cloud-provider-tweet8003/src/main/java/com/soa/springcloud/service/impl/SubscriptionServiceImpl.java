@@ -49,6 +49,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
             return -1;
         subscription.setSubscribeId(subscribeId);
         subscription.setUnifiedId(unifiedId);
+
         return subscriptionMapper.insert(subscription);
 
     }
@@ -169,5 +170,22 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         }
         if(x==0.0||y==0.0) return 0.0;
         return xy/Math.sqrt(x*y);
+    }
+    public int addSubscriptionNum(Integer unifiedId){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("unified_id",unifiedId);
+        User user = userMapper.selectOne(queryWrapper);
+        user.setSubscribeNum(user.getSubscribeNum()+1);
+        return userMapper.update(user,queryWrapper);
+
+    }
+    public int subtractSubscriptionNum(Integer unifiedId){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("unified_id",unifiedId);
+        User user = userMapper.selectOne(queryWrapper);
+
+        user.setSubscribeNum(user.getSubscribeNum()-1);
+        return userMapper.update(user,queryWrapper);
+
     }
 }
