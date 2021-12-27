@@ -86,8 +86,8 @@ public class UserRecruitmentController {
      * @return
      */
     @GetMapping(value = "/recruit/position/all")
-    public CommonResult getAll(@RequestParam int unifiedId){
-        List<Position> position=enterprisePositionService.getPositionsById(unifiedId);
+    public CommonResult getAll(@RequestParam int unifiedId,@RequestParam(required = false) Integer momentId){
+        List<JSONObject> position=enterprisePositionService.getPositionsById(unifiedId,momentId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
         }
@@ -100,12 +100,11 @@ public class UserRecruitmentController {
      * @return
      */
     @GetMapping(value = "/recruit/position/recommend")
-    public CommonResult getRecommend(@RequestParam int unifiedId){
-        List<JSONObject> position=enterprisePositionService.getRecommendedPositionsById(unifiedId);
+    public CommonResult getRecommend(@RequestParam int unifiedId,@RequestParam(required = false) Integer momentId){
+        List<JSONObject> position=enterprisePositionService.getRecommendedPositionsById(unifiedId,momentId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
         }
         else return CommonResult.failure("获取失败",null);
     }
-
 }

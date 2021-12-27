@@ -137,15 +137,53 @@ public class EnterprisePositionServiceImpl{
      * @return 岗位列表
      */
     //记得把未激活的岗位删除
-    public List<Position> getPositionsById(int unifiedId) {
+    public List<JSONObject> getPositionsById(int unifiedId,Integer momentId) {
         QueryWrapper<Position> wrapper=new QueryWrapper<>();
         wrapper.eq("unified_id",unifiedId);
         wrapper.ne("state",0);//去除掉没激活的
-        return positionMapper.selectList(wrapper);
+        List<JSONObject> positions=new ArrayList<>();
+        positionMapper.selectList(wrapper).forEach(one->{
+            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(one);
+            User user = userMapper.selectById(unifiedId);
+            jsonObject.put("pictureUrl",user.getPictureUrl());
+            jsonObject.put("userType",user.getUserType());
+            jsonObject.put("briefInfo",user.getBriefInfo());
+            jsonObject.put("trueName",user.getTrueName());
+            positions.add(jsonObject);
+            });
+
+        //positions.sort(Comparator.comparing(Position::getJobId));
+        positions.sort(new Comparator<JSONObject>() {
+            @Override
+            public int compare(JSONObject o1, JSONObject o2) {
+                return o2.getInteger("jobId")-o1.getInteger("jobId");
+            }
+        });
+        int size = positions.size();
+        int cut = 0;
+        if(momentId==null){
+            log.info("momentId为空");
+            //momentId=positions.get(0).getInteger("jobId")+1;
+            //log.info("momentId="+momentId);
+        }
+        else{
+            for(int i=0;i<size;i++){
+                if(positions.get(i).getInteger("jobId")<momentId){
+                    cut=i;
+                    break;
+                }
+                if(i==size-1)cut=size;
+            }
+        }
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        if(size>=cut+15) {
+            jsonObjects.addAll(positions.subList(cut, cut + 15));
+        } else jsonObjects.addAll(positions.subList(cut,size));
+        return jsonObjects;
     }
 
     //需要记录上一次浏览到的位置（下次开会再讨论）
-    public List<JSONObject> getRecommendedPositionsById(int unifiedId) {
+    public List<JSONObject> getRecommendedPositionsById(int unifiedId,Integer momentId) {
         UserInfo userInfo=userInfoMapper.selectById(unifiedId);//找到用户信息
         List<String> prePosition=Arrays.asList(userInfo.getPrePosition().split(","));
         log.info("positions",prePosition);
@@ -167,7 +205,39 @@ public class EnterprisePositionServiceImpl{
             });
         });
         //positions.sort(Comparator.comparing(Position::getJobId));
-        log.info("positions",positions);
-        return positions;
+        positions.sort(new Comparator<JSONObject>() {
+            @Override
+            public int compare(JSONObject o1, JSONObject o2) {
+                return o2.getInteger("jobId")-o1.getInteger("jobId");
+            }
+        });
+        int size = positions.size();
+        int cut = 0;
+        if(momentId==null){
+            log.info("momentId为空");
+            //momentId=positions.get(0).getInteger("jobId")+1;
+            //log.info("momentId="+momentId);
+        }
+        else{
+            for(int i=0;i<size;i++){
+                if(positions.get(i).getInteger("jobId")<momentId){
+                    cut=i;
+                    break;
+                }
+                if(i==size-1)cut=size;
+            }
+        }
+        List<JSONObject> jsonObjects = new ArrayList<>();
+        if(size>=cut+15) {
+            jsonObjects.addAll(positions.subList(cut, cut + 15));
+        } else jsonObjects.addAll(positions.subList(cut,size));
+        //log.info("positions",positions);
+        /*jsonObjects.sort(new Comparator<JSONObject>() {
+            @Override
+            public int compare(JSONObject o1, JSONObject o2) {
+                return o2.getInteger("jobId")-o1.getInteger("jobId");
+            }
+        });*/
+        return jsonObjects;
     }
 }
