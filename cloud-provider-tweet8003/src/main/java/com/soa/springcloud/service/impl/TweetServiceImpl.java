@@ -104,7 +104,7 @@ public class TweetServiceImpl implements TweetService{
             Integer id = (Integer) object.get("tweetId");
             if(id==null)log.info(object.toString());
 
-            object.put("like_state", likesService.getLikes(visitorId,object.getInt("tweetId")));
+            object.put("likeState", likesService.getLikes(visitorId,object.getInt("tweetId")));
             object.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
             jsonArray.add(object);
         }
@@ -132,7 +132,7 @@ public class TweetServiceImpl implements TweetService{
                     for (int j = 0; j < list.size(); j++) {
                         JSONObject tweetObject = JSONUtil.parseObj(list.get(j));
 
-                        tweetObject.put("like_state", likesService.getLikes(visitorId, tweetObject.getInt("tweetId")));
+                        tweetObject.put("likeState", likesService.getLikes(visitorId, tweetObject.getInt("tweetId")));
                         tweetObject.put("simpleUserInfo", getSimpleUserInfo(object.getInt("subscribeId")));
                         tweetArray.add(tweetObject);
                     }
@@ -149,10 +149,11 @@ public class TweetServiceImpl implements TweetService{
         User user = userMapper.selectOne(queryWrapper);
         if(user != null) {
             JSONObject object = new JSONObject();
-            object.put("picture_url", user.getPictureUrl());
-            object.put("true_name", user.getTrueName());
-            object.put("brief_info", user.getBriefInfo());
-            object.put("user_type", user.getUserType());
+            object.put("pictureUrl", user.getPictureUrl());
+            object.put("trueName", user.getTrueName());
+            object.put("briefInfo", user.getBriefInfo());
+            object.put("userType", user.getUserType());
+            object.put("unifiedId",user.getUnifiedId());
             return object;
         }
         return null;
