@@ -113,6 +113,7 @@ public class EnterprisePositionServiceImpl{
      */
     public JSONObject getSpecifiedPosition(int unifiedId, int jobId) {
         Position position=positionMapper.selectById(jobId);
+        log.info("岗位："+position);
         if(position!=null){//能找到
             if(position.getState()==0)
                 return null;
@@ -120,9 +121,10 @@ public class EnterprisePositionServiceImpl{
                 QueryWrapper<Application> wrapper=new QueryWrapper<>();
                 wrapper.eq("user_id",unifiedId);
                 wrapper.eq("job_id",jobId);
-                applicationMapper.selectList(wrapper);
+                //applicationMapper.selectList(wrapper);
+                //log.info("申请："+applicationMapper.selectList(wrapper));
                 JSONObject jsonObject = (JSONObject) JSONObject.toJSON(position);
-                jsonObject.put("ifApplied",applicationMapper.selectList(wrapper)==null?0:1);
+                jsonObject.put("ifApplied",applicationMapper.selectList(wrapper).size()<=0?false:true);
                 return jsonObject;
             }
         }
@@ -143,18 +145,28 @@ public class EnterprisePositionServiceImpl{
     }
 
     //需要记录上一次浏览到的位置（下次开会再讨论）
-    public List<Position> getRecommendedPositionsById(int unifiedId) {
+    public List<JSONObject> getRecommendedPositionsById(int unifiedId) {
         UserInfo userInfo=userInfoMapper.selectById(unifiedId);//找到用户信息
         List<String> prePosition=Arrays.asList(userInfo.getPrePosition().split(","));
         log.info("positions",prePosition);
-        List<Position> positions=new ArrayList<>();
+        //List<Position> positions=new ArrayList<>();
+        List<JSONObject> positions=new ArrayList<>();
         prePosition.forEach(item->{
             QueryWrapper<Position> wrapper=new QueryWrapper<>();
             wrapper.eq("position_type",item);
             wrapper.ne("state",0);//去除掉没激活的
-            positions.addAll(positionMapper.selectList(wrapper));
+            //positions.addAll(positionMapper.selectList(wrapper));
+            positionMapper.selectList(wrapper).forEach(one->{
+                JSONObject jsonObject = (JSONObject) JSONObject.toJSON(one);
+                User user = userMapper.selectById(one.getUnifiedId());
+                jsonObject.put("pictureUrl",user.getPictureUrl());
+                jsonObject.put("userType",user.getUserType());
+                jsonObject.put("briefInfo",user.getBriefInfo());
+                jsonObject.put("trueName",user.getTrueName());
+                positions.add(jsonObject);
+            });
         });
-        positions.sort(Comparator.comparing(Position::getJobId));
+        //positions.sort(Comparator.comparing(Position::getJobId));
         log.info("positions",positions);
         return positions;
     }

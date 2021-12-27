@@ -105,6 +105,13 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         User user = userMapper.selectById(unifiedId);
         List<User> users = userMapper.selectByMap(null);
         users.remove(user);
+        Map<String,Object>map = new HashMap<>();
+        map.put("unified_id",user.getUnifiedId());
+        List<Subscription> subscriptions = subscriptionMapper.selectByMap(map);
+        for(Subscription one : subscriptions){
+            User _user = userMapper.selectById(one.getSubscribeId());
+            users.remove(_user);
+        }
         return recommendValue(user,users);
     }
 
@@ -176,8 +183,8 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         queryWrapper.eq("unified_id",unifiedId);
         User user = userMapper.selectOne(queryWrapper);
         user.setSubscribeNum(user.getSubscribeNum()+1);
-        return userMapper.update(user,queryWrapper);
-
+        //return userMapper.update(user,queryWrapper);
+        return userMapper.updateById(user);
     }
     public int subtractSubscriptionNum(Integer unifiedId){
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();

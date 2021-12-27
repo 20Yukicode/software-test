@@ -101,7 +101,7 @@ public class UserRecruitmentController {
      */
     @GetMapping(value = "/recruit/position/recommend")
     public CommonResult getRecommend(@RequestParam int unifiedId){
-        List<Position> position=enterprisePositionService.getRecommendedPositionsById(unifiedId);
+        List<JSONObject> position=enterprisePositionService.getRecommendedPositionsById(unifiedId);
         if(position!=null){
             return CommonResult.success("获取成功",position);
         }
