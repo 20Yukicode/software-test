@@ -18,6 +18,7 @@ public interface TweetService {
     JSONArray getTweetList(Integer visitorId,Integer momentId);
     JSONObject getSimpleUserInfo(Integer unifiedId);
     List getTweetPictures(Integer tweetId);
-    int createTweet(Integer unifiedId, String content, Date recordTime, MultipartFile[] files)throws IOException;
-    int uploadPic(Integer unifiedId,MultipartFile[] files)throws IOException;
+    int createTweet(Integer unifiedId, String content, Date recordTime, List<MultipartFile> files)throws IOException;
+    int uploadPic(Integer unifiedId,List<MultipartFile> files)throws IOException;
+    int maxTweetId();
 }

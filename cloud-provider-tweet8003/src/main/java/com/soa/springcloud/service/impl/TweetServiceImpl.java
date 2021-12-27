@@ -13,6 +13,7 @@ import com.soa.springcloud.service.LikesService;
 import com.soa.springcloud.service.SubscriptionService;
 import com.soa.springcloud.service.TweetService;
 import com.soa.springcloud.util.PictureUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TweetServiceImpl implements TweetService{
 
     @Resource
@@ -91,15 +93,19 @@ public class TweetServiceImpl implements TweetService{
     @Override
     public JSONArray getSelfTweetList(Integer visitorId,Integer intervieweeId, Integer momentId){
         QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("unified_id",intervieweeId).gt("tweet_id",momentId);
+        queryWrapper.eq("unified_id",intervieweeId).lt("tweet_id",momentId);
         List tweetList = tweetMapper.selectList(queryWrapper);
         int size = tweetList.size();
         if(size>10) size = 9;
         JSONArray jsonArray = new JSONArray();
 
-        for(int i=0;i<size; i++){
+        for(int i=size-1;i>=0; i--){
             JSONObject object = JSONUtil.parseObj(tweetList.get(i));
-            object.put("like_state", likesService.getLikes(visitorId,object.getInt("tweet_id")));
+            Integer id = (Integer) object.get("tweetId");
+            if(id==null)log.info(object.toString());
+
+            object.put("like_state", likesService.getLikes(visitorId,object.getInt("tweetId")));
+            object.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
             jsonArray.add(object);
         }
         return jsonArray;
@@ -120,14 +126,14 @@ public class TweetServiceImpl implements TweetService{
             for (int i = 0; i < subscriptionList.size(); i++) {
                 QueryWrapper<Tweet> tweetQueryWrapper = new QueryWrapper<>();
                 JSONObject object = JSONUtil.parseObj(subscriptionList.get(i));
-                queryWrapper.eq("unified_id", object.getInt("subscribe_id"));
+                tweetQueryWrapper.eq("unified_id", object.getInt("subscribeId"));
                 List list = tweetMapper.selectList(tweetQueryWrapper);
                 if(list !=null) {
                     for (int j = 0; j < list.size(); j++) {
                         JSONObject tweetObject = JSONUtil.parseObj(list.get(j));
 
-                        tweetObject.put("like_state", likesService.getLikes(visitorId, object.getInt("tweetId")));
-                        tweetObject.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
+                        tweetObject.put("like_state", likesService.getLikes(visitorId, tweetObject.getInt("tweetId")));
+                        tweetObject.put("simpleUserInfo", getSimpleUserInfo(object.getInt("subscribeId")));
                         tweetArray.add(tweetObject);
                     }
                 }
@@ -159,7 +165,7 @@ public class TweetServiceImpl implements TweetService{
         return pictureMapper.selectList(queryWrapper);
     }
 
-    public int createTweet(Integer unifiedId, String content, Date recordTime, MultipartFile[] files)throws IOException{
+    public int createTweet(Integer unifiedId, String content, Date recordTime, List<MultipartFile> files)throws IOException{
         Tweet tweet = new Tweet();
         tweet.setPraiseNum(0);
         tweet.setContents(content);
@@ -179,10 +185,14 @@ public class TweetServiceImpl implements TweetService{
         return num;
     }
 
-    public int uploadPic(Integer tweetId,MultipartFile[] files)throws IOException {
+    public int uploadPic(Integer tweetId,List<MultipartFile> files)throws IOException {
         int num=0;
         if(files==null)return num;
+
+        Integer size = files.size();
+
         for(MultipartFile file :files) {
+
             num++;
             String url = webPath + "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
             //开始存文件
@@ -194,8 +204,13 @@ public class TweetServiceImpl implements TweetService{
             pictureMapper.insert(picture);
 
             String path = localPath + "\\tweetpic\\" + tweetId + "\\" +num;
+
             PictureUtils.saveUrl(file, path);
         }
         return num;
     }
+    public int maxTweetId(){
+        return tweetMapper.maxId()+1;
+    }
+
 }

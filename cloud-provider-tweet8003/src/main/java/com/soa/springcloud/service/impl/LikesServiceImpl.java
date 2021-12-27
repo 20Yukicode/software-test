@@ -32,6 +32,8 @@ public class LikesServiceImpl implements LikesService {
                 put("tweet_id", tweetId);
             }
         });
+
+
         return list.size();
     }
 

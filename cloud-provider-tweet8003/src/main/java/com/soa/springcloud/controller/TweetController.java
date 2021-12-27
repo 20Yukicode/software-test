@@ -52,33 +52,34 @@ public class TweetController {
     @GetMapping("/tweet/self")
     public CommonResult getSelfTweetList(@RequestParam Integer visitorId,
                                          @RequestParam Integer intervieweeId,
-                                         @RequestParam Integer momentId){
+                                         @RequestParam(required = false) Integer momentId){
         if(visitorId == null)
             return CommonResult.failure("错误，visitorId为空");
         if(intervieweeId == null)
             return CommonResult.failure("错误，intervieweeId为空");
-        if(momentId == null)
-            return CommonResult.failure("错误，momentId为空");
 
+        if(momentId ==null)
+            momentId=tweetService.maxTweetId();
         return CommonResult.success("查询成功",tweetService.getSelfTweetList(visitorId,intervieweeId,momentId));
     }
 
     @GetMapping("/tweet/tweetList")
-    public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam Integer momentId){
-        if(momentId == null)
-            return CommonResult.failure("错误，momentId为空");
+    public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId){
+
         if(unifiedId == null)
             return CommonResult.failure("错误，unifiedId为空");
 
         JSONArray jsonArray = tweetService.getTweetList(unifiedId,momentId);
-        //jsonArray.sort(Comparator.comparing(obj -> ((JSONObject) obj).getInt("tweetId")));
+        jsonArray.sort(Comparator.comparing(obj -> ((JSONObject) obj).getInt("tweetId")));
         JSONArray array = new JSONArray();
 //        return CommonResult.success("测试",jsonArray);
         int count = 0;
-        for(int i=0;i<jsonArray.size();i++){
+        if(momentId==null)
+            momentId = jsonArray.getJSONObject(jsonArray.size()-1).getInt("tweetId")+1;
+        for(int i=jsonArray.size()-1;i>=0;i--){
             JSONObject object = jsonArray.getJSONObject(i);
             int tweetId = object.getInt("tweetId");
-            if(count<10 && tweetId>momentId ){
+            if(count<10 && tweetId<momentId ){
                 object.put("pictureList",tweetService.getTweetPictures(tweetId));
                 count++;
                 array.add(object);
@@ -91,7 +92,7 @@ public class TweetController {
     @PutMapping("/tweet")
     public CommonResult createTweet(@RequestParam Integer unifiedId,
                                     @RequestParam String content,
-                                    @RequestPart(value = "file",required = false) MultipartFile[] files)throws IOException {
+                                    @RequestPart(value = "files",required = false) List<MultipartFile> files)throws IOException {
         if(unifiedId == null)
             return CommonResult.failure("错误，unifiedId为空");
         Date recordTime = new Date();

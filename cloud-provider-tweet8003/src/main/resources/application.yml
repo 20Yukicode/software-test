@@ -36,7 +36,7 @@ eureka:
 
 file:
   localPath: "C:\\upload"
-  webPath: "http://47.102.217.130:666"
+  webPath: "http://175.24.202.178:666"
 
 #设置feign客户端超时时间(OpenFeign默认支持ribbon)(单位：毫秒)
 ribbon:
