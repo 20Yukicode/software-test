@@ -113,6 +113,7 @@ public class EnterprisePositionServiceImpl{
      */
     public JSONObject getSpecifiedPosition(int unifiedId, int jobId) {
         Position position=positionMapper.selectById(jobId);
+        log.info("岗位："+position);
         if(position!=null){//能找到
             if(position.getState()==0)
                 return null;
@@ -120,7 +121,8 @@ public class EnterprisePositionServiceImpl{
                 QueryWrapper<Application> wrapper=new QueryWrapper<>();
                 wrapper.eq("user_id",unifiedId);
                 wrapper.eq("job_id",jobId);
-                applicationMapper.selectList(wrapper);
+                //applicationMapper.selectList(wrapper);
+                //log.info("申请："+applicationMapper.selectList(wrapper));
                 JSONObject jsonObject = (JSONObject) JSONObject.toJSON(position);
                 jsonObject.put("ifApplied",applicationMapper.selectList(wrapper)==null?0:1);
                 return jsonObject;
