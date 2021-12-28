@@ -21,4 +21,5 @@ public interface TweetService {
     int createTweet(Integer unifiedId, String content, Date recordTime, List<MultipartFile> files)throws IOException;
     int uploadPic(Integer unifiedId,List<MultipartFile> files)throws IOException;
     int maxTweetId();
+
 }

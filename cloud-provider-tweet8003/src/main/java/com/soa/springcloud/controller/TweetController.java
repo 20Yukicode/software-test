@@ -3,10 +3,10 @@ package com.soa.springcloud.controller;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.soa.springcloud.entities.CommonResult;
-import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.TweetService;
-
 import com.soa.springcloud.service.UserFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -62,7 +62,16 @@ public class TweetController {
             momentId=tweetService.maxTweetId();
         return CommonResult.success("查询成功",tweetService.getSelfTweetList(visitorId,intervieweeId,momentId));
     }
+    //fallback
+    public CommonResult tweetList_TimeOutHandler(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId)
+    {
+        log.info("TweetList_Fallback");
+        return CommonResult.failure("用户:"+unifiedId+" 调用 /tweet/tweetList 接口超时，请重试");
+    }
 
+    @HystrixCommand(fallbackMethod = "tweetList_TimeOutHandler"/*指定善后方法名*/,commandProperties = {
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
+    })
     @GetMapping("/tweet/tweetList")
     public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId){
 

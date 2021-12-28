@@ -40,21 +40,11 @@ public class UserServiceImpl implements UserService {
         UserServiceImpl.webPath = webPath;
     }
     @Override
-    //=====服务熔断
-    @HystrixCommand(fallbackMethod = "userCircuitBreaker_fallback",commandProperties = {
-            @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),// 是否开启断路器
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),// 请求次数
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), // 时间窗口期
-            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"),// 失败率达到多少后跳闸
-    })
     public int create(User user) {
         user.setPassword(MD5Utils.MD5(user.getPassword()));
         return userMapper.insert(user);
     }
-    public int userCircuitBreaker_fallback(User user) {
-        log.info("what？竟然出bug了！请稍后再试，/(ㄒoㄒ)/~~");
-        return -1;
-    }
+
     @Override
     public User getUserById(int unifiedId) {
         return userMapper.selectById(unifiedId);

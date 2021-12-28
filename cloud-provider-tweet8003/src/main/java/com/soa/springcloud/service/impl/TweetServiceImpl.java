@@ -4,6 +4,8 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.soa.springcloud.entities.Picture;
 import com.soa.springcloud.entities.Subscription;
 import com.soa.springcloud.entities.Tweet;
@@ -22,6 +24,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -113,6 +116,7 @@ public class TweetServiceImpl implements TweetService{
 
     @Override
     public JSONArray getTweetList(Integer visitorId, Integer momentId){
+        //try { TimeUnit.MILLISECONDS.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
         JSONArray tweetArray = new JSONArray();
 
         QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
@@ -141,6 +145,8 @@ public class TweetServiceImpl implements TweetService{
         }
         return tweetArray;
     }
+
+
 
     @Override
     public JSONObject getSimpleUserInfo(Integer unifiedId){
