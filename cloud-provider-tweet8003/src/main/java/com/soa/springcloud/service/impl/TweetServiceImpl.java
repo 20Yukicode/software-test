@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -97,12 +98,15 @@ public class TweetServiceImpl implements TweetService{
     public JSONArray getSelfTweetList(Integer visitorId,Integer intervieweeId, Integer momentId){
         QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unified_id",intervieweeId).lt("tweet_id",momentId);
-        List tweetList = tweetMapper.selectList(queryWrapper);
+        List<Tweet> tweetList = tweetMapper.selectList(queryWrapper);
+
         int size = tweetList.size();
         if(size>10) size = 9;
         JSONArray jsonArray = new JSONArray();
 
-        for(int i=size-1;i>=0; i--){
+        for(int i=tweetList.size()-1;i>=0&&size>0; i--){
+            size--;
+
             JSONObject object = JSONUtil.parseObj(tweetList.get(i));
             Integer id = (Integer) object.get("tweetId");
             if(id==null)log.info(object.toString());
@@ -111,6 +115,7 @@ public class TweetServiceImpl implements TweetService{
             object.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
             jsonArray.add(object);
         }
+        //jsonArray.sort(Comparator.comparing(obj -> ((JSONObject) obj).getInt("tweetId")));
         return jsonArray;
     }
 

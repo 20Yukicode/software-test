@@ -1,14 +1,11 @@
 package com.soa.springcloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.soa.springcloud.entities.Resume;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.service.UserService;
 import com.soa.springcloud.util.MD5Utils;
-import com.soa.springcloud.util.PictureUtils;
+import com.soa.springcloud.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 
 /**
  * @ClassName: PaymentServiceImpl
@@ -72,7 +67,7 @@ public class UserServiceImpl implements UserService {
         //存储文件
         //本地存储路径
         String path = localPath+"\\back\\"+unifiedId;
-        PictureUtils.saveUrl(file,path);
+        FileUtils.saveUrl(file,path);
 
         //成功返回大于1
         return result;

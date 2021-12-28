@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.service.HeadPictureService;
-import com.soa.springcloud.util.PictureUtils;
+import com.soa.springcloud.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class HeadPictureServiceImpl implements HeadPictureService {
         //开始存文件
         //本地存储路径
         String path = localPath+"\\headpic\\"+unifiedId;
-        PictureUtils.saveUrl(file,path);
+        FileUtils.saveUrl(file,path);
 
         //成功返回大于1
         return result;

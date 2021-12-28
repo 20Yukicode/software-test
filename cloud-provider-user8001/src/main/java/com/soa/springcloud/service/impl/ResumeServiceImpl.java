@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Resume;
 import com.soa.springcloud.mapper.ResumeMapper;
 import com.soa.springcloud.service.ResumeService;
-import com.soa.springcloud.util.PictureUtils;
+import com.soa.springcloud.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,21 +20,45 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
 
     private ResumeMapper resumeMapper;
-    private static String localPath;
-    private static String webPath;
-/*    @Value("${file.localPath}")
-    private static String localPath;
+//    private static String localPath;
+//    private static String webPath;
 
-    @Value("${file.webPath}")
-    private static String webPath;*/
 
-    @Value("${file.localPath}")
-    public void setLocalPath(String localPath) {
-        ResumeServiceImpl.localPath = localPath;
+    private static String endpoint;
+
+    private static String accessKeyId;
+
+    private static String accessKeySecret;
+
+    private static String bucketName;
+
+//    @Value("${file.localPath}")
+//    public void setLocalPath(String localPath) {
+//        ResumeServiceImpl.localPath = localPath;
+//    }
+//    @Value("${file.webPath}")
+//    public void setWebPath(String webPath) {
+//        ResumeServiceImpl.webPath = webPath;
+//    }
+
+    @Value("${file.endpoint}")
+    public void setEndpoint(String endpoint) {
+        ResumeServiceImpl.endpoint = endpoint;
     }
-    @Value("${file.webPath}")
-    public void setWebPath(String webPath) {
-        ResumeServiceImpl.webPath = webPath;
+
+    @Value("${file.accessKeyId}")
+    public void setAccessKeyId(String accessKeyId) {
+        ResumeServiceImpl.accessKeyId = accessKeyId;
+    }
+
+    @Value("${file.accessKeySecret}")
+    public void setAccessKeySecret(String accessKeySecret) {
+        ResumeServiceImpl.accessKeySecret = accessKeySecret;
+    }
+
+    @Value("${file.bucketName}")
+    public void setBucketName(String bucketName) {
+        ResumeServiceImpl.bucketName = bucketName;
     }
 
     @Autowired
@@ -57,14 +81,16 @@ public class ResumeServiceImpl implements ResumeService {
         if(temp==null);
         else resumeId=temp+1;
         //url存入数据库
-        String url=webPath+"/resume/"+unifiedId+"/"+resumeId+"/"+file.getOriginalFilename();
+        //String url=webPath+"/resume/"+unifiedId+"/"+resumeId+"/"+file.getOriginalFilename();
+        String url="https://"+bucketName+"."+endpoint+"/"+unifiedId+"/"+resumeId+"/"+file.getOriginalFilename();
         Resume resume = new Resume(unifiedId,resumeId,file.getOriginalFilename(),url);
         result=resumeMapper.insert(resume);
         //存储文件
 
         //本地存储路径
-        String path = localPath+"\\resume\\"+unifiedId+"\\"+resumeId;
-        PictureUtils.saveUrl(file,path);
+        //String path = localPath+"\\resume\\"+unifiedId+"\\"+resumeId;
+        String path = unifiedId+"/"+resumeId;
+        FileUtils.saveUrl(file,unifiedId+"/"+resumeId);
 
         //成功返回大于1
         return result;
