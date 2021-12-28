@@ -1,5 +1,6 @@
 package com.soa.springcloud.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.dto.ApplicantInfoDto;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.Position;
@@ -72,7 +73,7 @@ public class EnterprisePositionController {
     @GetMapping(value = "/recruit/applicants")
     public CommonResult getAllApplicants(@RequestParam int unifiedId,
                                          @RequestParam int jobId){
-        List<ApplicantInfoDto> applicants= userRecruitmentService.getAllApplicants(unifiedId,jobId);
+        List<JSONObject> applicants= userRecruitmentService.getAllApplicants(unifiedId,jobId);
         if(applicants==null)
             return CommonResult.failure("该岗位还没有申请者",null);
         else

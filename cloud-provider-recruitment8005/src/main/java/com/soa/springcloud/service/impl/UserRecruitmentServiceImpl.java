@@ -1,5 +1,6 @@
 package com.soa.springcloud.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Position;
 import com.soa.springcloud.entities.Application;
@@ -55,27 +56,37 @@ public class UserRecruitmentServiceImpl{
 
 
     //需要uerinfo的信息，可以作为跨模块调用的尝试，这里先直接写
-    public List<ApplicantInfoDto> getAllApplicants(int unifiedId, int jobId) {
+    public List<JSONObject> getAllApplicants(int unifiedId, int jobId) {
         QueryWrapper<Application> wrapper=new QueryWrapper<>();
         wrapper.eq("enterprise_id",unifiedId);//注意是企业的id
         wrapper.eq("job_id",jobId);
         List<Application> applications=applicationMapper.selectList(wrapper);//找到所有的请求
         List<ApplicantInfoDto> applicants=new ArrayList<ApplicantInfoDto>();
+        List<JSONObject> result=new ArrayList<>();
         for(Application application :applications){
             User user=userMapper.selectById(application.getUserId());
             QueryWrapper<Resume> resumeQueryWrapper=new QueryWrapper<>();
             resumeQueryWrapper.eq("unified_id",application.getUserId());
             resumeQueryWrapper.eq("resume_id",application.getResumeId());
             Resume resume=resumeMapper.selectOne(resumeQueryWrapper);
-            ApplicantInfoDto temp=new ApplicantInfoDto();
-            temp.setUnifiedId(user.getUnifiedId());
-            temp.setPictureUrl(user.getPictureUrl());
-            temp.setBrief_info(user.getBriefInfo());
-            temp.setResumeName(resume.getResumeName());
-            temp.setResumeUrl(resume.getDocumentUrl());
-            applicants.add(temp);
+            //ApplicantInfoDto temp=new ApplicantInfoDto();
+            //temp.setUnifiedId(user.getUnifiedId());
+            //temp.setPictureUrl(user.getPictureUrl());
+            //temp.setBrief_info(user.getBriefInfo());
+            //temp.setResumeName(resume.getResumeName());
+            //temp.setResumeUrl(resume.getDocumentUrl());
+            //applicants.add(temp);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("unifiedId",user.getUnifiedId());
+            jsonObject.put("userTye",user.getUserType());
+            jsonObject.put("briefInfo",user.getBriefInfo());
+            jsonObject.put("trueName",user.getTrueName());
+            jsonObject.put("pictureUrl",user.getPictureUrl());
+            jsonObject.put("resumeName",resume.getResumeName());
+            jsonObject.put("resumeUrl",resume.getDocumentUrl());
+            result.add(jsonObject);
         }
-        if(applicants.isEmpty())return null;
-        return applicants;
+        //if(applicants.isEmpty())return null;
+        return result;
     }
 }
