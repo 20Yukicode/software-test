@@ -5,9 +5,9 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.User;
-import com.soa.springcloud.service.SubscriptionService;
 import com.soa.springcloud.service.TweetService;
-import com.soa.springcloud.service.UserService;
+
+import com.soa.springcloud.service.UserFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -16,9 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -31,11 +29,13 @@ public class TweetController {
     private TweetService tweetService;
 
     @Resource
-    private UserService userService;
+    private UserFeignService userService;
+
+
 
     @GetMapping("test")
-    public CommonResult<User> test(){
-        return userService.getUserById(1);
+    public CommonResult test(){
+        return userService.UserById(new Integer(1));
     }
 
     @DeleteMapping("/tweet/{tweetId}")

@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.EnterpriseInfoService;
+import com.soa.springcloud.service.TweetHystrixService;
 import com.soa.springcloud.service.impl.MailService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
@@ -44,7 +45,8 @@ public class UserController {
     private EnterpriseInfoService enterpriseInfoService;
     @Resource
     private DiscoveryClient discoveryClient;
-
+@Resource
+private TweetHystrixService tweetHystrixService;
     /**
      * 服务发现
      * @return

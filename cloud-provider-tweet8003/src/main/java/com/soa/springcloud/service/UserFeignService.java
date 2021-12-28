@@ -6,13 +6,12 @@ import com.soa.springcloud.entities.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 @Component
 @FeignClient(value = "CLOUD-USER-SERVICE" /*,fallback = TweetFallbackService.class*/)
-public interface UserService {
+public interface UserFeignService {
 
-    @GetMapping(value = "/user/get/{unifiedId}")
-    public CommonResult<User> getUserById(@PathVariable("unifiedId") int unifiedId);
+    @RequestMapping(path = "/user/get/{unifiedId}", method= RequestMethod.GET)
+    public CommonResult<User> UserById(@PathVariable("unifiedId") Integer unifiedId);
 }

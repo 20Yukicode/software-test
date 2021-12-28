@@ -12,7 +12,8 @@ import com.soa.springcloud.mapper.CommentMapper;
 import com.soa.springcloud.mapper.TweetMapper;
 import com.soa.springcloud.service.CommentService;
 import com.soa.springcloud.service.TweetService;
-import com.soa.springcloud.service.UserService;
+//import com.soa.springcloud.service.UserFeignService;
+import com.soa.springcloud.service.UserFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,24 +33,25 @@ public class CommentServiceImpl implements CommentService {
     private TweetService tweetService;
 
     @Resource
-    private UserService userService;
+    private UserFeignService userService;
 
     @Override
     public JSONArray getComments(Integer tweetId){
         JSONArray jsonArray = new JSONArray();
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("tweet_id",tweetId);
-        List list =  commentMapper.selectList(queryWrapper);
+        List<Comment> list = commentMapper.selectList(queryWrapper);
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 JSONObject object = JSONUtil.parseObj(list.get(i));
-                object.put("simpleUserInfo",tweetService.getSimpleUserInfo(object.getInt("unifiedId")));
-                //CommonResult<User> userResult = userService.getUserById(object.getInt("unifiedId"));
-                //User data = userResult.getData();
-                //data.setPassword(null);
-                //data.setUserName(null);
-                //data.setEmail(null);
-                //object.put("simpleUserInfo",data);
+                Integer unifiedId = list.get(i).getUnifiedId();
+                //object.put("simpleUserInfo",tweetService.getSimpleUserInfo(object.getInt("unifiedId")));
+                CommonResult<User> userResult = userService.UserById(unifiedId);
+                User data = userResult.getData();
+                data.setPassword(null);
+                data.setUserName(null);
+                data.setEmail(null);
+                object.put("simpleUserInfo",data);
                 jsonArray.add(object);
             }
         }

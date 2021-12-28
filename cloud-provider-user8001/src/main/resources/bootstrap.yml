@@ -1,6 +1,7 @@
 server:
   port: 8001 #服务端口
-  max-http-header-size: 2048000
+  max-http-header-size: 20480
+
 spring:
   application:
     name: cloud-user-service #服务名
@@ -64,6 +65,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:7001/eureka  # http://eureka7002.com:7002/eureka
   instance:
+    prefer-ip-address: true
     instance-id: user8001
 
 #设置feign客户端超时时间(OpenFeign默认支持ribbon)(单位：毫秒)
