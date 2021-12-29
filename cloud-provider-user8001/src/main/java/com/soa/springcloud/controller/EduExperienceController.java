@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class EduExperienceController {
 
     private final EduExperienceService eduExperienceService;

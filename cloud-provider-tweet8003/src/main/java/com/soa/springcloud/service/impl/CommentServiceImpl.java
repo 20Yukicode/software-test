@@ -13,7 +13,7 @@ import com.soa.springcloud.mapper.TweetMapper;
 import com.soa.springcloud.service.CommentService;
 import com.soa.springcloud.service.TweetService;
 //import com.soa.springcloud.service.UserFeignService;
-import com.soa.springcloud.service.UserFeignService;
+import com.soa.springcloud.service.UserTweetFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     private TweetService tweetService;
 
     @Resource
-    private UserFeignService userService;
+    private UserTweetFeignService userService;
 
     @Override
     public JSONArray getComments(Integer tweetId){

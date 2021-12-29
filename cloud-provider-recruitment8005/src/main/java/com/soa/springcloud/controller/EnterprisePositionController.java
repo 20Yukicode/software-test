@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class EnterprisePositionController {
     @Resource
     private EnterprisePositionServiceImpl enterprisePositionService;

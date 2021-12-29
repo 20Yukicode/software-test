@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class UserInfoController {
     @Resource
     private UserInfoServiceImpl userInfoService;
@@ -36,6 +37,7 @@ public class UserInfoController {
         json.putByPath("pictureUrl",user.getPictureUrl());
         json.putByPath("briefInfo",user.getBriefInfo());
         json.putByPath("email",user.getEmail());
+        json.putByPath("background",user.getBackground());
         //log.info("***查询结果：" + json);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);

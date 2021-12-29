@@ -13,6 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 

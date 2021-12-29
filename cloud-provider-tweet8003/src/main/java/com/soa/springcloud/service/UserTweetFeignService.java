@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Component
 @FeignClient(value = "CLOUD-USER-SERVICE" ,fallback = UserFallbackService.class)
-public interface UserFeignService {
+public interface UserTweetFeignService {
 
     @RequestMapping(path = "/user/get/{unifiedId}", method= RequestMethod.GET)
     public CommonResult<User> UserById(@PathVariable("unifiedId") Integer unifiedId);

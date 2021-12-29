@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 public class LikesController {
 
     @Resource

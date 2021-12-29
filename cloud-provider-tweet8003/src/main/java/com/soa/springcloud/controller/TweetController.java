@@ -7,7 +7,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.service.TweetService;
-import com.soa.springcloud.service.UserFeignService;
+import com.soa.springcloud.service.UserTweetFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -24,12 +24,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*")
 public class TweetController {
     @Resource
     private TweetService tweetService;
 
     @Resource
-    private UserFeignService userService;
+    private UserTweetFeignService userService;
 
 
 

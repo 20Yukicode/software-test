@@ -17,8 +17,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class UserRecruitmentController {
     @Resource
     private EnterprisePositionServiceImpl enterprisePositionService;
