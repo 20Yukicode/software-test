@@ -69,9 +69,20 @@ public class SearchServiceImpl implements SearchService {
     public String matchJobExperience(String str) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(str)) {
-            User true_name = userMapper.selectOne(queryWrapper.like("true_name", str).eq("user_type","company"));
-            if(true_name!=null)
-                return true_name.getPictureUrl();
+            User user = userMapper.selectOne(queryWrapper.like("true_name", str).eq("user_type","company"));
+            if(user!=null&&user.getPictureUrl()!=null)
+                return user.getPictureUrl();
+        }
+        return "";
+    }
+
+    @Override
+    public String matchEduExperience(String str) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(str)) {
+            User user = userMapper.selectOne(queryWrapper.eq("true_name", str).eq("user_type","school"));
+            if(user!=null&&user.getPictureUrl()!=null)
+                return user.getPictureUrl();
         }
         return "";
     }

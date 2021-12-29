@@ -1,16 +1,14 @@
 package com.soa.springcloud.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.EduExperience;
-import com.soa.springcloud.entities.JobExperience;
 import com.soa.springcloud.service.EduExperienceService;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.soa.springcloud.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,9 +18,11 @@ import java.util.List;
 public class EduExperienceController {
 
     private final EduExperienceService eduExperienceService;
+    private final SearchService searchService;
 
-    public EduExperienceController(EduExperienceService eduExperienceService) {
+    public EduExperienceController(EduExperienceService eduExperienceService, SearchService searchService) {
         this.eduExperienceService = eduExperienceService;
+        this.searchService = searchService;
     }
 
     /**
@@ -140,6 +140,7 @@ public class EduExperienceController {
             String et = calender.get(Calendar.YEAR)+"年"+(calender.get(Calendar.MONTH)>8?"":"0")+(calender.get(Calendar.MONTH)+1)+"月";
 
             JSONObject jsonObject = (JSONObject) (JSONObject.toJSON(edu));
+            jsonObject.put("pictureUrl",searchService.matchEduExperience(edu.getCollegeName()));
             jsonObject.put("startTime",st);
             jsonObject.put("endTime",et);
             jsonObjects.add(jsonObject);
