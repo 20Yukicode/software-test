@@ -2,10 +2,11 @@ package com.soa.springcloud.controller;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.EnterpriseInfoService;
-import com.soa.springcloud.service.TweetHystrixService;
 import com.soa.springcloud.service.impl.MailService;
 import com.soa.springcloud.service.impl.UserInfoServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
@@ -17,6 +18,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,7 @@ import java.util.Objects;
  **/
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Value("${server.port}")
@@ -45,8 +48,7 @@ public class UserController {
     private EnterpriseInfoService enterpriseInfoService;
     @Resource
     private DiscoveryClient discoveryClient;
-@Resource
-private TweetHystrixService tweetHystrixService;
+
     /**
      * 服务发现
      * @return
@@ -103,10 +105,22 @@ private TweetHystrixService tweetHystrixService;
         return CommonResult.success(mailService.sendMail(mail));
     }
 
+    public CommonResult<JSON> userCircuitBreaker_fallback(@RequestBody User user,
+                                           HttpServletResponse response) {
+        log.info("UserController_Login_CircuitBreaker_Fallback");
+        return CommonResult.failure("用户："+user.getUserName()+" 登陆失败次数过多，触发熔断");
+    }
     /**
      * 登录
      * @return
      */
+    //=====服务熔断
+    @HystrixCommand(fallbackMethod = "userCircuitBreaker_fallback",commandProperties = {
+            @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),// 是否开启断路器
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "20"),// 请求次数
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), // 时间窗口期
+            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "50"),// 失败率达到多少后跳闸
+    })
     @PostMapping("/user/login")
     public CommonResult<JSON> login(@RequestBody User user,
                                     HttpServletResponse response) throws Exception {
@@ -148,7 +162,7 @@ private TweetHystrixService tweetHystrixService;
     //@RequestMapping(path = "/user/get", method=RequestMethod.GET)
     public CommonResult<User> UserById(@PathVariable("unifiedId") Integer unifiedId) {
         User user = userService.getUserById(unifiedId);
-        //log.info("***查询结果：" + user);
+        log.info("***查询结果：" + user);
         if(user==null)return CommonResult.failure("用户不存在");
         return CommonResult.success(user);
     }
