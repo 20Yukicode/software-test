@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface SearchService {
     List<User> searchByTrueName(String str);
+    String matchJobExperience(String str);
 }

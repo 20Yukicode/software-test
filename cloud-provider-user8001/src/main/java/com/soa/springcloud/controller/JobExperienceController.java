@@ -1,31 +1,27 @@
 package com.soa.springcloud.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
-import com.soa.springcloud.entities.EduExperience;
 import com.soa.springcloud.entities.JobExperience;
 import com.soa.springcloud.service.JobExperienceService;
+import com.soa.springcloud.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @Slf4j
 public class JobExperienceController {
     private final JobExperienceService jobExperienceService;
+    private final SearchService searchService;
 
-    public JobExperienceController(JobExperienceService jobExperienceService) {
+    public JobExperienceController(JobExperienceService jobExperienceService, SearchService searchService) {
         this.jobExperienceService = jobExperienceService;
+        this.searchService = searchService;
     }
+
 
     /**
      * 增加工作经历
@@ -132,7 +128,7 @@ public class JobExperienceController {
         //开始查询数据
         List<JobExperience> jobExperience = jobExperienceService.getJobExperience(unifiedId);
         List<JSONObject> jsonObjects = new ArrayList<>();
-        //时间处理
+        //时间处理和
         for (JobExperience job:jobExperience) {
             Calendar calender = Calendar.getInstance();
             calender.setTime(job.getStartTime());
@@ -141,6 +137,7 @@ public class JobExperienceController {
             String et = calender.get(Calendar.YEAR)+"年"+(calender.get(Calendar.MONTH)>8?"":"0")+(calender.get(Calendar.MONTH)+1)+"月";
 
             JSONObject jsonObject = (JSONObject) (JSONObject.toJSON(job));
+            jsonObject.put("pictureUrl",searchService.matchJobExperience(job.getEnterpriseName()));
             jsonObject.put("startTime",st);
             jsonObject.put("endTime",et);
             jsonObjects.add(jsonObject);
