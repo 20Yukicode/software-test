@@ -161,7 +161,7 @@ public class UserController {
     //@RequestMapping(path = "/user/get", method=RequestMethod.GET)
     public CommonResult<User> UserById(@PathVariable("unifiedId") Integer unifiedId) {
         User user = userService.getUserById(unifiedId);
-        //log.info("***查询结果：" + user);
+        log.info("***查询结果：" + user);
         if(user==null)return CommonResult.failure("用户不存在");
         return CommonResult.success(user);
     }

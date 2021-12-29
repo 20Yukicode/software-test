@@ -1,14 +1,11 @@
 package com.soa.springcloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.soa.springcloud.entities.Resume;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.service.UserService;
+import com.soa.springcloud.util.FileUtils;
 import com.soa.springcloud.util.MD5Utils;
-import com.soa.springcloud.util.PictureUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 
 /**
  * @ClassName: PaymentServiceImpl
@@ -28,33 +23,20 @@ import java.security.MessageDigest;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
-    private static String localPath;
-    private static String webPath;
+    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
 
-    @Value("${file.localPath}")
-    public void setLocalPath(String localPath) {
-        UserServiceImpl.localPath = localPath;
-    }
-    @Value("${file.webPath}")
-    public void setWebPath(String webPath) {
-        UserServiceImpl.webPath = webPath;
-    }
+    private static final String accessKeyId = "LTAI5tBG4652Uuc6Ljxi5hpu";
+
+    private static final String accessKeySecret = "1SeLabxEsZdAPlRHN2kPkPzri3sxYi";
+
+    private static final String bucketName = "soa-user-resume";
+
     @Override
-    //=====服务熔断
-    @HystrixCommand(fallbackMethod = "userCircuitBreaker_fallback",commandProperties = {
-            @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),// 是否开启断路器
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),// 请求次数
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), // 时间窗口期
-            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"),// 失败率达到多少后跳闸
-    })
     public int create(User user) {
         user.setPassword(MD5Utils.MD5(user.getPassword()));
         return userMapper.insert(user);
     }
-    public int userCircuitBreaker_fallback(User user) {
-        log.info("what？竟然出bug了！请稍后再试，/(ㄒoㄒ)/~~");
-        return -1;
-    }
+
     @Override
     public User getUserById(int unifiedId) {
         return userMapper.selectById(unifiedId);
@@ -73,7 +55,8 @@ public class UserServiceImpl implements UserService {
     public int addBack(Integer unifiedId, MultipartFile file) throws IOException {
 
         //url存入数据库
-        String url=webPath+"/back/"+unifiedId+"/"+file.getOriginalFilename();
+        //String url=webPath+"/back/"+unifiedId+"/"+file.getOriginalFilename();
+        String url="https://"+bucketName+"."+endpoint+"/back/"+unifiedId+"/"+file.getOriginalFilename();
         User user= new User();
         user.setUnifiedId(unifiedId);
         user.setBackground(url);
@@ -81,8 +64,9 @@ public class UserServiceImpl implements UserService {
 
         //存储文件
         //本地存储路径
-        String path = localPath+"\\back\\"+unifiedId;
-        PictureUtils.saveUrl(file,path);
+        //String path = localPath+"\\back\\"+unifiedId;
+        String path = "back/"+unifiedId;
+        FileUtils.saveUrl(file,path);
 
         //成功返回大于1
         return result;

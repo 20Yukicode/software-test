@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class ResumeController {
     private final ResumeService resumeService;
 
@@ -37,6 +38,7 @@ public class ResumeController {
     @PostMapping("/user/resume")
     public CommonResult addResume(@RequestParam("unifiedId") Integer unifiedId,
                                   @RequestPart("file")MultipartFile file) throws IOException {
+        //log.info("传文件："+file.getOriginalFilename());
         //预处理传入参数
         if(unifiedId ==null){
             return CommonResult.failure("失败，unifiedId空");

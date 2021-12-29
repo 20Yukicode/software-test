@@ -26,9 +26,12 @@ spring:
 
 eureka:
   instance:
-    hostname: cloud-gateway-service
+    prefer-ip-address: true
+    #instance-id: gateway9527
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    hostname: ${eureka.instance.ip-address}
   client: #服务提供者provider注册进eureka服务列表内
     service-url:
       register-with-eureka: true
       fetch-registry: true
-      defaultZone: http://eureka7001.com:7001/eureka
+      defaultZone: http://localhost:7001/eureka

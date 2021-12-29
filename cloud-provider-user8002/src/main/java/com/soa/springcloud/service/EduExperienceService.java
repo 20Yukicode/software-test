@@ -1,6 +1,7 @@
 package com.soa.springcloud.service;
 
 import com.soa.springcloud.entities.EduExperience;
+
 import java.util.List;
 
 public interface EduExperienceService {

@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.EnterpriseInfo;
 import com.soa.springcloud.entities.User;
-import com.soa.springcloud.entities.UserInfo;
 import com.soa.springcloud.service.impl.EnterpriseInfoServiceImpl;
 import com.soa.springcloud.service.impl.SubscriptionServiceImpl;
 import com.soa.springcloud.service.impl.UserServiceImpl;
@@ -17,6 +16,7 @@ import javax.annotation.Resource;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class EnterpriseInfoController {
     @Resource
     private EnterpriseInfoServiceImpl enterpriseInfoService;
@@ -41,6 +41,7 @@ public class EnterpriseInfoController {
         json.putByPath("pictureUrl",user.getPictureUrl());
         json.putByPath("briefInfo",user.getBriefInfo());
         json.putByPath("email",user.getEmail());
+        json.putByPath("background",user.getBackground());
         //log.info("***查询结果：" + json);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);
