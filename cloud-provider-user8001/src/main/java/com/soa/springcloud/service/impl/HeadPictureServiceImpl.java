@@ -19,6 +19,18 @@ public class HeadPictureServiceImpl implements HeadPictureService {
     private static String localPath;
     private static String webPath;
 
+    private static String endpoint;
+    private static String bucketName;
+
+    @Value("${file.endpoint}")
+    public void setEndpoint(String endpoint) {
+        HeadPictureServiceImpl.endpoint = endpoint;
+    }
+
+    @Value("${file.bucketName}")
+    public void setBucketName(String bucketName) {
+        HeadPictureServiceImpl.bucketName = bucketName;
+    }
     @Resource
     private UserMapper userMapper;
 
@@ -35,7 +47,8 @@ public class HeadPictureServiceImpl implements HeadPictureService {
     public int addHeadPicture(Integer unifiedId, MultipartFile file) throws IOException {
         int result=0;
         //路径存入数据库
-        String url=webPath+"/headpic/"+unifiedId+"/"+file.getOriginalFilename();
+        //String url=webPath+"/headpic/"+unifiedId+"/"+file.getOriginalFilename();
+        String url="https://"+bucketName+"."+endpoint+"/headpic/"+unifiedId+"/"+file.getOriginalFilename();
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("unified_id",unifiedId);
         User user = new User();
@@ -43,7 +56,8 @@ public class HeadPictureServiceImpl implements HeadPictureService {
         result=userMapper.update(user,queryWrapper);
         //开始存文件
         //本地存储路径
-        String path = localPath+"\\headpic\\"+unifiedId;
+        //String path = localPath+"\\headpic\\"+unifiedId;
+        String path = "headpic/"+unifiedId;
         FileUtils.saveUrl(file,path);
 
         //成功返回大于1

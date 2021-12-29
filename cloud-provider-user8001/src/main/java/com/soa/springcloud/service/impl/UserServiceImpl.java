@@ -25,6 +25,18 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     private static String localPath;
     private static String webPath;
+    private static String endpoint;
+    private static String bucketName;
+
+    @Value("${file.endpoint}")
+    public void setEndpoint(String endpoint) {
+        UserServiceImpl.endpoint = endpoint;
+    }
+
+    @Value("${file.bucketName}")
+    public void setBucketName(String bucketName) {
+        UserServiceImpl.bucketName = bucketName;
+    }
 
     @Value("${file.localPath}")
     public void setLocalPath(String localPath) {
@@ -58,7 +70,8 @@ public class UserServiceImpl implements UserService {
     public int addBack(Integer unifiedId, MultipartFile file) throws IOException {
 
         //url存入数据库
-        String url=webPath+"/back/"+unifiedId+"/"+file.getOriginalFilename();
+        //String url=webPath+"/back/"+unifiedId+"/"+file.getOriginalFilename();
+        String url="https://"+bucketName+"."+endpoint+"/back/"+unifiedId+"/"+file.getOriginalFilename();
         User user= new User();
         user.setUnifiedId(unifiedId);
         user.setBackground(url);
@@ -66,7 +79,8 @@ public class UserServiceImpl implements UserService {
 
         //存储文件
         //本地存储路径
-        String path = localPath+"\\back\\"+unifiedId;
+        //String path = localPath+"\\back\\"+unifiedId;
+        String path = "back/"+unifiedId;
         FileUtils.saveUrl(file,path);
 
         //成功返回大于1

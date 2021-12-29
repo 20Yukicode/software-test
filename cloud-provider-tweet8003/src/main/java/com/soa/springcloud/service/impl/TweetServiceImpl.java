@@ -19,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Comparator;
@@ -54,6 +55,10 @@ public class TweetServiceImpl implements TweetService{
 
     private static String localPath;
     private static String webPath;
+
+    public static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
+    public static final String bucketName = "soa-user-resume";
+
 
     @Value("${file.localPath}")
     public void setLocalPath(String localPath) {
@@ -206,7 +211,8 @@ public class TweetServiceImpl implements TweetService{
         for(MultipartFile file :files) {
 
             num++;
-            String url = webPath + "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
+            //String url = webPath + "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
+            String url="https://"+bucketName+"."+endpoint+ "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
             //开始存文件
             //本地存储路径
             Picture picture = new Picture();
@@ -215,8 +221,8 @@ public class TweetServiceImpl implements TweetService{
             picture.setNumId(num);
             pictureMapper.insert(picture);
 
-            String path = localPath + "\\tweetpic\\" + tweetId + "\\" +num;
-
+            //String path = localPath + "\\tweetpic\\" + tweetId + "\\" +num;
+            String path = "tweetpic/"+tweetId+"/"+num;
             PictureUtils.saveUrl(file, path);
         }
         return num;
