@@ -7,6 +7,7 @@ import com.soa.springcloud.entities.Position;
 import com.soa.springcloud.service.impl.UserRecruitmentServiceImpl;
 import com.soa.springcloud.service.impl.EnterprisePositionServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.crypto.agreement.DHUnifiedAgreement;
 import org.springframework.web.bind.annotation.*;
 import com.soa.springcloud.dto.PositionDeleteDto;
 import javax.annotation.Resource;
@@ -39,12 +40,13 @@ public class EnterprisePositionController {
 
     /**
      * 企业删除岗位信息
-     * @param dto
+     * @param unifiedId
+     * @param jobId
      * @return
      */
     @DeleteMapping(value = "/recruit/enterprise/position")
-    public CommonResult delete(@RequestBody PositionDeleteDto dto){
-        if(enterprisePositionService.deletePosition(dto.getUnifiedId(),dto.getJobId())==1)
+    public CommonResult delete(@RequestParam int unifiedId,@RequestParam int jobId){
+        if(enterprisePositionService.deletePosition(unifiedId,jobId)==1)
             return CommonResult.success("删除成功");
         else return CommonResult.failure("删除失败");
     }
