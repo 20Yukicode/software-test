@@ -1,31 +1,37 @@
 package com.soa.springcloud.util;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 public class PictureUtils {
-    /**
-     * ip地址
-     */
-    private static final String ip = "47.102.217.130";
-    /**
-     * 开放端口号
-     */
-    private static final String host = "666";
-    public static void saveUrl(MultipartFile multipartFile,String path) throws IOException {
-        File file = new File(path);
-        //创建文件夹
-        file.mkdirs();
-        //存储文件
-        String _path=path+"\\"+multipartFile.getOriginalFilename();
-        log.info("存储文件："+_path);
-        multipartFile.transferTo(new File(_path));
 
-        //String[] pics = path.split("C:/upload/");
-        //return ip+":"+host+"/"+pics[1]+multipartFile.getOriginalFilename();
+    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
+
+    private static final String accessKeyId = "LTAI5tBG4652Uuc6Ljxi5hpu";
+
+    private static final String accessKeySecret = "1SeLabxEsZdAPlRHN2kPkPzri3sxYi";
+
+    private static final String bucketName = "soa-user-resume";
+
+    private static final OSS ossClient = new OSSClientBuilder().build(endpoint,accessKeyId,accessKeySecret);
+
+    public static void saveUrl(MultipartFile multipartFile,String path) {
+        if (multipartFile != null) {
+            try {
+                InputStream inputstream = multipartFile.getInputStream();
+                String name = multipartFile.getOriginalFilename();
+                String fileName = path + "/" + name;
+                ossClient.putObject(bucketName, fileName, inputstream);
+            } catch (IOException ignored) {
+            }
+        }
+
     }
 }

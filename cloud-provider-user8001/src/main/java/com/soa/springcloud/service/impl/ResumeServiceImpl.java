@@ -32,15 +32,6 @@ public class ResumeServiceImpl implements ResumeService {
 
     private static String bucketName;
 
-//    @Value("${file.localPath}")
-//    public void setLocalPath(String localPath) {
-//        ResumeServiceImpl.localPath = localPath;
-//    }
-//    @Value("${file.webPath}")
-//    public void setWebPath(String webPath) {
-//        ResumeServiceImpl.webPath = webPath;
-//    }
-
     @Value("${file.endpoint}")
     public void setEndpoint(String endpoint) {
         ResumeServiceImpl.endpoint = endpoint;
@@ -89,8 +80,8 @@ public class ResumeServiceImpl implements ResumeService {
 
         //本地存储路径
         //String path = localPath+"\\resume\\"+unifiedId+"\\"+resumeId;
-        String path = unifiedId+"/"+resumeId;
-        FileUtils.saveUrl(file,unifiedId+"/"+resumeId);
+        String path = "resume/"+unifiedId+"/"+resumeId;
+        FileUtils.saveUrl(file,path);
 
         //成功返回大于1
         return result;
