@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -189,20 +186,43 @@ public class EnterprisePositionServiceImpl{
         log.info("positions",prePosition);
         //List<Position> positions=new ArrayList<>();
         List<JSONObject> positions=new ArrayList<>();
+//        if(userInfo.getPrePosition().equals("")){
+//            List<Position> positionsList = positionMapper.selectByMap(null);
+//            List<Position> result = new ArrayList<>();
+//            for(int i=0;i<3;i++){
+//                Random random = new Random(positionsList.size());
+//                int index = random.nextInt() - 1;
+//                result.add(positionsList.get(index));
+//                positions.remove(index);
+//            }
+//        }
         prePosition.forEach(item->{
-            QueryWrapper<Position> wrapper=new QueryWrapper<>();
-            wrapper.eq("position_type",item);
-            wrapper.ne("state",0);//去除掉没激活的
-            //positions.addAll(positionMapper.selectList(wrapper));
-            positionMapper.selectList(wrapper).forEach(one->{
-                JSONObject jsonObject = (JSONObject) JSONObject.toJSON(one);
-                User user = userMapper.selectById(one.getUnifiedId());
-                jsonObject.put("pictureUrl",user.getPictureUrl());
-                jsonObject.put("userType",user.getUserType());
-                jsonObject.put("briefInfo",user.getBriefInfo());
-                jsonObject.put("trueName",user.getTrueName());
-                positions.add(jsonObject);
-            });
+            if(userInfo.getPrePosition().equals("")){
+                positionMapper.selectList(null).forEach(one -> {
+                    JSONObject jsonObject = (JSONObject) JSONObject.toJSON(one);
+                    User user = userMapper.selectById(one.getUnifiedId());
+                    jsonObject.put("pictureUrl", user.getPictureUrl());
+                    jsonObject.put("userType", user.getUserType());
+                    jsonObject.put("briefInfo", user.getBriefInfo());
+                    jsonObject.put("trueName", user.getTrueName());
+                    positions.add(jsonObject);
+                });
+            }
+            else{
+                QueryWrapper<Position> wrapper = new QueryWrapper<>();
+                wrapper.eq("position_type", item);
+                wrapper.ne("state", 0);//去除掉没激活的
+                //positions.addAll(positionMapper.selectList(wrapper));
+                positionMapper.selectList(wrapper).forEach(one -> {
+                    JSONObject jsonObject = (JSONObject) JSONObject.toJSON(one);
+                    User user = userMapper.selectById(one.getUnifiedId());
+                    jsonObject.put("pictureUrl", user.getPictureUrl());
+                    jsonObject.put("userType", user.getUserType());
+                    jsonObject.put("briefInfo", user.getBriefInfo());
+                    jsonObject.put("trueName", user.getTrueName());
+                    positions.add(jsonObject);
+                });
+            }
         });
         //positions.sort(Comparator.comparing(Position::getJobId));
         positions.sort(new Comparator<JSONObject>() {
@@ -231,13 +251,6 @@ public class EnterprisePositionServiceImpl{
         if(size>=cut+15) {
             jsonObjects.addAll(positions.subList(cut, cut + 15));
         } else jsonObjects.addAll(positions.subList(cut,size));
-        //log.info("positions",positions);
-        /*jsonObjects.sort(new Comparator<JSONObject>() {
-            @Override
-            public int compare(JSONObject o1, JSONObject o2) {
-                return o2.getInteger("jobId")-o1.getInteger("jobId");
-            }
-        });*/
         return jsonObjects;
     }
 }
