@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class SearchController {
     private final SearchService searchServiceService;
 

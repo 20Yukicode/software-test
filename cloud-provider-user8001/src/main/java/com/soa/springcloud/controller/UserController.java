@@ -31,7 +31,7 @@ import java.util.Objects;
  **/
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class UserController {
 
     @Value("${server.port}")

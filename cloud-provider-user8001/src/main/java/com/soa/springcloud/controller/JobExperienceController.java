@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class JobExperienceController {
     private final JobExperienceService jobExperienceService;
     private final SearchService searchService;

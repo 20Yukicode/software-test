@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.Objects;
  **/
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class UserController {
 
     @Value("${server.port}")
@@ -147,6 +148,8 @@ public class UserController {
             cookie.setMaxAge(60 * 60 * 24);
             cookie.setPath ("/");
             response.addCookie(cookie);
+
+
             return CommonResult.success(json);
         }
         //用户存在但密码错误

@@ -182,7 +182,7 @@ public class EnterprisePositionServiceImpl{
     //需要记录上一次浏览到的位置（下次开会再讨论）
     public List<JSONObject> getRecommendedPositionsById(int unifiedId,Integer momentId) {
         UserInfo userInfo=userInfoMapper.selectById(unifiedId);//找到用户信息
-        List<String> prePosition=Arrays.asList(userInfo.getPrePosition().split(","));
+        List<String> prePosition=new ArrayList(Arrays.asList(userInfo.getPrePosition().split(",")));
         log.info("positions",prePosition);
         //List<Position> positions=new ArrayList<>();
         List<JSONObject> positions=new ArrayList<>();

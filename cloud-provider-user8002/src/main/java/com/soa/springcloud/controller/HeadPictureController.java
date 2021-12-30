@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class  HeadPictureController {
     private final HeadPictureService headPictureService;
 

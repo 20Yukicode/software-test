@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class EnterpriseInfoController {
     @Resource
     private EnterpriseInfoServiceImpl enterpriseInfoService;
