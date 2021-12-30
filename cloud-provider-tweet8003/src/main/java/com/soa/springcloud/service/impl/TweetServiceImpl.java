@@ -131,8 +131,11 @@ public class TweetServiceImpl implements TweetService{
 
         QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unified_id",visitorId);
-        List subscriptionList = subscriptionMapper.selectList(queryWrapper);
-
+        List<Subscription> subscriptionList = subscriptionMapper.selectList(queryWrapper);
+        Subscription subscription = new Subscription();
+        subscription.setUnifiedId(visitorId);
+        subscription.setSubscribeId(visitorId);
+        subscriptionList.add(subscription);
 //        if(subscriptionList.size()>=1)
 //            tweetArray.add(JSONUtil.parseObj(subscriptionList.get(0)));
 //        return tweetArray;

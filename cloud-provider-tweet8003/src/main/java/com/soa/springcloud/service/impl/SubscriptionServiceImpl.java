@@ -136,6 +136,7 @@ public class SubscriptionServiceImpl implements SubscriptionService{
         });
         int count = 0;
         for(Map.Entry<User, Double> one : list){
+            if(one.getKey().getUserType().equals("school"))continue;
             if(count>=5)break;
             count++;
             //log.info(one.getKey().getTrueName()+" 相似度："+one.getValue());
