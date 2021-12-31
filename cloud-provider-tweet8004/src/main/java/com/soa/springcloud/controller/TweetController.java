@@ -70,9 +70,9 @@ public class TweetController {
         return CommonResult.failure("用户:"+unifiedId+" 调用 /tweet/tweetList 接口超时，请重试");
     }
 
-    @HystrixCommand(fallbackMethod = "tweetList_TimeOutHandler"/*指定善后方法名*/,commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
-    })
+//    @HystrixCommand(fallbackMethod = "tweetList_TimeOutHandler"/*指定善后方法名*/,commandProperties = {
+//            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
+//    })
     @GetMapping("/tweet/tweetList")
     public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId){
 
@@ -84,6 +84,11 @@ public class TweetController {
         JSONArray array = new JSONArray();
 //        return CommonResult.success("测试",jsonArray);
         int count = 0;
+        //若无数据
+        if(jsonArray.size()==0){
+            return CommonResult.success("查询成功",array);
+        }
+        //log.info("长度："+jsonArray.getJSONObject(jsonArray.size()-1).getInt("tweetId")+1);
         if(momentId==null)
             momentId = jsonArray.getJSONObject(jsonArray.size()-1).getInt("tweetId")+1;
         for(int i=jsonArray.size()-1;i>=0;i--){

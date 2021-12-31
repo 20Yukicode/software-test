@@ -21,8 +21,8 @@ public class CorsConfig {
         config.addAllowedMethod("*");
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
-        //config.setAllowCredentials(true); //允许接受cooki
-
+        //config.setAllowCredentials(true); //允许接受cookie
+        //config.addAllowedHeader("http://139.224.65.105/");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
         source.registerCorsConfiguration("/**", config);
 

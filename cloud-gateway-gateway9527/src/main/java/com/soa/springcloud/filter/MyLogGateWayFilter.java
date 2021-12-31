@@ -47,26 +47,27 @@ public class MyLogGateWayFilter implements GlobalFilter,Ordered
 //        log.info("token:"+exchange.getRequest().getHeaders().get("token").toString());
         RequestPath path = exchange.getRequest().getPath();
         log.info("请求方法："+path);
-//        if(path.toString().contains("/user/userinfo")||path.toString().equals("/user/resume")||path.toString().equals("/user/edu")){
-//            MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
-//            List<HttpCookie> token = cookies.get("token");
-//            log.info("登录用户:"+token);
-//            if(token!=null) return chain.filter(exchange);
-//            log.info("鉴权失败！");
-//
-//            response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_UTF8.toString());
-//            CommonResult<Object> failure = CommonResult.failure("请重新登录！");
-//            byte[] bytes = JSON.toJSONString(failure).getBytes();
-//
-//            DataBuffer buffer = response.bufferFactory().wrap(bytes);
-//            response.setStatusCode(HttpStatus.NOT_ACCEPTABLE);
-//            return response.writeWith(Mono.just(buffer));
-//        }
-//        else
-//        {
-
+        //if(path.toString().contains("/user/userinfo")||path.toString().equals("/user/resume")||path.toString().equals("/user/edu")){
+        if(path.toString().contains("/user/login")||path.toString().equals("/user/register")){
             return chain.filter(exchange);
-        //}
+
+        }
+        else
+        {
+            MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
+            List<HttpCookie> token = cookies.get("token");
+            log.info("登录用户:"+token);
+            if(token!=null) return chain.filter(exchange);
+            log.info("鉴权失败！");
+
+            response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_UTF8.toString());
+            CommonResult<Object> failure = CommonResult.failure("用户信息失效，请重新登录！");
+            byte[] bytes = JSON.toJSONString(failure).getBytes();
+
+            DataBuffer buffer = response.bufferFactory().wrap(bytes);
+            response.setStatusCode(HttpStatus.NOT_ACCEPTABLE);
+            return response.writeWith(Mono.just(buffer));
+        }
 
     }
 

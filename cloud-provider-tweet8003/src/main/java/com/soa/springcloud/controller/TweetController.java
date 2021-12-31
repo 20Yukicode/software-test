@@ -84,6 +84,9 @@ public class TweetController {
         JSONArray array = new JSONArray();
 //        return CommonResult.success("测试",jsonArray);
         int count = 0;
+        if(jsonArray.size()==0){
+            return CommonResult.success("查询成功",array);
+        }
         if(momentId==null)
             momentId = jsonArray.getJSONObject(jsonArray.size()-1).getInt("tweetId")+1;
         for(int i=jsonArray.size()-1;i>=0;i--){
