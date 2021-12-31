@@ -9,6 +9,7 @@ spring:
     url: jdbc:mysql://175.24.202.178:3306/linked?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
     username: root
     password: Jwl12345
+
   #文件传输大小配置
   servlet:
     multipart:
