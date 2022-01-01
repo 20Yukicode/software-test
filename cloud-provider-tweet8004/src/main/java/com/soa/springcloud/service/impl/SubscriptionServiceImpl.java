@@ -1,5 +1,6 @@
 package com.soa.springcloud.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Subscription;
 import com.soa.springcloud.entities.User;
@@ -20,6 +21,60 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
     @Resource
     private UserMapper userMapper;
+    /**
+     * 关注列表
+     * @param unifiedId
+     * @return
+     */
+    @Override
+    public List<JSONObject> followList(Integer unifiedId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("unified_id",unifiedId);
+        List<JSONObject> result = new ArrayList<>();
+        List<Subscription> subscriptions = subscriptionMapper.selectByMap(map);
+        for(Subscription one : subscriptions){
+            Integer subscribeId = one.getSubscribeId();
+            User user = userMapper.selectById(subscribeId);
+            JSONObject temp = new JSONObject();
+            temp.put("unifiedId",user.getUnifiedId());
+            temp.put("userType",user.getUserType());
+            temp.put("briefInfo",user.getBriefInfo());
+            temp.put("pictureUrl",user.getPictureUrl());
+            temp.put("trueName",user.getTrueName());
+            temp.put("isSubscribed",true);
+            result.add(temp);
+        }
+        return result;
+    }
+    /**
+     * 粉丝列表
+     * @param unifiedId
+     * @return
+     */
+    @Override
+    public List<JSONObject> fansList(Integer unifiedId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("subscribe_id",unifiedId);
+        List<JSONObject> result = new ArrayList<>();
+        List<Subscription> subscriptions = subscriptionMapper.selectByMap(map);
+        for(Subscription one : subscriptions){
+            Integer subscribeId = one.getUnifiedId();
+            User user = userMapper.selectById(subscribeId);
+            JSONObject temp = new JSONObject();
+            temp.put("unifiedId",user.getUnifiedId());
+            temp.put("userType",user.getUserType());
+            temp.put("briefInfo",user.getBriefInfo());
+            temp.put("pictureUrl",user.getPictureUrl());
+            temp.put("trueName",user.getTrueName());
+            Map<String,Object> _map = new HashMap<>();
+            _map.put("subscribe_id",subscribeId);
+            _map.put("unified_id",unifiedId);
+            List<Subscription> _subscriptions = subscriptionMapper.selectByMap(_map);
+            temp.put("isSubscribed",_subscriptions.size()>0?true:false);
+            result.add(temp);
+        }
+        return result;
+    }
     /**
      * 检查订阅关系
      * @param unifiedId——查看方

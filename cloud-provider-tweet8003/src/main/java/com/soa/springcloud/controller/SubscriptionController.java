@@ -100,4 +100,30 @@ public class SubscriptionController {
 
         return CommonResult.success("请求成功",subscriptionService.getRecommendList(unifiedId));
     }
+
+    /**
+     * 关注列表
+     * @param unifiedId
+     * @return
+     */
+    @GetMapping("/tweet/follow/{unifiedId}")
+    public CommonResult getFollowList(@PathVariable Integer unifiedId){
+        if(unifiedId == null)
+            return CommonResult.failure("错误，unifiedId为空");
+
+        return CommonResult.success("请求成功",subscriptionService.followList(unifiedId));
+    }
+
+    /**
+     * 粉丝列表
+     * @param unifiedId
+     * @return
+     */
+    @GetMapping("/tweet/fans/{unifiedId}")
+    public CommonResult getFansList(@PathVariable Integer unifiedId){
+        if(unifiedId == null)
+            return CommonResult.failure("错误，unifiedId为空");
+
+        return CommonResult.success("请求成功",subscriptionService.fansList(unifiedId));
+    }
 }

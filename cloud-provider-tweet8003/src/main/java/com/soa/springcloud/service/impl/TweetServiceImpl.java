@@ -23,9 +23,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -69,22 +67,7 @@ public class TweetServiceImpl implements TweetService{
         TweetServiceImpl.webPath = webPath;
     }
 
-//    /**
-//     * 关注列表
-//     * @param unifiedId
-//     * @return
-//     */
-//    public List<JSONObject> followList(Integer unifiedId){
-//
-//    }
-//    /**
-//     * 粉丝列表
-//     * @param unifiedId
-//     * @return
-//     */
-//    public List<JSONObject> fansList(Integer unifiedId){
-//
-//    }
+
     @Override
     public int addLikesNum(Integer tweetId){
 
