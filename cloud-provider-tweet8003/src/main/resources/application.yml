@@ -6,9 +6,12 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource  #当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动包
-    url: jdbc:mysql://175.24.202.178:3306/linked?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: root
-    password: Jwl12345
+#    url: jdbc:mysql://175.24.202.178:3306/linked?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+#    username: root
+    #password: Jwl12345
+    url: jdbc:mysql://121.5.68.218:3306/LinkedOut?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: developer
+    password: tjsse2022
   #文件传输大小配置
   servlet:
     multipart:
@@ -34,7 +37,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: tweet8003
-    ip-address: 175.24.202.178
+    ip-address: 175.24.202.153
 
 file:
   localPath: "C:\\upload"

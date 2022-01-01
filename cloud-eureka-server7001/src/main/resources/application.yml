@@ -13,7 +13,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: eureka7001
-    ip-address: 175.24.202.178
+    ip-address: 175.24.202.153
     #appname:
   client:
 

@@ -37,7 +37,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: config3344
-    ip-address: 175.24.202.178
+    ip-address: 175.24.202.153
 
 
 ##rabbitmq相关配置,暴露bus刷新配置的端点<--------------------------

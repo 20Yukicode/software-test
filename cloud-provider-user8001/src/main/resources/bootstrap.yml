@@ -29,9 +29,12 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource  #当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver #数据库驱动包
-    url: jdbc:mysql://175.24.202.178:3306/linked?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: root
-    password: Jwl12345
+#    url: jdbc:mysql://175.24.202.178:3306/linked?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+#    username: root
+#    password: Jwl12345
+    url: jdbc:mysql://121.5.68.218:3306/LinkedOut?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: developer
+    password: tjsse2022
   mail:
     # 163
     host: smtp.163.com
@@ -67,7 +70,7 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: user8001
-    ip-address: 175.24.202.178
+    ip-address: 175.24.202.153
 
 #设置feign客户端超时时间(OpenFeign默认支持ribbon)(单位：毫秒)
 ribbon:

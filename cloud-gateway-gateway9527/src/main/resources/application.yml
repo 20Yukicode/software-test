@@ -43,7 +43,7 @@ eureka:
     instance-id: gateway9527
     #instance-id: ${spring.cloud.client.ipAddress}:${server.port}
     #hostname: ${eureka.instance.ip-address}
-    ip-address: 175.24.202.178
+    ip-address: 175.24.202.153
   client: #服务提供者provider注册进eureka服务列表内
     service-url:
       register-with-eureka: true
