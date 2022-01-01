@@ -28,6 +28,7 @@ public class UserInfoController {
     @GetMapping("/user/userinfo")
     public CommonResult<JSON> getUserInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
+
         if(unifiedId ==subscribeId)subscribed=2;
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
         JSON json = JSONUtil.parse(userInfo);
@@ -38,6 +39,10 @@ public class UserInfoController {
         json.putByPath("briefInfo",user.getBriefInfo());
         json.putByPath("email",user.getEmail());
         json.putByPath("background",user.getBackground());
+        int fansNum = subscriptionService.fansNum(unifiedId);
+        int followNum = subscriptionService.followNum(unifiedId);
+        json.putByPath("fansNum",fansNum);
+        json.putByPath("followNum",followNum);
         //log.info("***查询结果：" + json);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);

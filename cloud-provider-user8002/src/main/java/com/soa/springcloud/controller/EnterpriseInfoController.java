@@ -35,6 +35,10 @@ public class EnterpriseInfoController {
         if(unifiedId ==subscribeId)subscribed=2;
         EnterpriseInfo enterpriseInfo = enterpriseInfoService.getEnterpriseInfo(subscribeId);
         JSON json = JSONUtil.parse(enterpriseInfo);
+        int fansNum = subscriptionService.fansNum(unifiedId);
+        int followNum = subscriptionService.followNum(unifiedId);
+        json.putByPath("fansNum",fansNum);
+        json.putByPath("followNum",followNum);
         json.putByPath("isSubscribed",subscribed);
         User user = userService.getUserById(subscribeId);
         json.putByPath("trueName",user.getTrueName());
@@ -42,6 +46,7 @@ public class EnterpriseInfoController {
         json.putByPath("briefInfo",user.getBriefInfo());
         json.putByPath("email",user.getEmail());
         json.putByPath("background",user.getBackground());
+
         //log.info("***查询结果：" + json);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);
