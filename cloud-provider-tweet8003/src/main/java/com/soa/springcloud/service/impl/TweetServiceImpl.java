@@ -69,6 +69,22 @@ public class TweetServiceImpl implements TweetService{
         TweetServiceImpl.webPath = webPath;
     }
 
+//    /**
+//     * 关注列表
+//     * @param unifiedId
+//     * @return
+//     */
+//    public List<JSONObject> followList(Integer unifiedId){
+//
+//    }
+//    /**
+//     * 粉丝列表
+//     * @param unifiedId
+//     * @return
+//     */
+//    public List<JSONObject> fansList(Integer unifiedId){
+//
+//    }
     @Override
     public int addLikesNum(Integer tweetId){
 
