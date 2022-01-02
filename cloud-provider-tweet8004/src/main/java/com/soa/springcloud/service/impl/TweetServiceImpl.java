@@ -127,6 +127,11 @@ public class TweetServiceImpl implements TweetService{
                     tweetObject.put("type","tweet");
                     tweetObject.put("likeState", likesService.getLikes(visitorId,one.getTweetId()));
                     tweetObject.put("simpleUserInfo", getSimpleUserInfo(subscribeId));
+                    //查动态图片
+                    Map<String,Object> _map = new HashMap<>();
+                    _map.put("tweet_id",one.getTweetId());
+                    List<Picture> pictures = pictureMapper.selectByMap(_map);
+                    tweetObject.put("pictureList",pictures);
                     tweetArray.add(tweetObject);
                 }
                 List<Position> positions = positionMapper.selectByMap(map);
