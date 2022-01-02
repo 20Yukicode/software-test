@@ -39,8 +39,8 @@ public class UserInfoController {
         json.putByPath("briefInfo",user.getBriefInfo());
         json.putByPath("email",user.getEmail());
         json.putByPath("background",user.getBackground());
-        int fansNum = subscriptionService.fansNum(unifiedId);
-        int followNum = subscriptionService.followNum(unifiedId);
+        int fansNum = subscriptionService.fansNum(subscribeId);
+        int followNum = subscriptionService.followNum(subscribeId);
         json.putByPath("fansNum",fansNum);
         json.putByPath("followNum",followNum);
         //log.info("***查询结果：" + json);

@@ -28,8 +28,8 @@ public class UserInfoController {
     @GetMapping("/user/userinfo")
     public CommonResult<JSON> getUserInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
-        int fansNum = subscriptionService.fansNum(unifiedId);
-        int followNum = subscriptionService.followNum(unifiedId);
+        int fansNum = subscriptionService.fansNum(subscribeId);
+        int followNum = subscriptionService.followNum(subscribeId);
         if(unifiedId ==subscribeId)subscribed=2;
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
         JSON json = JSONUtil.parse(userInfo);
