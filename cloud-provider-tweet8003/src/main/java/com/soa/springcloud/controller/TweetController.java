@@ -64,40 +64,60 @@ public class TweetController {
         return CommonResult.success("查询成功",tweetService.getSelfTweetList(visitorId,intervieweeId,momentId));
     }
     //fallback
-    public CommonResult tweetList_TimeOutHandler(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId)
+    public CommonResult tweetList_TimeOutHandler(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId,
+                                                 @RequestParam(required = false) String type)
     {
         log.info("TweetList_Fallback");
         return CommonResult.failure("用户:"+unifiedId+" 调用 /tweet/tweetList 接口超时，请重试");
     }
 
     @HystrixCommand(fallbackMethod = "tweetList_TimeOutHandler"/*指定善后方法名*/,commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="3000")
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="8000")
     })
     @GetMapping("/tweet/tweetList")
-    public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId){
+    public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId,
+                                     @RequestParam(required = false) String type){
 
         if(unifiedId == null)
             return CommonResult.failure("错误，unifiedId为空");
 
         JSONArray jsonArray = tweetService.getTweetList(unifiedId,momentId);
-        jsonArray.sort(Comparator.comparing(obj -> ((JSONObject) obj).getInt("tweetId")));
         JSONArray array = new JSONArray();
-//        return CommonResult.success("测试",jsonArray);
-        int count = 0;
         if(jsonArray.size()==0){
             return CommonResult.success("查询成功",array);
         }
-        if(momentId==null)
-            momentId = jsonArray.getJSONObject(jsonArray.size()-1).getInt("tweetId")+1;
-        for(int i=jsonArray.size()-1;i>=0;i--){
-            JSONObject object = jsonArray.getJSONObject(i);
-            int tweetId = object.getInt("tweetId");
-            if(count<10 && tweetId<momentId ){
-                object.put("pictureList",tweetService.getTweetPictures(tweetId));
-                count++;
-                array.add(object);
+        //若查询id为空，不做分割，返回前9个动态/启事
+        if(momentId==null){
+            for(int i=jsonArray.size()-1;i>=jsonArray.size()-9&&i>=0;i--){
+                array.add(jsonArray.get(i));
             }
+            return CommonResult.success("查询成功",array);
+        }
 
+        //若查询id不为空
+        //根据岗位id划分
+        if(type.equals("position")){
+            for(int i=jsonArray.size()-1;i>=0;i--){
+                if(jsonArray.get(i,JSONObject.class).get("type").equals("position")&&jsonArray.get(i,JSONObject.class)
+                        .getInt("jobId")<momentId){
+                    for(int j=i;j>i-9&&j>=0;j--){
+                        array.add(jsonArray.get(j));
+                    }
+                    break;
+                }
+            }
+        }
+        //根据动态id划分
+        if(type.equals("tweet")){
+            for(int i=jsonArray.size()-1;i>=0;i--){
+                if(jsonArray.get(i,JSONObject.class).get("type").equals("tweet")&&jsonArray.get(i,JSONObject.class)
+                        .getInt("tweetId")<momentId){
+                    for(int j=i;j>i-9&&j>=0;j--){
+                        array.add(jsonArray.get(j));
+                    }
+                    break;
+                }
+            }
         }
         return CommonResult.success("查询成功",array);
     }

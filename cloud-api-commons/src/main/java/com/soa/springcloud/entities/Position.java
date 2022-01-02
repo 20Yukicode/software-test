@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -70,6 +72,10 @@ public class Position implements Serializable {
      */
     private Integer unifiedId;
 
+    /**
+     * 岗位发布时间
+     */
+    private Date recordTime;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

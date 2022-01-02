@@ -1,15 +1,13 @@
 package com.soa.springcloud.service.impl;
 
+import cn.hutool.json.JSON;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.soa.springcloud.entities.Picture;
-import com.soa.springcloud.entities.Subscription;
-import com.soa.springcloud.entities.Tweet;
-import com.soa.springcloud.entities.User;
+import com.soa.springcloud.entities.*;
 import com.soa.springcloud.mapper.*;
 import com.soa.springcloud.service.LikesService;
 import com.soa.springcloud.service.SubscriptionService;
@@ -34,9 +32,6 @@ public class TweetServiceImpl implements TweetService{
     private TweetMapper tweetMapper;
 
     @Resource
-    private CommentMapper commentMapper;
-
-    @Resource
     private LikesService likesService;
 
     @Resource
@@ -49,24 +44,10 @@ public class TweetServiceImpl implements TweetService{
     private SubscriptionMapper subscriptionMapper;
 
     @Resource
-    private SubscriptionService subscriptionService;
-
-    private static String localPath;
-    private static String webPath;
+    private PositionMapper positionMapper;
 
     public static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
     public static final String bucketName = "soa-user-resume";
-
-
-    @Value("${file.localPath}")
-    public void setLocalPath(String localPath) {
-        TweetServiceImpl.localPath = localPath;
-    }
-    @Value("${file.webPath}")
-    public void setWebPath(String webPath) {
-        TweetServiceImpl.webPath = webPath;
-    }
-
 
     @Override
     public int addLikesNum(Integer tweetId){
@@ -130,9 +111,7 @@ public class TweetServiceImpl implements TweetService{
 
     @Override
     public JSONArray getTweetList(Integer visitorId, Integer momentId){
-        //try { TimeUnit.MILLISECONDS.sleep(5000); } catch (InterruptedException e) { e.printStackTrace(); }
         JSONArray tweetArray = new JSONArray();
-
         QueryWrapper<Subscription> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unified_id",visitorId);
         List<Subscription> subscriptionList = subscriptionMapper.selectList(queryWrapper);
@@ -140,26 +119,30 @@ public class TweetServiceImpl implements TweetService{
         subscription.setUnifiedId(visitorId);
         subscription.setSubscribeId(visitorId);
         subscriptionList.add(subscription);
-//        if(subscriptionList.size()>=1)
-//            tweetArray.add(JSONUtil.parseObj(subscriptionList.get(0)));
-//        return tweetArray;
         if(subscriptionList!=null) {
             for (int i = 0; i < subscriptionList.size(); i++) {
-                QueryWrapper<Tweet> tweetQueryWrapper = new QueryWrapper<>();
-                JSONObject object = JSONUtil.parseObj(subscriptionList.get(i));
-                tweetQueryWrapper.eq("unified_id", object.getInt("subscribeId"));
-                List list = tweetMapper.selectList(tweetQueryWrapper);
-                if(list !=null) {
-                    for (int j = 0; j < list.size(); j++) {
-                        JSONObject tweetObject = JSONUtil.parseObj(list.get(j));
-
-                        tweetObject.put("likeState", likesService.getLikes(visitorId, tweetObject.getInt("tweetId")));
-                        tweetObject.put("simpleUserInfo", getSimpleUserInfo(object.getInt("subscribeId")));
-                        tweetArray.add(tweetObject);
-                    }
+                Integer subscribeId = subscriptionList.get(i).getSubscribeId();
+                Map<String,Object> map = new HashMap<>();
+                map.put("unified_id",subscribeId);
+                List<Tweet> tweets = tweetMapper.selectByMap(map);
+                for(Tweet one : tweets){
+                    JSONObject tweetObject = JSONUtil.parseObj(one);
+                    tweetObject.put("type","tweet");
+                    tweetObject.put("likeState", likesService.getLikes(visitorId,one.getTweetId()));
+                    tweetObject.put("simpleUserInfo", getSimpleUserInfo(subscribeId));
+                    tweetArray.add(tweetObject);
+                }
+                List<Position> positions = positionMapper.selectByMap(map);
+                for(Position one:positions){
+                    //log.info("岗位："+one.getJobName());
+                    JSONObject positionObject = JSONUtil.parseObj(one);
+                    positionObject.put("type","position");
+                    positionObject.put("simpleUserInfo", getSimpleUserInfo(subscribeId));
+                    tweetArray.add(positionObject);
                 }
             }
         }
+        tweetArray.sort(Comparator.comparing(obj -> ((JSONObject) obj).getDate("recordTime")));
         return tweetArray;
     }
 

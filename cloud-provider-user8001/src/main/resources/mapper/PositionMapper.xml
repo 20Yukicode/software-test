@@ -16,12 +16,13 @@
             <result property="positionType" column="position_type" jdbcType="VARCHAR"/>
             <result property="jobName" column="job_name" jdbcType="VARCHAR"/>
             <result property="unifiedId" column="unified_id" jdbcType="INTEGER"/>
+            <result property="recordTime" column="record_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         job_id,picture_url,state,
         description,reward,work_place,
         contact_way,limitation,position_type,
-        job_name,unified_id
+        job_name,unified_id,record_time
     </sql>
 </mapper>
