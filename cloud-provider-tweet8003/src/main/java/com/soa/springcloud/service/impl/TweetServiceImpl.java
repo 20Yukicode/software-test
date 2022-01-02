@@ -115,8 +115,13 @@ public class TweetServiceImpl implements TweetService{
             Integer id = (Integer) object.get("tweetId");
             if(id==null)log.info(object.toString());
 
+            Map<String,Object>map = new HashMap<>();
+            map.put("tweet_id",tweetList.get(i).getTweetId());
+            List<Picture> pictures = pictureMapper.selectByMap(map);
+            object.put("pictureList",pictures);
             object.put("likeState", likesService.getLikes(visitorId,object.getInt("tweetId")));
             object.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
+
             jsonArray.add(object);
         }
         //jsonArray.sort(Comparator.comparing(obj -> ((JSONObject) obj).getInt("tweetId")));

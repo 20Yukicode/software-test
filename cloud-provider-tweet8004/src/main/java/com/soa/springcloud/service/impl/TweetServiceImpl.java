@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -110,6 +112,10 @@ public class TweetServiceImpl implements TweetService{
             JSONObject object = JSONUtil.parseObj(tweetList.get(i));
             Integer id = (Integer) object.get("tweetId");
             if(id==null)log.info(object.toString());
+            Map<String,Object> map = new HashMap<>();
+            map.put("tweet_id",tweetList.get(i).getTweetId());
+            List<Picture> pictures = pictureMapper.selectByMap(map);
+            object.put("pictureList",pictures);
 
             object.put("likeState", likesService.getLikes(visitorId,object.getInt("tweetId")));
             object.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
