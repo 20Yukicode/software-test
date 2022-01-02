@@ -60,6 +60,9 @@ public class EnterprisePositionServiceImpl{
      */
     public int create(Position position) {
         position.setState(1);//设置岗位为激活状态
+        Date recordTime = new Date();
+        recordTime.setHours(recordTime.getHours()+8);
+        position.setRecordTime(recordTime);
         return positionMapper.insert(position);//返回的是受到影响的行数
     }
 
