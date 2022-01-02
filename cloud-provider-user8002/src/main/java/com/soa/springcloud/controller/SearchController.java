@@ -1,5 +1,6 @@
 package com.soa.springcloud.controller;
 
+import cn.hutool.json.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.SearchService;
@@ -28,7 +29,7 @@ public class SearchController {
             return CommonResult.failure("失败，unifiedId空");
         }*/
         //开始搜索数据
-        List<User> users = searchServiceService.searchByTrueName(str);
+        List<JSONObject> users = searchServiceService.searchByTrueName(str);
         if(users !=null) {
             return CommonResult.success("搜索成功",users);
         }

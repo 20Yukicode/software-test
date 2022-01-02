@@ -1,7 +1,9 @@
 package com.soa.springcloud.service.impl;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSONObject;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.JobExperienceMapper;
@@ -29,34 +31,21 @@ public class SearchServiceImpl implements SearchService {
      * @return
      */
     @Override
-    public List<User> searchByTrueName(String str) {
+    public List<JSONObject> searchByTrueName(String str) {
         List<User> users = userMapper.selectByMap(null);
+        List<JSONObject> resultJson = new ArrayList<>();
         Map<User, Double> userMap = new HashMap<>();
         List<User> result = new ArrayList<>();
         for (User one : users) {
             double cos = SearchUtils.similarScoreCos(one.getTrueName(), str);
-            if (cos > 0.2) {
-                userMap.put(one, cos);
+            if (cos > 0.4) {
+                JSONObject temp = JSONUtil.parseObj(one);
+                temp.put("cos",cos);
+                resultJson.add(temp);
             }
         }
-        List<Map.Entry<User, Double>> list = new ArrayList<Map.Entry<User, Double>>(userMap.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<User, Double>>() {
-            public int compare(Map.Entry<User, Double> o1,
-                               Map.Entry<User, Double> o2) {
-                return (int) Math.floor(o2.getValue() - o1.getValue());
-            }
-        });
-        for (Map.Entry<User, Double> one : list) {
-            log.info(one.getKey().getTrueName() + " 相似度：" + one.getValue());
-            result.add(one.getKey());
-        }
-        /*for(User one : users){
-            double cos = SearchUtils.similarScoreCos(one.getTrueName(), str);
-            if(cos>0){
-                result.add(one);
-            }
-        }*/
-        return result;
+        resultJson.sort(Comparator.comparing(obj->((JSONObject)obj).getDouble("cos")).reversed());
+        return resultJson;
     }
 
     /**
