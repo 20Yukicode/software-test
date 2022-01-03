@@ -16,40 +16,32 @@ import java.io.InputStream;
 @Component
 public class FileUtils {
 
-    private static String endpoint;
+    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
 
-    private static String accessKeyId;
+    private static final String accessKeyId = "LTAI5tBG4652Uuc6Ljxi5hpu";
 
-    private static String accessKeySecret;
+    private static final String accessKeySecret = "1SeLabxEsZdAPlRHN2kPkPzri3sxYi";
 
-    private static String bucketName;
-
-//    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
+    private static final String bucketName = "soa-user-resume";
+//    @Value("${file.endpoint}")
+//    public void setEndpoint(String endpoint) {
+//        FileUtils.endpoint = endpoint;
+//}
 //
-//    private static final String accessKeyId = "LTAI5tBG4652Uuc6Ljxi5hpu";
+//    @Value("${file.accessKeyId}")
+//    public void setAccessKeyId(String accessKeyId) {
+//        FileUtils.accessKeyId = accessKeyId;
+//    }
 //
-//    private static final String accessKeySecret = "1SeLabxEsZdAPlRHN2kPkPzri3sxYi";
+//    @Value("${file.accessKeySecret}")
+//    public void setAccessKeySecret(String accessKeySecret) {
+//        FileUtils.accessKeySecret = accessKeySecret;
+//    }
 //
-//    private static final String bucketName = "soa-user-resume";
-    @Value("${file.endpoint}")
-    public void setEndpoint(String endpoint) {
-        FileUtils.endpoint = endpoint;
-}
-
-    @Value("${file.accessKeyId}")
-    public void setAccessKeyId(String accessKeyId) {
-        FileUtils.accessKeyId = accessKeyId;
-    }
-
-    @Value("${file.accessKeySecret}")
-    public void setAccessKeySecret(String accessKeySecret) {
-        FileUtils.accessKeySecret = accessKeySecret;
-    }
-
-    @Value("${file.bucketName}")
-    public void setBucketName(String bucketName) {
-        FileUtils.bucketName = bucketName;
-    }
+//    @Value("${file.bucketName}")
+//    public void setBucketName(String bucketName) {
+//        FileUtils.bucketName = bucketName;
+//    }
 
 
     public static void saveUrl(MultipartFile multipartFile, String path) throws IOException {

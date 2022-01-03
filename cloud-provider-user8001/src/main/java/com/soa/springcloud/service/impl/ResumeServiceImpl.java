@@ -20,37 +20,10 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
 
     private ResumeMapper resumeMapper;
-//    private static String localPath;
-//    private static String webPath;
+    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
 
 
-    private static String endpoint;
-
-    private static String accessKeyId;
-
-    private static String accessKeySecret;
-
-    private static String bucketName;
-
-    @Value("${file.endpoint}")
-    public void setEndpoint(String endpoint) {
-        ResumeServiceImpl.endpoint = endpoint;
-    }
-
-    @Value("${file.accessKeyId}")
-    public void setAccessKeyId(String accessKeyId) {
-        ResumeServiceImpl.accessKeyId = accessKeyId;
-    }
-
-    @Value("${file.accessKeySecret}")
-    public void setAccessKeySecret(String accessKeySecret) {
-        ResumeServiceImpl.accessKeySecret = accessKeySecret;
-    }
-
-    @Value("${file.bucketName}")
-    public void setBucketName(String bucketName) {
-        ResumeServiceImpl.bucketName = bucketName;
-    }
+    private static final String bucketName = "soa-user-resume";
 
     @Autowired
     public void setEduExperienceMapper(ResumeMapper resumeMapper) {

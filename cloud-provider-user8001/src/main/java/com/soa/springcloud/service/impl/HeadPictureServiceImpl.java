@@ -16,32 +16,15 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class HeadPictureServiceImpl implements HeadPictureService {
-    private static String localPath;
-    private static String webPath;
+    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
 
-    private static String endpoint;
-    private static String bucketName;
+    private static final String accessKeyId = "LTAI5tBG4652Uuc6Ljxi5hpu";
 
-    @Value("${file.endpoint}")
-    public void setEndpoint(String endpoint) {
-        HeadPictureServiceImpl.endpoint = endpoint;
-    }
+    private static final String accessKeySecret = "1SeLabxEsZdAPlRHN2kPkPzri3sxYi";
 
-    @Value("${file.bucketName}")
-    public void setBucketName(String bucketName) {
-        HeadPictureServiceImpl.bucketName = bucketName;
-    }
+    private static final String bucketName = "soa-user-resume";
     @Resource
     private UserMapper userMapper;
-
-    @Value("${file.localPath}")
-    public void setLocalPath(String localPath) {
-        HeadPictureServiceImpl.localPath = localPath;
-    }
-    @Value("${file.webPath}")
-    public void setWebPath(String webPath) {
-        HeadPictureServiceImpl.webPath = webPath;
-    }
 
     @Override
     public int addHeadPicture(Integer unifiedId, MultipartFile file) throws IOException {

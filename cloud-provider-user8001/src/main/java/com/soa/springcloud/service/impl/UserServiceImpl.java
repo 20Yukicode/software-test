@@ -23,29 +23,11 @@ import java.io.IOException;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
-    private static String localPath;
-    private static String webPath;
-    private static String endpoint;
-    private static String bucketName;
 
-    @Value("${file.endpoint}")
-    public void setEndpoint(String endpoint) {
-        UserServiceImpl.endpoint = endpoint;
-    }
+    private static final String endpoint = "oss-cn-shanghai.aliyuncs.com";
 
-    @Value("${file.bucketName}")
-    public void setBucketName(String bucketName) {
-        UserServiceImpl.bucketName = bucketName;
-    }
+    private static final String bucketName = "soa-user-resume";
 
-    @Value("${file.localPath}")
-    public void setLocalPath(String localPath) {
-        UserServiceImpl.localPath = localPath;
-    }
-    @Value("${file.webPath}")
-    public void setWebPath(String webPath) {
-        UserServiceImpl.webPath = webPath;
-    }
     @Override
     public int create(User user) {
         user.setPassword(MD5Utils.MD5(user.getPassword()));
