@@ -182,7 +182,6 @@ public class EnterprisePositionServiceImpl{
         return jsonObjects;
     }
 
-    //需要记录上一次浏览到的位置（下次开会再讨论）
     public List<JSONObject> getRecommendedPositionsById(int unifiedId,Integer momentId) {
         List<JSONObject> positions=new ArrayList<>();
         //若为公司用户
