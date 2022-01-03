@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soa.springcloud.mapper.PictureMapper">
+
+    <resultMap id="BaseResultMap" type="com.soa.springcloud.entities.Picture">
+            <id property="tweetId" column="tweet_id" jdbcType="INTEGER"/>
+            <id property="numId" column="num_id" jdbcType="INTEGER"/>
+            <result property="pictureUrl" column="picture_url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        tweet_id,num_id,picture_url
+    </sql>
+</mapper>
