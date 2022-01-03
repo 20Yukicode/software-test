@@ -17,7 +17,7 @@
     </sql>
     <select id="maxResumeId" resultType="Integer">
         SELECT MAX(resume_id)
-        FROM Resume
+        FROM resume
         WHERE unified_id=#{unifiedId};
     </select>
 </mapper>

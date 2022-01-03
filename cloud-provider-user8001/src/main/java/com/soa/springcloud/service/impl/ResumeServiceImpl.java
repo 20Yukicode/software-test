@@ -72,7 +72,6 @@ public class ResumeServiceImpl implements ResumeService {
         if(temp==null);
         else resumeId=temp+1;
         //url存入数据库
-        //String url=webPath+"/resume/"+unifiedId+"/"+resumeId+"/"+file.getOriginalFilename();
         String url="https://"+bucketName+"."+endpoint+"/resume/"+unifiedId+"/"+resumeId+"/"+file.getOriginalFilename();
         Resume resume = new Resume(unifiedId,resumeId,file.getOriginalFilename(),url);
         result=resumeMapper.insert(resume);
