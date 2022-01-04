@@ -1,5 +1,6 @@
 server:
   port: 8005 #服务端口
+  max-http-header-size: 20480
 spring:
   application:
     name: cloud-recruitment-service #服务名

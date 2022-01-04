@@ -1,5 +1,6 @@
 server:
   port: 8003 #服务端口
+  max-http-header-size: 20480
 spring:
   application:
     name: cloud-tweet-service #服务名
