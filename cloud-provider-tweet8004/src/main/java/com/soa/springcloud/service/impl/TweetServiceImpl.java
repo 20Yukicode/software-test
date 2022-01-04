@@ -182,13 +182,13 @@ public class TweetServiceImpl implements TweetService{
         tweet.setState(1);
         tweet.setUnifiedId(unifiedId);
         tweet.setRecordTime(recordTime);
-        Integer num = tweetMapper.maxId();
-        if(num ==null)
-            num = 1;
-        else
-            num ++;
-        tweet.setTweetId(num);
+//        if(num ==null)
+//            num = 1;
+//        else
+//            num ++;
+
         tweetMapper.insert(tweet);
+        Integer num = tweet.getTweetId();
         uploadPic(num,files);
 
         return num;

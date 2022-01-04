@@ -185,13 +185,9 @@ public class TweetServiceImpl implements TweetService{
         tweet.setState(1);
         tweet.setUnifiedId(unifiedId);
         tweet.setRecordTime(recordTime);
-        Integer num = tweetMapper.maxId();
-        if(num ==null)
-            num = 1;
-        else
-            num ++;
-        tweet.setTweetId(num);
+        //tweet.setTweetId(num);
         tweetMapper.insert(tweet);
+        Integer num = tweet.getTweetId();
         uploadPic(num,files);
 
         return num;
@@ -204,7 +200,6 @@ public class TweetServiceImpl implements TweetService{
         Integer size = files.size();
 
         for(MultipartFile file :files) {
-
             num++;
             //String url = webPath + "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
             String url="https://"+bucketName+"."+endpoint+ "/tweetpic/" + tweetId + "/" +num+"/" +file.getOriginalFilename();
