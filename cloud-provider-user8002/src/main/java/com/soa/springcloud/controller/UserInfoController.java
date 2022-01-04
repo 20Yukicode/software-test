@@ -30,6 +30,10 @@ public class UserInfoController {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
 
         if(unifiedId ==subscribeId)subscribed=2;
+        User sUser = userService.getUserById(subscribeId);
+        if(!sUser.getUserType().equals("user")){
+            return CommonResult.failure("查询类型错误");
+        }
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
         JSON json = JSONUtil.parse(userInfo);
         json.putByPath("isSubscribed",subscribed);

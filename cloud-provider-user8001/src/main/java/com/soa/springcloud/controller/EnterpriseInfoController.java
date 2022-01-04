@@ -34,6 +34,10 @@ public class EnterpriseInfoController {
     public CommonResult<JSON>  getEnterpriseInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
         if(unifiedId ==subscribeId)subscribed=2;
+        User sUser = userService.getUserById(subscribeId);
+        if(!sUser.getUserType().equals("company")){
+            return CommonResult.failure("查询类型错误");
+        }
         EnterpriseInfo enterpriseInfo = enterpriseInfoService.getEnterpriseInfo(subscribeId);
         JSON json = JSONUtil.parse(enterpriseInfo);
         int fansNum = subscriptionService.fansNum(subscribeId);
