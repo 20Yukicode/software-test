@@ -99,8 +99,8 @@ public class TweetController {
         if(type.equals("position")){
             for(int i=jsonArray.size()-1;i>=0;i--){
                 if(jsonArray.get(i,JSONObject.class).get("type").equals("position")&&jsonArray.get(i,JSONObject.class)
-                        .getInt("jobId")<momentId){
-                    for(int j=i;j>i-9&&j>=0;j--){
+                        .getInt("jobId")<=momentId){
+                    for(int j=i-1;j>=i-9&&j>=0;j--){
                         array.add(jsonArray.get(j));
                     }
                     break;
@@ -111,8 +111,8 @@ public class TweetController {
         if(type.equals("tweet")){
             for(int i=jsonArray.size()-1;i>=0;i--){
                 if(jsonArray.get(i,JSONObject.class).get("type").equals("tweet")&&jsonArray.get(i,JSONObject.class)
-                        .getInt("tweetId")<momentId){
-                    for(int j=i;j>i-9&&j>=0;j--){
+                        .getInt("tweetId")<=momentId){
+                    for(int j=i-1;j>=i-9&&j>=0;j--){
                         array.add(jsonArray.get(j));
                     }
                     break;

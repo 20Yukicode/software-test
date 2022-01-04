@@ -1,7 +1,5 @@
 package com.soa.springcloud.controller;
 
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.CommonResult;
 import com.soa.springcloud.entities.User;
@@ -26,7 +24,7 @@ public class UserInfoController {
     private UserServiceImpl userService;
 
     @GetMapping("/user/userinfo")
-    public CommonResult<JSON> getUserInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
+    public CommonResult<JSONObject> getUserInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
 
         if(unifiedId ==subscribeId)subscribed=2;
@@ -35,19 +33,18 @@ public class UserInfoController {
             return CommonResult.failure("查询类型错误");
         }
         UserInfo userInfo = userInfoService.getUserInfo(subscribeId);
-        JSON json = JSONUtil.parse(userInfo);
-        json.putByPath("isSubscribed",subscribed);
+        JSONObject json = (JSONObject) JSONObject.toJSON(userInfo);
+        json.put("isSubscribed",subscribed);
         User user =userService.getUserById(subscribeId);
-        json.putByPath("trueName",user.getTrueName());
-        json.putByPath("pictureUrl",user.getPictureUrl());
-        json.putByPath("briefInfo",user.getBriefInfo());
-        json.putByPath("email",user.getEmail());
-        json.putByPath("background",user.getBackground());
+        json.put("trueName",user.getTrueName());
+        json.put("pictureUrl",user.getPictureUrl());
+        json.put("briefInfo",user.getBriefInfo());
+        json.put("email",user.getEmail());
+        json.put("background",user.getBackground());
         int fansNum = subscriptionService.fansNum(subscribeId);
         int followNum = subscriptionService.followNum(subscribeId);
-        json.putByPath("fansNum",fansNum);
-        json.putByPath("followNum",followNum);
-        //log.info("***查询结果：" + json);
+        json.put("fansNum",fansNum);
+        json.put("followNum",followNum);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);
     }
@@ -65,8 +62,6 @@ public class UserInfoController {
             return CommonResult.failure("unifiedId空");
         User user = JSONObject.toJavaObject(jsonObject,User.class);
         UserInfo userInfo = JSONObject.toJavaObject(jsonObject,UserInfo.class);
-        //log.info("用户："+user);
-        //log.info("用户信息："+userInfo);
         //该用户不存在
         if(userService.getUserById(unifiedId)==null){
             return CommonResult.failure("用户不存在");

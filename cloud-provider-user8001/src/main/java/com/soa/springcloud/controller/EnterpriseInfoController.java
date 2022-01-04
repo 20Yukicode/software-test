@@ -31,7 +31,7 @@ public class EnterpriseInfoController {
      * @return
      */
     @GetMapping("/user/enterpriseinfo")
-    public CommonResult<JSON>  getEnterpriseInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
+    public CommonResult<JSONObject>  getEnterpriseInfo(@RequestParam("uid") int unifiedId, @RequestParam("sid") int subscribeId) {
         int subscribed = subscriptionService.isSubscribed(unifiedId,subscribeId);
         if(unifiedId ==subscribeId)subscribed=2;
         User sUser = userService.getUserById(subscribeId);
@@ -39,18 +39,18 @@ public class EnterpriseInfoController {
             return CommonResult.failure("查询类型错误");
         }
         EnterpriseInfo enterpriseInfo = enterpriseInfoService.getEnterpriseInfo(subscribeId);
-        JSON json = JSONUtil.parse(enterpriseInfo);
+        JSONObject json = (JSONObject) JSONObject.toJSON(enterpriseInfo);
         int fansNum = subscriptionService.fansNum(subscribeId);
         int followNum = subscriptionService.followNum(subscribeId);
-        json.putByPath("fansNum",fansNum);
-        json.putByPath("followNum",followNum);
-        json.putByPath("isSubscribed",subscribed);
+        json.put("fansNum",fansNum);
+        json.put("followNum",followNum);
+        json.put("isSubscribed",subscribed);
         User user = userService.getUserById(subscribeId);
-        json.putByPath("trueName",user.getTrueName());
-        json.putByPath("pictureUrl",user.getPictureUrl());
-        json.putByPath("briefInfo",user.getBriefInfo());
-        json.putByPath("email",user.getEmail());
-        json.putByPath("background",user.getBackground());
+        json.put("trueName",user.getTrueName());
+        json.put("pictureUrl",user.getPictureUrl());
+        json.put("briefInfo",user.getBriefInfo());
+        json.put("email",user.getEmail());
+        json.put("background",user.getBackground());
         //log.info("***查询结果：" + json);
         if(json==null)return CommonResult.failure();
         return CommonResult.success(json);
