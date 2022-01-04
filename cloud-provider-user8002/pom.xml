@@ -90,12 +90,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
         </dependency>
-        <!-- log4j -->
-        <!--<dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>-->
         <dependency>
             <artifactId>spring-boot-starter-web</artifactId>
             <groupId>org.springframework.boot</groupId>
