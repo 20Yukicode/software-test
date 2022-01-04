@@ -35,8 +35,8 @@ public class EnterpriseInfoController {
         if(unifiedId ==subscribeId)subscribed=2;
         EnterpriseInfo enterpriseInfo = enterpriseInfoService.getEnterpriseInfo(subscribeId);
         JSON json = JSONUtil.parse(enterpriseInfo);
-        int fansNum = subscriptionService.fansNum(unifiedId);
-        int followNum = subscriptionService.followNum(unifiedId);
+        int fansNum = subscriptionService.fansNum(subscribeId);
+        int followNum = subscriptionService.followNum(subscribeId);
         json.putByPath("fansNum",fansNum);
         json.putByPath("followNum",followNum);
         json.putByPath("isSubscribed",subscribed);
