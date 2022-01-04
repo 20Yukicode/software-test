@@ -69,16 +69,9 @@ public class UserRecruitmentServiceImpl{
             resumeQueryWrapper.eq("unified_id",application.getUserId());
             resumeQueryWrapper.eq("resume_id",application.getResumeId());
             Resume resume=resumeMapper.selectOne(resumeQueryWrapper);
-            //ApplicantInfoDto temp=new ApplicantInfoDto();
-            //temp.setUnifiedId(user.getUnifiedId());
-            //temp.setPictureUrl(user.getPictureUrl());
-            //temp.setBrief_info(user.getBriefInfo());
-            //temp.setResumeName(resume.getResumeName());
-            //temp.setResumeUrl(resume.getDocumentUrl());
-            //applicants.add(temp);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("unifiedId",user.getUnifiedId());
-            jsonObject.put("userTye",user.getUserType());
+            jsonObject.put("userType",user.getUserType());
             jsonObject.put("briefInfo",user.getBriefInfo());
             jsonObject.put("trueName",user.getTrueName());
             jsonObject.put("pictureUrl",user.getPictureUrl());
@@ -86,7 +79,6 @@ public class UserRecruitmentServiceImpl{
             jsonObject.put("resumeUrl",resume.getDocumentUrl());
             result.add(jsonObject);
         }
-        //if(applicants.isEmpty())return null;
         return result;
     }
 }
