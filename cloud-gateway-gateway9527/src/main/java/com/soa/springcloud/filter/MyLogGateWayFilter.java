@@ -49,7 +49,6 @@ public class MyLogGateWayFilter implements GlobalFilter,Ordered
             log.info("登录用户:"+token);
             if(token!=null) return chain.filter(exchange);
             log.info("鉴权失败！");
-
             response.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON_UTF8.toString());
             CommonResult<Object> failure = CommonResult.failure("用户信息失效，请重新登录！");
             byte[] bytes = JSON.toJSONString(failure).getBytes();
