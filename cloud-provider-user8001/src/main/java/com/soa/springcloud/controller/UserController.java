@@ -19,6 +19,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class UserController {
     {
         //验证用户名是否重复
         if(userService.getUserByName(user.getUserName())!=null){
-            return CommonResult.failure("用户名重复");
+            return CommonResult.failure("该用户名已被注册！");
         }
         int result = userService.create(user);
         //返回生成用户的unifiedId
@@ -100,8 +101,10 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/email")
-    public CommonResult<String> getMailCaptcha(@RequestParam("mail") String mail) {
-        return CommonResult.success(mailService.sendMail(mail));
+    public CommonResult<String> getMailCaptcha(@RequestParam("mail") String mail) throws MessagingException {
+        String result = mailService.sendMail(mail);
+        if(result.equals("failure"))return CommonResult.failure("该邮箱已被注册！");
+        return CommonResult.success(result);
     }
 
     public CommonResult<JSON> userCircuitBreaker_fallback(@RequestBody User user,

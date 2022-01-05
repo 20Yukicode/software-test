@@ -1,41 +1,63 @@
 package com.soa.springcloud.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import org.thymeleaf.TemplateEngine;
+import com.soa.springcloud.entities.User;
+import com.soa.springcloud.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
 public class MailService {
     @Resource
     private JavaMailSender mailSender;
+    @Resource
+    private TemplateEngine templateEngine;
 
-    public String sendMail(String mail) {
+    @Resource
+    private UserMapper userMapper;
+    public String sendMail(String mail) throws MessagingException {
+        List<User> users = userMapper.selectByMap(null);
+        for(User one :users){
+            //若邮箱已经被注册过了
+            if(mail.equals(one.getEmail())){
+                return "failure";
+            }
+        }
         //生成随机激活码
         String captcha = RandomUtil.randomStringUpper(8);
+        //生成邮件模板
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+        Context context = new Context();
+        context.setVariable("email",mail);
+        context.setVariable("captcha",captcha);
+        context.setVariable("createTime",sdf.format(new Date()));
+        String templateContent = templateEngine.process("registerMail", context);
         //发送邮件
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("soa8001@163.com");
-        simpleMailMessage.setTo(mail);
-        simpleMailMessage.setSubject("激活码");
-        simpleMailMessage.setText(captcha);
-        mailSender.send(simpleMailMessage);
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom("soa8001@163.com");
+        helper.setTo(mail);
+        helper.setSubject("LinkedOut注册激活码");
+        helper.setText(templateContent, true);
+//        message.setFrom("soa8001@163.com");
+//        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
+//        message.setSubject("激活码");
+//        message.setText(templateContent);
+        mailSender.send(message);
         return captcha;
-//        //复杂邮件
-//        MimeMessage mimeMessage = mailSender.createMimeMessage();
-//        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-//        messageHelper.setFrom("jiuyue@163.com");
-//        messageHelper.setTo("September@qq.com");
-//        messageHelper.setSubject("BugBugBug");
-//        messageHelper.setText("一杯茶，一根烟，一个Bug改一天！");
-//        messageHelper.addInline("bug.gif", new File("xx/xx/bug.gif"));
-//        messageHelper.addAttachment("bug.docx", new File("xx/xx/bug.docx"));
-//        mailSender.send(mimeMessage);
+
     }
+
 }

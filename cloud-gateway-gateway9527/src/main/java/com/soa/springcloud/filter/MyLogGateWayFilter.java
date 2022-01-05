@@ -48,7 +48,7 @@ public class MyLogGateWayFilter implements GlobalFilter,Ordered
         RequestPath path = exchange.getRequest().getPath();
         log.info("请求方法："+path);
         //if(path.toString().contains("/user/userinfo")||path.toString().equals("/user/resume")||path.toString().equals("/user/edu")){
-        if(path.toString().contains("/user/login")||path.toString().equals("/user/register")){
+        if(path.toString().contains("/user/login")||path.toString().equals("/user/register")||path.toString().equals("/user/email")){
             return chain.filter(exchange);
 
         }
