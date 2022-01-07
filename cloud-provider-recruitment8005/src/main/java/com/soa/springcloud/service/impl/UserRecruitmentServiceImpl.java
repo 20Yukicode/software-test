@@ -2,17 +2,17 @@ package com.soa.springcloud.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.soa.springcloud.entities.Position;
-import com.soa.springcloud.entities.Application;
-import com.soa.springcloud.entities.User;
-import com.soa.springcloud.entities.Resume;
-import com.soa.springcloud.mapper.ApplicationMapper;
-import com.soa.springcloud.mapper.UserMapper;
-import com.soa.springcloud.mapper.ResumeMapper;
 import com.soa.springcloud.dto.ApplicantInfoDto;
-import com.sun.org.apache.regexp.internal.RE;
+import com.soa.springcloud.entities.Application;
+import com.soa.springcloud.entities.Position;
+import com.soa.springcloud.entities.Resume;
+import com.soa.springcloud.entities.User;
+import com.soa.springcloud.mapper.ApplicationMapper;
+import com.soa.springcloud.mapper.ResumeMapper;
+import com.soa.springcloud.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
