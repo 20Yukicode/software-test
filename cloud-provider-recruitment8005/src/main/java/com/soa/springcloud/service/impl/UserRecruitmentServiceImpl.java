@@ -58,9 +58,7 @@ public class UserRecruitmentServiceImpl{
             jsonObject.put("briefInfo",user.getBriefInfo());
             jsonObject.put("trueName",user.getTrueName());
             result.add(jsonObject);
-
         }
-        if(positions.isEmpty())return null;//是空没找到
         return result;
     }
 

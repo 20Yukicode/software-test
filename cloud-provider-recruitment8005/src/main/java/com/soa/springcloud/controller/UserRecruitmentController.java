@@ -55,16 +55,13 @@ public class UserRecruitmentController {
 
     /**
      * 用户获取已投递的所有岗位
-     * @param userId
+     * @param unifiedId
      * @return
      */
     @GetMapping(value = "/recruit/application")
-    public CommonResult getAppliedPositions(@RequestParam int userId){
-        List<JSONObject> positions= userRecruitmentService.getAppliedPositions(userId);
-        if(positions==null)
-            return CommonResult.failure("该用户还没有投递过岗位",null);
-        else
-            return CommonResult.success("查找成功",positions);
+    public CommonResult getAppliedPositions(@RequestParam int unifiedId){
+        List<JSONObject> positions= userRecruitmentService.getAppliedPositions(unifiedId);
+        return CommonResult.success("查找成功",positions);
     }
 
     /**

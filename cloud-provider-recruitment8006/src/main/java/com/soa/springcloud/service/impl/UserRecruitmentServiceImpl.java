@@ -60,7 +60,6 @@ public class UserRecruitmentServiceImpl{
             result.add(jsonObject);
 
         }
-        if(positions.isEmpty())return null;//是空没找到
         return result;
     }
 
