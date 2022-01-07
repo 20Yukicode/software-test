@@ -36,13 +36,13 @@ public class UserRecruitmentController {
 
     /**
      * 用户删除岗位申请
-     * @param application
+     * @param
      * @return
      */
     @DeleteMapping(value = "/recruit/application")
-    public CommonResult delete(@RequestBody Application application){
-        if(userRecruitmentService.cancelApplication(application)==1)
-            return CommonResult.success("取消成功",application);
+    public CommonResult delete(@RequestParam Integer userId,@RequestParam Integer jobId){
+        if(userRecruitmentService.cancelApplication(userId,jobId)==1)
+            return CommonResult.success("取消成功",null);
         else
             return CommonResult.failure("取消失败",null);
     }

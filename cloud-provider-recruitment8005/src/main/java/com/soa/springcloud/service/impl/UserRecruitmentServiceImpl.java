@@ -33,11 +33,10 @@ public class UserRecruitmentServiceImpl{
         return applicationMapper.insert(application);
     }
 
-    public int cancelApplication(Application application) {
+    public int cancelApplication(Integer userId, Integer jobId) {
         QueryWrapper<Application> wrapper=new QueryWrapper<>();
-        wrapper.eq("job_id",application.getJobId());
-        wrapper.eq("enterprise_id",application.getEnterpriseId());
-        wrapper.eq("user_id",application.getUserId());
+        wrapper.eq("job_id",jobId);
+        wrapper.eq("user_id",userId);
         return applicationMapper.delete(wrapper);//执行删除操作
     }
 
