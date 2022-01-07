@@ -10,6 +10,7 @@ import com.soa.springcloud.mapper.ApplicationMapper;
 import com.soa.springcloud.mapper.UserMapper;
 import com.soa.springcloud.mapper.ResumeMapper;
 import com.soa.springcloud.dto.ApplicantInfoDto;
+import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -41,17 +42,26 @@ public class UserRecruitmentServiceImpl{
     }
 
 
-    public List<Position> getAppliedPositions(int userId) {
+    public List<JSONObject> getAppliedPositions(int userId) {
         QueryWrapper<Application> wrapper=new QueryWrapper<>();
         wrapper.eq("user_id",userId);
         List<Application> applications=applicationMapper.selectList(wrapper);//找到所有的请求
         List<Position> positions=new ArrayList<Position>();//初始化列表
+        List<JSONObject> result=new ArrayList<>();
         for(Application application :applications){
             Position p= enterprisePositionService.getPositionInfo(application.getEnterpriseId(),application.getJobId());
             if(p!=null)positions.add(p);
+            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(p);
+            User user = userMapper.selectById(p.getUnifiedId());
+            jsonObject.put("pictureUrl",user.getPictureUrl());
+            jsonObject.put("userType",user.getUserType());
+            jsonObject.put("briefInfo",user.getBriefInfo());
+            jsonObject.put("trueName",user.getTrueName());
+            result.add(jsonObject);
+
         }
         if(positions.isEmpty())return null;//是空没找到
-        return positions;
+        return result;
     }
 
 

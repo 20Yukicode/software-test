@@ -136,7 +136,6 @@ public class EnterprisePositionServiceImpl{
      * @param unifiedId
      * @return 岗位列表
      */
-    //记得把未激活的岗位删除
     public List<JSONObject> getPositionsById(int unifiedId,Integer momentId) {
         QueryWrapper<Position> wrapper=new QueryWrapper<>();
         wrapper.eq("unified_id",unifiedId);
@@ -163,8 +162,6 @@ public class EnterprisePositionServiceImpl{
         int cut = 0;
         if(momentId==null){
             log.info("momentId为空");
-            //momentId=positions.get(0).getInteger("jobId")+1;
-            //log.info("momentId="+momentId);
         }
         else{
             for(int i=0;i<size;i++){

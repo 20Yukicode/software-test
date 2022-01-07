@@ -54,7 +54,7 @@ public class UserRecruitmentController {
      */
     @GetMapping(value = "/recruit/application")
     public CommonResult getAppliedPositions(@RequestParam int userId){
-        List<Position> positions= userRecruitmentService.getAppliedPositions(userId);
+        List<JSONObject> positions= userRecruitmentService.getAppliedPositions(userId);
         if(positions==null)
             return CommonResult.failure("该用户还没有投递过岗位",null);
         else
