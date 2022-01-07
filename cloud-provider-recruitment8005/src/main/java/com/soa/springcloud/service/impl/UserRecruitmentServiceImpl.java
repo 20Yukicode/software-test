@@ -40,7 +40,6 @@ public class UserRecruitmentServiceImpl{
         return applicationMapper.delete(wrapper);//执行删除操作
     }
 
-
     public List<JSONObject> getAppliedPositions(int userId) {
         QueryWrapper<Application> wrapper=new QueryWrapper<>();
         wrapper.eq("user_id",userId);
