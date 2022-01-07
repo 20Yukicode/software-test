@@ -73,6 +73,7 @@ public class UserRecruitmentController {
         else return CommonResult.failure("获取失败",null);
     }
 
+
     /**
      * 用户获取企业所有岗位信息
      * @param unifiedId
