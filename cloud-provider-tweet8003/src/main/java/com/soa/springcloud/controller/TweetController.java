@@ -64,16 +64,16 @@ public class TweetController {
         return CommonResult.success("查询成功",tweetService.getSelfTweetList(visitorId,intervieweeId,momentId));
     }
     //fallback
-    public CommonResult tweetList_TimeOutHandler(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId,
-                                                 @RequestParam(required = false) String type)
-    {
-        log.info("TweetList_Fallback");
-        return CommonResult.failure("用户:"+unifiedId+" 调用 /tweet/tweetList 接口超时，请重试");
-    }
+//    public CommonResult tweetList_TimeOutHandler(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId,
+//                                                 @RequestParam(required = false) String type)
+//    {
+//        log.info("TweetList_Fallback");
+//        return CommonResult.failure("用户:"+unifiedId+" 调用 /tweet/tweetList 接口超时，请重试");
+//    }
 
-    @HystrixCommand(fallbackMethod = "tweetList_TimeOutHandler"/*指定善后方法名*/,commandProperties = {
-            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="8000")
-    })
+//    @HystrixCommand(fallbackMethod = "tweetList_TimeOutHandler"/*指定善后方法名*/,commandProperties = {
+//            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="8000")
+//    })
     @GetMapping("/tweet/tweetList")
     public CommonResult getTweetList(@RequestParam Integer unifiedId, @RequestParam(required = false) Integer momentId,
                                      @RequestParam(required = false) String type){
