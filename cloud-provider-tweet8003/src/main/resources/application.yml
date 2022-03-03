@@ -11,7 +11,7 @@ spring:
 #    username: root
     #password: Jwl12345
     url: jdbc:mysql://121.5.68.218:3306/LinkedOut?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: developer
+    username: developer6
     password: tjsse2022
   #文件传输大小配置
   servlet:
