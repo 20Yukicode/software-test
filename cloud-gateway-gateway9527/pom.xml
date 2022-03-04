@@ -18,7 +18,6 @@
     </parent>
 
     <dependencies>
-        <!--gateway-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
@@ -43,35 +42,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- 引入自己定义的api通用包 -->
+
         <dependency>
             <artifactId>cloud-api-commons</artifactId>
             <groupId>org.com.soa.springcloud</groupId>
-            <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <!--一般基础配置类-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <artifactId>fastjson</artifactId>
-            <groupId>com.alibaba</groupId>
-            <version>1.2.78</version>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>

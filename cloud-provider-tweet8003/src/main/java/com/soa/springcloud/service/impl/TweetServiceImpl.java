@@ -80,27 +80,27 @@ public class TweetServiceImpl implements TweetService{
     }
 
     @Override
-    public JSONArray getSelfTweetList(Integer visitorId,Integer intervieweeId, Integer momentId){
+    public JSONArray getSelfTweetList(Integer visitorId,Integer intervieweeId, Integer momentId) {
         QueryWrapper<Tweet> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("unified_id",intervieweeId).lt("tweet_id",momentId);
+        queryWrapper.eq("unified_id", intervieweeId).lt("tweet_id", momentId);
         List<Tweet> tweetList = tweetMapper.selectList(queryWrapper);
 
         int size = tweetList.size();
-        if(size>10) size = 9;
+        if (size > 10) size = 9;
         JSONArray jsonArray = new JSONArray();
 
-        for(int i=tweetList.size()-1;i>=0&&size>0; i--){
+        for (int i = tweetList.size() - 1; i >= 0 && size > 0; i--) {
             size--;
 
             JSONObject object = JSONUtil.parseObj(tweetList.get(i));
             Integer id = (Integer) object.get("tweetId");
-            if(id==null)log.info(object.toString());
+            if (id == null) log.info(object.toString());
 
-            Map<String,Object>map = new HashMap<>();
-            map.put("tweet_id",tweetList.get(i).getTweetId());
+            Map<String, Object> map = new HashMap<>();
+            map.put("tweet_id", tweetList.get(i).getTweetId());
             List<Picture> pictures = pictureMapper.selectByMap(map);
-            object.put("pictureList",pictures);
-            object.put("likeState", likesService.getLikes(visitorId,object.getInt("tweetId")));
+            object.put("pictureList", pictures);
+            object.put("likeState", likesService.getLikes(visitorId, object.getInt("tweetId")));
             object.put("simpleUserInfo", getSimpleUserInfo(object.getInt("unifiedId")));
 
             jsonArray.add(object);

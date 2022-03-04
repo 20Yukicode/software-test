@@ -1,6 +1,6 @@
 package com.soa.springcloud.service;
 
-import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.impl.UserFallbackService;
 import org.springframework.cloud.openfeign.FeignClient;

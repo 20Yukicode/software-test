@@ -2,8 +2,7 @@ package com.soa.springcloud.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.Application;
-import com.soa.springcloud.entities.CommonResult;
-import com.soa.springcloud.entities.Position;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.service.impl.EnterprisePositionServiceImpl;
 import com.soa.springcloud.service.impl.UserRecruitmentServiceImpl;
 import lombok.extern.slf4j.Slf4j;

@@ -1,15 +1,13 @@
 package com.soa.springcloud.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.soa.springcloud.dto.ApplicantInfoDto;
-import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.entities.Position;
 import com.soa.springcloud.service.impl.UserRecruitmentServiceImpl;
 import com.soa.springcloud.service.impl.EnterprisePositionServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.crypto.agreement.DHUnifiedAgreement;
 import org.springframework.web.bind.annotation.*;
-import com.soa.springcloud.dto.PositionDeleteDto;
+
 import javax.annotation.Resource;
 import java.util.List;
 

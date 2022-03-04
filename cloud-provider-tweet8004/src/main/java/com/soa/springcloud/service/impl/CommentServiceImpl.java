@@ -5,7 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.soa.springcloud.entities.Comment;
-import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.entities.Tweet;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.mapper.CommentMapper;
@@ -41,16 +41,16 @@ public class CommentServiceImpl implements CommentService {
         queryWrapper.eq("tweet_id",tweetId);
         List<Comment> list = commentMapper.selectList(queryWrapper);
         if(list!=null){
-            for(int i=0;i<list.size();i++){
-                JSONObject object = JSONUtil.parseObj(list.get(i));
-                Integer unifiedId = list.get(i).getUnifiedId();
+            for (Comment comment : list) {
+                JSONObject object = JSONUtil.parseObj(comment);
+                Integer unifiedId = comment.getUnifiedId();
                 //object.put("simpleUserInfo",tweetService.getSimpleUserInfo(object.getInt("unifiedId")));
                 CommonResult<User> userResult = userService.UserById(unifiedId);
                 User data = userResult.getData();
                 data.setPassword(null);
                 data.setUserName(null);
                 data.setEmail(null);
-                object.put("simpleUserInfo",data);
+                object.put("simpleUserInfo", data);
                 jsonArray.add(object);
             }
         }

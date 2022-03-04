@@ -1,12 +1,10 @@
 package com.soa.springcloud.service;
 
-import com.soa.springcloud.entities.CommonResult;
-import com.soa.springcloud.entities.Tweet;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.entities.User;
 import com.soa.springcloud.service.impl.UserFallbackService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @Component

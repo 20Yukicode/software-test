@@ -1,11 +1,9 @@
 package com.soa.springcloud.controller;
 
 import cn.hutool.json.JSONObject;
-import com.soa.springcloud.entities.CommonResult;
-import com.soa.springcloud.entities.User;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

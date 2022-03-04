@@ -1,7 +1,7 @@
 package com.soa.springcloud.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.entities.EduExperience;
 import com.soa.springcloud.service.EduExperienceService;
 import com.soa.springcloud.service.SearchService;

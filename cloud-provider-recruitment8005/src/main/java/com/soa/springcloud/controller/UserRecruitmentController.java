@@ -1,21 +1,13 @@
 package com.soa.springcloud.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.soa.springcloud.entities.Application;
-import com.soa.springcloud.entities.CommonResult;
-import com.soa.springcloud.entities.Position;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.service.impl.UserRecruitmentServiceImpl;
 import com.soa.springcloud.service.impl.EnterprisePositionServiceImpl;
-import com.soa.springcloud.dto.ApplicantInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import com.soa.springcloud.dto.PositionDeleteDto;
-import com.soa.springcloud.dto.PositionInfoDto;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController

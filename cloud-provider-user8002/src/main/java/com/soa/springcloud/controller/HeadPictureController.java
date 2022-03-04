@@ -1,6 +1,6 @@
 package com.soa.springcloud.controller;
 
-import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.service.HeadPictureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -3,9 +3,7 @@ package com.soa.springcloud.controller;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import com.soa.springcloud.entities.CommonResult;
+import com.soa.springcloud.api.CommonResult;
 import com.soa.springcloud.service.TweetService;
 import com.soa.springcloud.service.UserTweetFeignService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +16,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
